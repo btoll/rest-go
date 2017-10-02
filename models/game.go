@@ -3,7 +3,7 @@ package models
 import (
 	"context"
 
-	"github.com/dgaedcke/nmg_admin_service/app"
+	"github.com/btoll/rest-go/app"
 	"github.com/jinzhu/copier"
 	"google.golang.org/appengine"
 	"google.golang.org/appengine/datastore"

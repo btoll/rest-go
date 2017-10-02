@@ -1,11 +1,11 @@
-//go:generate goagen bootstrap -d github.com/dgaedcke/nmg_admin_service/design
+//go:generate goagen bootstrap -d github.com/btoll/rest-go/design
 
 package main
 
 import (
 	"net/http"
 
-	"github.com/dgaedcke/nmg_admin_service/app"
+	"github.com/btoll/rest-go/app"
 	"github.com/goadesign/goa"
 	"github.com/goadesign/goa/middleware"
 	"google.golang.org/appengine"

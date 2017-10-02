@@ -1,8 +1,8 @@
 package main
 
 import (
-	"github.com/dgaedcke/nmg_admin_service/app"
-	"github.com/dgaedcke/nmg_admin_service/models"
+	"github.com/btoll/rest-go/app"
+	"github.com/btoll/rest-go/models"
 	"github.com/goadesign/goa"
 	"github.com/jinzhu/copier"
 )
