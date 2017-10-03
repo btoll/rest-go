@@ -2,13 +2,14 @@ package main
 
 import (
 	"fmt"
-	"github.com/dgaedcke/nmg_admin_service/client"
-	"github.com/dgaedcke/nmg_admin_service/tool/cli"
-	goaclient "github.com/goadesign/goa/client"
-	"github.com/spf13/cobra"
 	"net/http"
 	"os"
 	"time"
+
+	"github.com/btoll/rest-go/client"
+	"github.com/btoll/rest-go/tool/cli"
+	goaclient "github.com/goadesign/goa/client"
+	"github.com/spf13/cobra"
 )
 
 func main() {

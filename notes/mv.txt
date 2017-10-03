@@ -1,0 +1,2 @@
+for f in ; do sed -i 's/dgaedcke\/nmg_admin_service/btoll\/rest-go/' models/game.go; done
+for f in {main,event,game,sport,team,team_opening_config}.go; do sed -i 's/dgaedcke\/nmg_admin_service/btoll\/rest-go/' team_opening_config.go; done

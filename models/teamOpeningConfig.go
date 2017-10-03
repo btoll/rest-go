@@ -52,60 +52,19 @@ func (m *TeamOpeningConfigPersist) GetCtx(ctx context.Context) *Context {
 	}
 }
 
-func (m *TeamOpeningConfigPersist) GetAll(q *datastore.Query, mc *Context) *QueryResponse {
-	c := []TeamOpeningConfigPersist{}
-	_, err := q.GetAll(mc.GaeCtx, &c)
-
-	ms := make(app.TeamOpeningConfigMediaCollection, len(c))
-
-	for i, model := range c {
-		tm := &app.TeamOpeningConfigMedia{}
-		copier.Copy(tm, model)
-		ms[i] = tm
-	}
-
-	return &QueryResponse{
-		Models: &ms,
-		Err:    err,
-	}
+func (m *TeamOpeningConfigPersist) GetModelCollection(ctx *Context) (interface{}, error) {
+	return nil, nil
 }
 
-func (m *TeamOpeningConfigPersist) GetOne(q *datastore.Query, mc *Context) *QueryResponse {
-	var tp *TeamOpeningConfigPersist
-	var k *datastore.Key
-	var err error
-
-	q = q.KeysOnly()
-	for iter := q.Run(mc.GaeCtx); ; {
-		var x TeamOpeningConfigPersist
-
-		key, err := iter.Next(&x)
-
-		if err == datastore.Done {
-			break
-		}
-
-		tp = &TeamOpeningConfigPersist{}
-		err = datastore.Get(mc.GaeCtx, key, tp)
-		k = key
-	}
-
-	return &QueryResponse{
-		Key:    k,
-		Models: tp,
-		Err:    err,
-	}
+func (m *TeamOpeningConfigPersist) GetModel() interface{} {
+	return &app.TeamOpeningConfigMedia{}
 }
 
-func (m *TeamOpeningConfigPersist) Add(ctx *Context) error {
-	return m.Set(ctx, datastore.NewKey(ctx.GaeCtx, ctx.Kind, ctx.ID, 0, nil))
-}
-
-func (m *TeamOpeningConfigPersist) Set(ctx *Context, key *datastore.Key) error {
+func (m *TeamOpeningConfigPersist) Set(ctx *Context, key *datastore.Key) (string, error) {
 	tp := &app.TeamOpeningConfigPayload{}
 
 	copier.Copy(tp, ctx.Payload)
 	_, err := datastore.Put(ctx.GaeCtx, key, tp)
 
-	return err
+	return "", err
 }

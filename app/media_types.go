@@ -4,9 +4,8 @@
 //
 // Command:
 // $ goagen
-// --design=github.com/dgaedcke/nmg_admin_service/design
-// --out=$(GOPATH)/src/github.com/dgaedcke/nmg_admin_service
-// --regen=true
+// --design=github.com/btoll/rest-go/design
+// --out=$(GOPATH)/src/github.com/btoll/rest-go
 // --version=v1.3.0
 
 package app
@@ -18,13 +17,13 @@ import (
 
 // Event sport response (default view)
 //
-// Identifier: application/goa.evententity; view=default
+// Identifier: application/nmgapi.evententity; view=default
 type EventMedia struct {
 	EndDtTm time.Time `datastore:"endDtTm,noindex" json:"endDtTm,omitempty"`
 	// Not guaranteed to be unique
 	EventID string `datastore:"eventId,noindex" json:"eventId,omitempty"`
-	// Reference ID for new event
-	ID string `datastore:"id" json:"id"`
+	// ID
+	ID string `form:"id" json:"id" xml:"id"`
 	// Location.defaultLoc.id
 	LocationID string `datastore:"locationId,noindex" json:"locationId,omitempty"`
 	// e.g., March Madness
@@ -66,10 +65,10 @@ func (mt *EventMedia) Validate() (err error) {
 
 // Event sport response (tiny view)
 //
-// Identifier: application/goa.evententity; view=tiny
+// Identifier: application/nmgapi.evententity; view=tiny
 type EventMediaTiny struct {
-	// Reference ID for new event
-	ID string `datastore:"id" json:"id"`
+	// ID
+	ID string `form:"id" json:"id" xml:"id"`
 }
 
 // Validate validates the EventMediaTiny media type instance.
@@ -82,7 +81,7 @@ func (mt *EventMediaTiny) Validate() (err error) {
 
 // EventMediaCollection is the media type for an array of EventMedia (default view)
 //
-// Identifier: application/goa.evententity; type=collection; view=default
+// Identifier: application/nmgapi.evententity; type=collection; view=default
 type EventMediaCollection []*EventMedia
 
 // Validate validates the EventMediaCollection media type instance.
@@ -99,7 +98,7 @@ func (mt EventMediaCollection) Validate() (err error) {
 
 // EventMediaCollection is the media type for an array of EventMedia (tiny view)
 //
-// Identifier: application/goa.evententity; type=collection; view=tiny
+// Identifier: application/nmgapi.evententity; type=collection; view=tiny
 type EventMediaTinyCollection []*EventMediaTiny
 
 // Validate validates the EventMediaTinyCollection media type instance.
@@ -116,7 +115,7 @@ func (mt EventMediaTinyCollection) Validate() (err error) {
 
 // Game response (default view)
 //
-// Identifier: application/goa.gameentity; view=default
+// Identifier: application/nmgapi.gameentity; view=default
 type GameMedia struct {
 	// Any public id for this game, not unique
 	ExternalID string `datastore:"externalId,noindex" json:"externalId,omitempty"`
@@ -125,8 +124,8 @@ type GameMedia struct {
 	FinishedAtDtTm time.Time `datastore:"finishedAtDtTm,noindex" json:"finishedAtDtTm,omitempty"`
 	// TeamGameStatus.preGame || tradeable || gameOn || ended
 	GameStatus string `datastore:"gameStatus,noindex" json:"gameStatus,omitempty"`
-	// Reference ID for new team
-	ID string `datastore:"id" json:"id"`
+	// ID
+	ID string `form:"id" json:"id" xml:"id"`
 	// Name of location
 	Location string `datastore:"location,noindex" json:"location,omitempty"`
 	// True GPS location
@@ -188,10 +187,10 @@ func (mt *GameMedia) Validate() (err error) {
 
 // Game response (tiny view)
 //
-// Identifier: application/goa.gameentity; view=tiny
+// Identifier: application/nmgapi.gameentity; view=tiny
 type GameMediaTiny struct {
-	// Reference ID for new team
-	ID string `datastore:"id" json:"id"`
+	// ID
+	ID string `form:"id" json:"id" xml:"id"`
 }
 
 // Validate validates the GameMediaTiny media type instance.
@@ -204,7 +203,7 @@ func (mt *GameMediaTiny) Validate() (err error) {
 
 // GameMediaCollection is the media type for an array of GameMedia (default view)
 //
-// Identifier: application/goa.gameentity; type=collection; view=default
+// Identifier: application/nmgapi.gameentity; type=collection; view=default
 type GameMediaCollection []*GameMedia
 
 // Validate validates the GameMediaCollection media type instance.
@@ -221,7 +220,7 @@ func (mt GameMediaCollection) Validate() (err error) {
 
 // GameMediaCollection is the media type for an array of GameMedia (tiny view)
 //
-// Identifier: application/goa.gameentity; type=collection; view=tiny
+// Identifier: application/nmgapi.gameentity; type=collection; view=tiny
 type GameMediaTinyCollection []*GameMediaTiny
 
 // Validate validates the GameMediaTinyCollection media type instance.
@@ -238,7 +237,7 @@ func (mt GameMediaTinyCollection) Validate() (err error) {
 
 // Sport response (default view)
 //
-// Identifier: application/goa.sportentity; view=default
+// Identifier: application/nmgapi.sportentity; view=default
 type SportMedia struct {
 	// Is in season?
 	Active bool `datastore:"active,noindex" json:"active,omitempty"`
@@ -249,9 +248,7 @@ type SportMedia struct {
 	// Game
 	GameTerm string `datastore:"gameTerm,noindex" json:"gameTerm,omitempty"`
 	// sport_icon
-	IconName string `datastore:"iconName,noindex" json:"iconName,omitempty"`
-	// Reference ID for new sport
-	ID               string  `datastore:"id" json:"id"`
+	IconName         string  `datastore:"iconName,noindex" json:"iconName,omitempty"`
 	MaxPreSplitPrice float64 `datastore:"maxPreSplitPrice,noindex" json:"maxPreSplitPrice,omitempty"`
 	// Sport name
 	Name string `datastore:"name,noindex" json:"name,omitempty"`
@@ -259,9 +256,6 @@ type SportMedia struct {
 
 // Validate validates the SportMedia media type instance.
 func (mt *SportMedia) Validate() (err error) {
-	if mt.ID == "" {
-		err = goa.MergeErrors(err, goa.MissingAttributeError(`response`, "id"))
-	}
 	if mt.Name == "" {
 		err = goa.MergeErrors(err, goa.MissingAttributeError(`response`, "name"))
 	}
@@ -283,23 +277,23 @@ func (mt *SportMedia) Validate() (err error) {
 
 // Sport response (tiny view)
 //
-// Identifier: application/goa.sportentity; view=tiny
+// Identifier: application/nmgapi.sportentity; view=tiny
 type SportMediaTiny struct {
-	// Reference ID for new sport
-	ID string `datastore:"id" json:"id"`
+	// Sport name
+	Name string `datastore:"name,noindex" json:"name,omitempty"`
 }
 
 // Validate validates the SportMediaTiny media type instance.
 func (mt *SportMediaTiny) Validate() (err error) {
-	if mt.ID == "" {
-		err = goa.MergeErrors(err, goa.MissingAttributeError(`response`, "id"))
+	if mt.Name == "" {
+		err = goa.MergeErrors(err, goa.MissingAttributeError(`response`, "name"))
 	}
 	return
 }
 
 // SportMediaCollection is the media type for an array of SportMedia (default view)
 //
-// Identifier: application/goa.sportentity; type=collection; view=default
+// Identifier: application/nmgapi.sportentity; type=collection; view=default
 type SportMediaCollection []*SportMedia
 
 // Validate validates the SportMediaCollection media type instance.
@@ -316,7 +310,7 @@ func (mt SportMediaCollection) Validate() (err error) {
 
 // SportMediaCollection is the media type for an array of SportMedia (tiny view)
 //
-// Identifier: application/goa.sportentity; type=collection; view=tiny
+// Identifier: application/nmgapi.sportentity; type=collection; view=tiny
 type SportMediaTinyCollection []*SportMediaTiny
 
 // Validate validates the SportMediaTinyCollection media type instance.
@@ -333,7 +327,7 @@ func (mt SportMediaTinyCollection) Validate() (err error) {
 
 // Team sport response (default view)
 //
-// Identifier: application/goa.teamentity; view=default
+// Identifier: application/nmgapi.teamentity; view=default
 type TeamMedia struct {
 	// Team Win-Loss Record
 	CurrentWinRecord string `datastore:"currentWinRecord,noindex" json:"currentWinRecord,omitempty"`
@@ -343,8 +337,8 @@ type TeamMedia struct {
 	HomeTownID string `datastore:"homeTownId,noindex" json:"homeTownId,omitempty"`
 	// Team Icon
 	IconName string `datastore:"iconName,noindex" json:"iconName,omitempty"`
-	// Reference ID for new team
-	ID string `datastore:"id" json:"id"`
+	// ID
+	ID string `datastore:"id" json:"id,omitempty"`
 	// Team name
 	Name string `datastore:"name,noindex" json:"name,omitempty"`
 	// Team Nickname
@@ -384,10 +378,10 @@ func (mt *TeamMedia) Validate() (err error) {
 
 // Team sport response (tiny view)
 //
-// Identifier: application/goa.teamentity; view=tiny
+// Identifier: application/nmgapi.teamentity; view=tiny
 type TeamMediaTiny struct {
-	// Reference ID for new team
-	ID string `datastore:"id" json:"id"`
+	// ID
+	ID string `datastore:"id" json:"id,omitempty"`
 }
 
 // Validate validates the TeamMediaTiny media type instance.
@@ -400,7 +394,7 @@ func (mt *TeamMediaTiny) Validate() (err error) {
 
 // TeamMediaCollection is the media type for an array of TeamMedia (default view)
 //
-// Identifier: application/goa.teamentity; type=collection; view=default
+// Identifier: application/nmgapi.teamentity; type=collection; view=default
 type TeamMediaCollection []*TeamMedia
 
 // Validate validates the TeamMediaCollection media type instance.
@@ -417,7 +411,7 @@ func (mt TeamMediaCollection) Validate() (err error) {
 
 // TeamMediaCollection is the media type for an array of TeamMedia (tiny view)
 //
-// Identifier: application/goa.teamentity; type=collection; view=tiny
+// Identifier: application/nmgapi.teamentity; type=collection; view=tiny
 type TeamMediaTinyCollection []*TeamMediaTiny
 
 // Validate validates the TeamMediaTinyCollection media type instance.
@@ -434,12 +428,12 @@ func (mt TeamMediaTinyCollection) Validate() (err error) {
 
 // Team sport response (default view)
 //
-// Identifier: application/goa.teamopeningconfigentity; view=default
+// Identifier: application/nmgapi.teamopeningconfigentity; view=default
 type TeamOpeningConfigMedia struct {
 	BuyIncrementPrice float64 `datastore:"buyIncrementPrice,noindex" json:"buyIncrementPrice,omitempty"`
 	BuyIncrementQuan  int     `datastore:"buyIncrementQuan,noindex" json:"buyIncrementQuan,omitempty"`
-	// Reference ID for new team
-	ID                 string    `datastore:"id" json:"id"`
+	// ID
+	ID                 string    `form:"id" json:"id" xml:"id"`
 	LiquidationFee     float64   `datastore:"liquidationFee,noindex" json:"liquidationFee,omitempty"`
 	OpeningPrice       float64   `datastore:"openingPrice,noindex" json:"openingPrice,omitempty"`
 	OpeningShares      int       `datastore:"openingShares,noindex" json:"openingShares,omitempty"`
@@ -459,10 +453,10 @@ func (mt *TeamOpeningConfigMedia) Validate() (err error) {
 
 // Team sport response (tiny view)
 //
-// Identifier: application/goa.teamopeningconfigentity; view=tiny
+// Identifier: application/nmgapi.teamopeningconfigentity; view=tiny
 type TeamOpeningConfigMediaTiny struct {
-	// Reference ID for new team
-	ID string `datastore:"id" json:"id"`
+	// ID
+	ID string `form:"id" json:"id" xml:"id"`
 }
 
 // Validate validates the TeamOpeningConfigMediaTiny media type instance.
@@ -475,7 +469,7 @@ func (mt *TeamOpeningConfigMediaTiny) Validate() (err error) {
 
 // TeamOpeningConfigMediaCollection is the media type for an array of TeamOpeningConfigMedia (default view)
 //
-// Identifier: application/goa.teamopeningconfigentity; type=collection; view=default
+// Identifier: application/nmgapi.teamopeningconfigentity; type=collection; view=default
 type TeamOpeningConfigMediaCollection []*TeamOpeningConfigMedia
 
 // Validate validates the TeamOpeningConfigMediaCollection media type instance.
@@ -492,7 +486,7 @@ func (mt TeamOpeningConfigMediaCollection) Validate() (err error) {
 
 // TeamOpeningConfigMediaCollection is the media type for an array of TeamOpeningConfigMedia (tiny view)
 //
-// Identifier: application/goa.teamopeningconfigentity; type=collection; view=tiny
+// Identifier: application/nmgapi.teamopeningconfigentity; type=collection; view=tiny
 type TeamOpeningConfigMediaTinyCollection []*TeamOpeningConfigMediaTiny
 
 // Validate validates the TeamOpeningConfigMediaTinyCollection media type instance.

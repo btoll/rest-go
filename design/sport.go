@@ -79,15 +79,6 @@ var _ = Resource("Sport", func() {
 var SportPayload = Type("SportPayload", func() {
 	Description("Sport Description.")
 
-	/*
-		Attribute("id", String, "Sport ID", func() {
-			Metadata("struct:tag:datastore", "__key__")
-		})
-	*/
-	Attribute("id", String, "Reference ID for new sport", func() {
-		Metadata("struct:tag:datastore", "id")
-		Metadata("struct:tag:json", "id")
-	})
 	Attribute("name", String, "Sport name", func() {
 		Metadata("struct:tag:datastore", "name,noindex")
 		Metadata("struct:tag:json", "name,omitempty")
@@ -117,17 +108,16 @@ var SportPayload = Type("SportPayload", func() {
 		Metadata("struct:tag:json", "backgroundImageName,omitempty")
 	})
 
-	Required("id", "name", "active", "maxPreSplitPrice", "gameTerm", "eventTerm", "iconName", "backgroundImageName")
+	Required("name", "active", "maxPreSplitPrice", "gameTerm", "eventTerm", "iconName", "backgroundImageName")
 })
 
-var SportMedia = MediaType("application/goa.sportentity", func() {
+var SportMedia = MediaType("application/nmgapi.sportentity", func() {
 	Description("Sport response")
 	TypeName("SportMedia")
 	ContentType("application/json")
 	Reference(SportPayload)
 
 	Attributes(func() {
-		Attribute("id")
 		Attribute("name")
 		Attribute("active")
 		Attribute("maxPreSplitPrice")
@@ -136,11 +126,10 @@ var SportMedia = MediaType("application/goa.sportentity", func() {
 		Attribute("iconName")
 		Attribute("backgroundImageName")
 
-		Required("id", "name", "active", "maxPreSplitPrice", "gameTerm", "eventTerm", "iconName", "backgroundImageName")
+		Required("name", "active", "maxPreSplitPrice", "gameTerm", "eventTerm", "iconName", "backgroundImageName")
 	})
 
 	View("default", func() {
-		Attribute("id")
 		Attribute("name")
 		Attribute("active")
 		Attribute("maxPreSplitPrice")
@@ -152,6 +141,6 @@ var SportMedia = MediaType("application/goa.sportentity", func() {
 
 	View("tiny", func() {
 		Description("`tiny` is the view used to create new sports.")
-		Attribute("id")
+		Attribute("name")
 	})
 })

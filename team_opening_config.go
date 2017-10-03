@@ -1,10 +1,11 @@
 package main
 
 import (
+	"fmt"
+
 	"github.com/btoll/rest-go/app"
 	"github.com/btoll/rest-go/models"
 	"github.com/goadesign/goa"
-	"github.com/jinzhu/copier"
 )
 
 // TeamOpeningConfigController implements the TeamOpeningConfig resource.
@@ -21,13 +22,7 @@ func NewTeamOpeningConfigController(service *goa.Service) *TeamOpeningConfigCont
 func (c *TeamOpeningConfigController) Create(ctx *app.CreateTeamOpeningConfigContext) error {
 	// TeamOpeningConfigController_Create: start_implement
 
-	modelctx := models.GetCtx("TeamOpeningConfigPersist", ctx)
-
-	if err := modelctx.Create(); err != nil {
-		return ctx.InternalServerError(err)
-	} else {
-		return ctx.OKTiny(&app.TeamOpeningConfigMediaTiny{modelctx.ID})
-	}
+	return nil
 
 	// TeamOpeningConfigController_Create: end_implement
 }
@@ -50,13 +45,13 @@ func (c *TeamOpeningConfigController) List(ctx *app.ListTeamOpeningConfigContext
 	// TeamOpeningConfigController_List: start_implement
 
 	modelctx := models.GetCtx("TeamOpeningConfigPersist", ctx)
-	err := modelctx.List()
+	models, err := modelctx.List()
 
 	if err != nil {
 		return ctx.InternalServerError(err)
 	}
 
-	return ctx.OK(*modelctx.Persist.(*app.TeamOpeningConfigMediaCollection))
+	return ctx.OK(models.(app.TeamOpeningConfigMediaCollection))
 
 	// TeamOpeningConfigController_List: end_implement
 }
@@ -66,18 +61,23 @@ func (c *TeamOpeningConfigController) Show(ctx *app.ShowTeamOpeningConfigContext
 	// TeamOpeningConfigController_Show: start_implement
 
 	modelctx := models.GetCtx("TeamOpeningConfigPersist", ctx)
-	err := modelctx.Read()
+	rec, err := modelctx.Read()
+
+	fmt.Println()
+	fmt.Println("rec", rec)
+	fmt.Println()
 
 	if err != nil {
 		return ctx.InternalServerError(err)
 	}
 
 	// TODO: Hacky?
-	res := &app.TeamOpeningConfigMedia{}
-	copier.Copy(res, modelctx.Persist)
+	//	res := &app.TeamOpeningConfigMedia{}
+	//	copier.Copy(res, modelctx.Persist)
+	//
+	//	return ctx.OK(res)
 
-	return ctx.OK(res)
-
+	return nil
 	// TeamOpeningConfigController_Show: end_implement
 }
 

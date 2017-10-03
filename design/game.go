@@ -79,15 +79,6 @@ var _ = Resource("Game", func() {
 var GamePayload = Type("GamePayload", func() {
 	Description("Game Description.")
 
-	/*
-		Attribute("id", String, "Reference ID for new team", func() {
-			Metadata("struct:tag:datastore", "__key__")
-		})
-	*/
-	Attribute("id", String, "Reference ID for new team", func() {
-		Metadata("struct:tag:datastore", "id")
-		Metadata("struct:tag:json", "id")
-	})
 	Attribute("favTeamId", String, "Favorite team id", func() {
 		Metadata("struct:tag:datastore", "favTeamId,noindex")
 		Metadata("struct:tag:json", "favTeamId,omitempty")
@@ -145,17 +136,17 @@ var GamePayload = Type("GamePayload", func() {
 		Metadata("struct:tag:json", "loserProgressStatus,omitempty")
 	})
 
-	Required("id", "favTeamId", "underTeamId", "winnerTeamId", "sportId", "playDtTm", "externalId", "title", "locationId", "location", "oddsForFav", "gameStatus", "finishedAtDtTm", "loserProgressStatus")
+	Required("favTeamId", "underTeamId", "winnerTeamId", "sportId", "playDtTm", "externalId", "title", "locationId", "location", "oddsForFav", "gameStatus", "finishedAtDtTm", "loserProgressStatus")
 })
 
-var GameMedia = MediaType("application/goa.gameentity", func() {
+var GameMedia = MediaType("application/nmgapi.gameentity", func() {
 	Description("Game response")
 	TypeName("GameMedia")
 	ContentType("application/json")
 	Reference(GamePayload)
 
 	Attributes(func() {
-		Attribute("id")
+		Attribute("id", String, "ID")
 		Attribute("favTeamId")
 		Attribute("underTeamId")
 		Attribute("winnerTeamId")

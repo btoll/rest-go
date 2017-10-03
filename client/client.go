@@ -4,9 +4,8 @@
 //
 // Command:
 // $ goagen
-// --design=github.com/dgaedcke/nmg_admin_service/design
-// --out=$(GOPATH)/src/github.com/dgaedcke/nmg_admin_service
-// --regen=true
+// --design=github.com/btoll/rest-go/design
+// --out=$(GOPATH)/src/github.com/btoll/rest-go
 // --version=v1.3.0
 
 package client

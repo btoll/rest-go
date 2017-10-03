@@ -4,9 +4,8 @@
 //
 // Command:
 // $ goagen
-// --design=github.com/dgaedcke/nmg_admin_service/design
-// --out=$(GOPATH)/src/github.com/dgaedcke/nmg_admin_service
-// --regen=true
+// --design=github.com/btoll/rest-go/design
+// --out=$(GOPATH)/src/github.com/btoll/rest-go
 // --version=v1.3.0
 
 package client
@@ -182,7 +181,7 @@ func (c *Client) NewUpdateEventRequest(ctx context.Context, path string, payload
 		scheme = "http"
 	}
 	u := url.URL{Host: c.Host, Scheme: scheme, Path: path}
-	req, err := http.NewRequest("PATCH", u.String(), &body)
+	req, err := http.NewRequest("PUT", u.String(), &body)
 	if err != nil {
 		return nil, err
 	}

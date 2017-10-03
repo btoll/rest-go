@@ -1,10 +1,11 @@
 package main
 
 import (
+	"fmt"
+
 	"github.com/btoll/rest-go/app"
 	"github.com/btoll/rest-go/models"
 	"github.com/goadesign/goa"
-	"github.com/jinzhu/copier"
 )
 
 // SportController implements the Sport resource.
@@ -21,13 +22,7 @@ func NewSportController(service *goa.Service) *SportController {
 func (c *SportController) Create(ctx *app.CreateSportContext) error {
 	// SportController_Create: start_implement
 
-	modelctx := models.GetCtx("SportPersist", ctx)
-
-	if err := modelctx.Create(); err != nil {
-		return ctx.InternalServerError(err)
-	} else {
-		return ctx.OKTiny(&app.SportMediaTiny{modelctx.ID})
-	}
+	return nil
 
 	// SportController_Create: end_implement
 }
@@ -50,13 +45,13 @@ func (c *SportController) List(ctx *app.ListSportContext) error {
 	// SportController_List: start_implement
 
 	modelctx := models.GetCtx("SportPersist", ctx)
-	err := modelctx.List()
+	models, err := modelctx.List()
 
 	if err != nil {
 		return ctx.InternalServerError(err)
 	}
 
-	return ctx.OK(*modelctx.Persist.(*app.SportMediaCollection))
+	return ctx.OK(models.(app.SportMediaCollection))
 
 	// SportController_List: end_implement
 	res := app.SportMediaCollection{}
@@ -68,17 +63,22 @@ func (c *SportController) Show(ctx *app.ShowSportContext) error {
 	// SportController_Show: start_implement
 
 	modelctx := models.GetCtx("SportPersist", ctx)
-	err := modelctx.Read()
+	rec, err := modelctx.Read()
+
+	fmt.Println()
+	fmt.Println("rec", rec)
+	fmt.Println()
 
 	if err != nil {
 		return ctx.InternalServerError(err)
 	}
 
 	// TODO: Hacky?
-	res := &app.SportMedia{}
-	copier.Copy(res, modelctx.Persist)
-
-	return ctx.OK(res)
+	//	res := &app.SportMedia{}
+	//	copier.Copy(res, modelctx.Persist)
+	//
+	//	return ctx.OK(res)
+	return nil
 
 	// SportController_Show: end_implement
 }

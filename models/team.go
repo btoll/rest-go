@@ -47,65 +47,34 @@ func (m *TeamPersist) GetCtx(ctx context.Context) *Context {
 			Payload: t.Payload,
 		}
 	default:
-		// TODO: Return error.
+		// TODO: Return error?
 		return &Context{}
 	}
 }
 
-func (m *TeamPersist) GetAll(q *datastore.Query, mc *Context) *QueryResponse {
-	c := []TeamPersist{}
-	_, err := q.GetAll(mc.GaeCtx, &c)
-
-	ms := make(app.TeamMediaCollection, len(c))
-
-	for i, model := range c {
-		tm := &app.TeamMedia{}
-		copier.Copy(tm, model)
-		ms[i] = tm
-	}
-
-	return &QueryResponse{
-		Models: &ms,
-		Err:    err,
-	}
+func (m *TeamPersist) GetModel() interface{} {
+	return &app.TeamMedia{}
 }
 
-func (m *TeamPersist) GetOne(q *datastore.Query, mc *Context) *QueryResponse {
-	var tp *TeamPersist
-	var k *datastore.Key
-	var err error
+func (m *TeamPersist) GetModelCollection(ctx *Context) (interface{}, error) {
+	c := app.TeamMediaCollection{}
 
-	q = q.KeysOnly()
-	for iter := q.Run(mc.GaeCtx); ; {
-		var x TeamPersist
-
-		key, err := iter.Next(&x)
-
-		if err == datastore.Done {
-			break
-		}
-
-		tp = &TeamPersist{}
-		err = datastore.Get(mc.GaeCtx, key, tp)
-		k = key
+	if _, err := datastore.NewQuery(ctx.Kind).GetAll(ctx.GaeCtx, &c); err != nil {
+		return nil, err
 	}
 
-	return &QueryResponse{
-		Key:    k,
-		Models: tp,
-		Err:    err,
+	return c, nil
+}
+
+func (m *TeamPersist) Set(ctx *Context, key *datastore.Key) (string, error) {
+	rec := &app.TeamMedia{}
+
+	copier.Copy(rec, ctx.Payload)
+	newkey, err := datastore.Put(ctx.GaeCtx, key, rec)
+
+	if err != nil {
+		return "", err
 	}
-}
 
-func (m *TeamPersist) Add(ctx *Context) error {
-	return m.Set(ctx, datastore.NewKey(ctx.GaeCtx, ctx.Kind, ctx.ID, 0, nil))
-}
-
-func (m *TeamPersist) Set(ctx *Context, key *datastore.Key) error {
-	tp := &app.TeamPayload{}
-
-	copier.Copy(tp, ctx.Payload)
-	_, err := datastore.Put(ctx.GaeCtx, key, tp)
-
-	return err
+	return newkey.Encode(), nil
 }

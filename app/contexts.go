@@ -4,9 +4,8 @@
 //
 // Command:
 // $ goagen
-// --design=github.com/dgaedcke/nmg_admin_service/design
-// --out=$(GOPATH)/src/github.com/dgaedcke/nmg_admin_service
-// --regen=true
+// --design=github.com/btoll/rest-go/design
+// --out=$(GOPATH)/src/github.com/btoll/rest-go
 // --version=v1.3.0
 
 package app
@@ -133,7 +132,7 @@ func NewListEventContext(ctx context.Context, r *http.Request, service *goa.Serv
 
 // OK sends a HTTP response with status code 200.
 func (ctx *ListEventContext) OK(r EventMediaCollection) error {
-	ctx.ResponseData.Header().Set("Content-Type", "application/goa.evententity; type=collection")
+	ctx.ResponseData.Header().Set("Content-Type", "application/nmgapi.evententity; type=collection")
 	if r == nil {
 		r = EventMediaCollection{}
 	}
@@ -142,7 +141,7 @@ func (ctx *ListEventContext) OK(r EventMediaCollection) error {
 
 // OKTiny sends a HTTP response with status code 200.
 func (ctx *ListEventContext) OKTiny(r EventMediaTinyCollection) error {
-	ctx.ResponseData.Header().Set("Content-Type", "application/goa.evententity; type=collection")
+	ctx.ResponseData.Header().Set("Content-Type", "application/nmgapi.evententity; type=collection")
 	if r == nil {
 		r = EventMediaTinyCollection{}
 	}
@@ -396,7 +395,7 @@ func NewListGameContext(ctx context.Context, r *http.Request, service *goa.Servi
 
 // OK sends a HTTP response with status code 200.
 func (ctx *ListGameContext) OK(r GameMediaCollection) error {
-	ctx.ResponseData.Header().Set("Content-Type", "application/goa.gameentity; type=collection")
+	ctx.ResponseData.Header().Set("Content-Type", "application/nmgapi.gameentity; type=collection")
 	if r == nil {
 		r = GameMediaCollection{}
 	}
@@ -405,7 +404,7 @@ func (ctx *ListGameContext) OK(r GameMediaCollection) error {
 
 // OKTiny sends a HTTP response with status code 200.
 func (ctx *ListGameContext) OKTiny(r GameMediaTinyCollection) error {
-	ctx.ResponseData.Header().Set("Content-Type", "application/goa.gameentity; type=collection")
+	ctx.ResponseData.Header().Set("Content-Type", "application/nmgapi.gameentity; type=collection")
 	if r == nil {
 		r = GameMediaTinyCollection{}
 	}
@@ -659,7 +658,7 @@ func NewListSportContext(ctx context.Context, r *http.Request, service *goa.Serv
 
 // OK sends a HTTP response with status code 200.
 func (ctx *ListSportContext) OK(r SportMediaCollection) error {
-	ctx.ResponseData.Header().Set("Content-Type", "application/goa.sportentity; type=collection")
+	ctx.ResponseData.Header().Set("Content-Type", "application/nmgapi.sportentity; type=collection")
 	if r == nil {
 		r = SportMediaCollection{}
 	}
@@ -668,7 +667,7 @@ func (ctx *ListSportContext) OK(r SportMediaCollection) error {
 
 // OKTiny sends a HTTP response with status code 200.
 func (ctx *ListSportContext) OKTiny(r SportMediaTinyCollection) error {
-	ctx.ResponseData.Header().Set("Content-Type", "application/goa.sportentity; type=collection")
+	ctx.ResponseData.Header().Set("Content-Type", "application/nmgapi.sportentity; type=collection")
 	if r == nil {
 		r = SportMediaTinyCollection{}
 	}
@@ -922,7 +921,7 @@ func NewListTeamContext(ctx context.Context, r *http.Request, service *goa.Servi
 
 // OK sends a HTTP response with status code 200.
 func (ctx *ListTeamContext) OK(r TeamMediaCollection) error {
-	ctx.ResponseData.Header().Set("Content-Type", "application/goa.teamentity; type=collection")
+	ctx.ResponseData.Header().Set("Content-Type", "application/nmgapi.teamentity; type=collection")
 	if r == nil {
 		r = TeamMediaCollection{}
 	}
@@ -931,7 +930,7 @@ func (ctx *ListTeamContext) OK(r TeamMediaCollection) error {
 
 // OKTiny sends a HTTP response with status code 200.
 func (ctx *ListTeamContext) OKTiny(r TeamMediaTinyCollection) error {
-	ctx.ResponseData.Header().Set("Content-Type", "application/goa.teamentity; type=collection")
+	ctx.ResponseData.Header().Set("Content-Type", "application/nmgapi.teamentity; type=collection")
 	if r == nil {
 		r = TeamMediaTinyCollection{}
 	}
@@ -1185,7 +1184,7 @@ func NewListTeamOpeningConfigContext(ctx context.Context, r *http.Request, servi
 
 // OK sends a HTTP response with status code 200.
 func (ctx *ListTeamOpeningConfigContext) OK(r TeamOpeningConfigMediaCollection) error {
-	ctx.ResponseData.Header().Set("Content-Type", "application/goa.teamopeningconfigentity; type=collection")
+	ctx.ResponseData.Header().Set("Content-Type", "application/nmgapi.teamopeningconfigentity; type=collection")
 	if r == nil {
 		r = TeamOpeningConfigMediaCollection{}
 	}
@@ -1194,7 +1193,7 @@ func (ctx *ListTeamOpeningConfigContext) OK(r TeamOpeningConfigMediaCollection) 
 
 // OKTiny sends a HTTP response with status code 200.
 func (ctx *ListTeamOpeningConfigContext) OKTiny(r TeamOpeningConfigMediaTinyCollection) error {
-	ctx.ResponseData.Header().Set("Content-Type", "application/goa.teamopeningconfigentity; type=collection")
+	ctx.ResponseData.Header().Set("Content-Type", "application/nmgapi.teamopeningconfigentity; type=collection")
 	if r == nil {
 		r = TeamOpeningConfigMediaTinyCollection{}
 	}

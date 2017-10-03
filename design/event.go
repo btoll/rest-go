@@ -60,7 +60,7 @@ var _ = Resource("Event", func() {
 	})
 
 	Action("update", func() {
-		Routing(PATCH("/:id"))
+		Routing(PUT("/:id"))
 		Payload(EventPayload)
 		Params(func() {
 			Param("id", String, "Event ID")
@@ -79,15 +79,6 @@ var _ = Resource("Event", func() {
 var EventPayload = Type("EventPayload", func() {
 	Description("Event Description.")
 
-	/*
-		Attribute("id", String, "Reference ID for new event", func() {
-			Metadata("struct:tag:datastore", "__key__")
-		})
-	*/
-	Attribute("id", String, "Reference ID for new event", func() {
-		Metadata("struct:tag:datastore", "id")
-		Metadata("struct:tag:json", "id")
-	})
 	Attribute("sportId", String, "Sport ID", func() {
 		Metadata("struct:tag:datastore", "sportId,noindex")
 		Metadata("struct:tag:json", "sportId,omitempty")
@@ -121,17 +112,17 @@ var EventPayload = Type("EventPayload", func() {
 		Metadata("struct:tag:json", "teamAdvanceMethod,omitempty")
 	})
 
-	Required("id", "sportId", "eventId", "name", "subTitle", "startDtTm", "endDtTm", "locationId", "teamAdvanceMethod")
+	Required("sportId", "eventId", "name", "subTitle", "startDtTm", "endDtTm", "locationId", "teamAdvanceMethod")
 })
 
-var EventMedia = MediaType("application/goa.evententity", func() {
+var EventMedia = MediaType("application/nmgapi.evententity", func() {
 	Description("Event sport response")
 	TypeName("EventMedia")
 	ContentType("application/json")
 	Reference(EventPayload)
 
 	Attributes(func() {
-		Attribute("id")
+		Attribute("id", String, "ID")
 		Attribute("sportId")
 		Attribute("eventId")
 		Attribute("name")

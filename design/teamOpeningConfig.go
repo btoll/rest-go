@@ -96,10 +96,6 @@ var TeamOpeningConfigPayload = Type("TeamOpeningConfigPayload", func() {
 			Metadata("struct:tag:json", "teamGameEventKey")
 		})
 	*/
-	Attribute("id", String, "Reference ID for new team", func() {
-		Metadata("struct:tag:datastore", "id")
-		Metadata("struct:tag:json", "id")
-	})
 	Attribute("openingPrice", Number, "", func() {
 		Metadata("struct:tag:datastore", "openingPrice,noindex")
 		Metadata("struct:tag:json", "openingPrice,omitempty")
@@ -134,10 +130,10 @@ var TeamOpeningConfigPayload = Type("TeamOpeningConfigPayload", func() {
 	})
 
 	//	Required("teamGameEventKey", "openingPrice", "openingShares", "buyIncrementQuan", "buyIncrementPrice", "sellDecrementQuan", "sellDecrementPrice", "liquidationFee", "startTradeDtTm")
-	Required("id", "openingPrice", "openingShares", "buyIncrementQuan", "buyIncrementPrice", "sellDecrementQuan", "sellDecrementPrice", "liquidationFee", "startTradeDtTm")
+	Required("openingPrice", "openingShares", "buyIncrementQuan", "buyIncrementPrice", "sellDecrementQuan", "sellDecrementPrice", "liquidationFee", "startTradeDtTm")
 })
 
-var TeamOpeningConfigMedia = MediaType("application/goa.teamopeningconfigentity", func() {
+var TeamOpeningConfigMedia = MediaType("application/nmgapi.teamopeningconfigentity", func() {
 	Description("Team sport response")
 	TypeName("TeamOpeningConfigMedia")
 	ContentType("application/json")
@@ -145,7 +141,7 @@ var TeamOpeningConfigMedia = MediaType("application/goa.teamopeningconfigentity"
 
 	Attributes(func() {
 		//		Attribute("teamGameEventKey")
-		Attribute("id")
+		Attribute("id", String, "ID")
 		Attribute("openingPrice")
 		Attribute("openingShares")
 		Attribute("buyIncrementQuan")

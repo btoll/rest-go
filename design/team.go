@@ -79,14 +79,9 @@ var _ = Resource("Team", func() {
 var TeamPayload = Type("TeamPayload", func() {
 	Description("Team Description.")
 
-	/*
-		Attribute("id", String, "Reference ID for new team", func() {
-			Metadata("struct:tag:datastore", "__key__")
-		})
-	*/
-	Attribute("id", String, "Reference ID for new team", func() {
+	Attribute("id", String, "GAE key", func() {
 		Metadata("struct:tag:datastore", "id")
-		Metadata("struct:tag:json", "id")
+		Metadata("struct:tag:json", "id,omitempty")
 	})
 	Attribute("name", String, "Team name", func() {
 		Metadata("struct:tag:datastore", "name,noindex")
@@ -117,17 +112,17 @@ var TeamPayload = Type("TeamPayload", func() {
 		Metadata("struct:tag:json", "fullLogo,omitempty")
 	})
 
-	Required("id", "name", "sportId", "homeTownId", "shortName", "currentWinRecord", "iconName", "fullLogo")
+	Required("name", "sportId", "homeTownId", "shortName", "currentWinRecord", "iconName", "fullLogo")
 })
 
-var TeamMedia = MediaType("application/goa.teamentity", func() {
+var TeamMedia = MediaType("application/nmgapi.teamentity", func() {
 	Description("Team sport response")
 	TypeName("TeamMedia")
 	ContentType("application/json")
 	Reference(TeamPayload)
 
 	Attributes(func() {
-		Attribute("id")
+		Attribute("id", String, "ID")
 		Attribute("name")
 		Attribute("sportId")
 		Attribute("homeTownId")

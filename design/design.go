@@ -12,11 +12,6 @@ var _ = API("nmgapi", func() {
 	Scheme("http")
 	BasePath("/nmg")
 	TermsOfService("nmg tos")
-	//	Contact(func() { // API Contact information
-	//		Name("Benjamin Toll")
-	//		Email("benjam72@yahoo.com")
-	//		URL("https://www.benjamintoll.com")
-	//	})
 	License(func() { // API Licensing information
 		Name("Private (no license offered)")
 		URL("http://google.com")

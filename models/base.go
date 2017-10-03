@@ -2,41 +2,31 @@ package models
 
 import (
 	"context"
-	"math/rand"
-	"strconv"
-	"time"
 
 	"google.golang.org/appengine/datastore"
 )
 
 type App interface {
-	Create() error
+	Create() (string, error)
 	Read() (Model, error)
 	Update() error
 	Delete() error
+	List() ([]Model, error)
 }
 
 type Model interface {
 	GetCtx(ctx context.Context) *Context
-	GetAll(q *datastore.Query, mc *Context) *QueryResponse
-	GetOne(q *datastore.Query, mc *Context) *QueryResponse
-	Add(ctx *Context) error
-	Set(ctx *Context, key *datastore.Key) error
+	GetModel() interface{}
+	GetModelCollection(c *Context) (interface{}, error)
+	Set(ctx *Context, key *datastore.Key) (string, error)
 }
 
 type Context struct {
 	GaeCtx  context.Context
 	Payload interface{}
-	Persist interface{}
 	Kind    string
-	ID      string
+	ID      string // serialized datastore.Key
 	App
-}
-
-type QueryResponse struct {
-	Key    *datastore.Key
-	Models interface{}
-	Err    error
 }
 
 const (
@@ -47,8 +37,8 @@ const (
 	TEAM_OPENING_CONFIG = "TeamOpeningConfigPersist"
 )
 
-func ModelFactory(m string) Model {
-	switch m {
+func ModelFactory(name string) Model {
+	switch name {
 	case GAME:
 		return new(GamePersist)
 	case EVENT:
@@ -73,74 +63,65 @@ func GetCtx(kind string, ctx context.Context) *Context {
     CRUD(L)
 ----------------------------------------------------------- */
 
-func (mc *Context) Create() error {
-	mc.ID = GetRandId()
-	return ModelFactory(mc.Kind).Add(mc)
-}
+func (ctx *Context) Create() (string, error) {
+	key := datastore.NewIncompleteKey(ctx.GaeCtx, ctx.Kind, nil)
+	id, err := ModelFactory(ctx.Kind).Set(ctx, key)
 
-func (mc *Context) Read() error {
-	res := mc.GetOne()
-
-	if res.Err != nil {
-		return res.Err
+	if err != nil {
+		return "", err
 	}
 
-	mc.Persist = res.Models
-	return nil
+	return id, nil
 }
 
-func (mc *Context) Update() error {
-	res := mc.GetOne()
+func (ctx *Context) Read() (interface{}, error) {
+	decodedKey, err := datastore.DecodeKey(ctx.ID)
 
-	if res.Err != nil {
-		return res.Err
+	if err != nil {
+		return nil, err
 	}
 
-	return ModelFactory(mc.Kind).Set(mc, res.Key)
-}
+	model := ModelFactory(ctx.Kind).GetModel()
 
-func (mc *Context) Delete() error {
-	res := mc.GetOne()
-
-	if res.Err != nil {
-		return res.Err
+	if datastore.Get(ctx.GaeCtx, decodedKey, model); err != nil {
+		return nil, err
 	}
 
-	return datastore.Delete(mc.GaeCtx, res.Key)
+	return model, nil
 }
 
-func (mc *Context) List() error {
-	res := mc.GetAll()
+func (ctx *Context) Update() error {
+	decodedKey, err := datastore.DecodeKey(ctx.ID)
 
-	mc.Persist = res.Models
-	return res.Err
+	if err != nil {
+		return err
+	}
+
+	_, err = ModelFactory(ctx.Kind).Set(ctx, decodedKey)
+
+	return err
+}
+
+func (ctx *Context) Delete() error {
+	decodedKey, err := datastore.DecodeKey(ctx.ID)
+
+	if err != nil {
+		return err
+	}
+
+	return datastore.Delete(ctx.GaeCtx, decodedKey)
+}
+
+func (ctx *Context) List() (interface{}, error) {
+	c, err := ModelFactory(ctx.Kind).GetModelCollection(ctx)
+
+	if err != nil {
+		return nil, err
+	}
+
+	return c, nil
 }
 
 /* -----------------------------------------------------------
     ERROR (TODO)
 ----------------------------------------------------------- */
-
-/* -----------------------------------------------------------
-    CRUD Abstractions
------------------------------------------------------------ */
-
-// TODO: FP!
-func (mc *Context) GetOne() *QueryResponse {
-	q := datastore.NewQuery(mc.Kind).Filter("id =", mc.ID)
-	return ModelFactory(mc.Kind).GetOne(q, mc)
-}
-
-func (mc *Context) GetAll() *QueryResponse {
-	q := datastore.NewQuery(mc.Kind)
-	return ModelFactory(mc.Kind).GetAll(q, mc)
-}
-
-/* -----------------------------------------------------------
-    MISC
------------------------------------------------------------ */
-
-// Temporary to mock the id.
-func GetRandId() string {
-	r := rand.New(rand.NewSource(time.Now().UnixNano()))
-	return strconv.Itoa(r.Intn(100000))
-}

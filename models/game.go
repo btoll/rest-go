@@ -52,60 +52,43 @@ func (m *GamePersist) GetCtx(ctx context.Context) *Context {
 	}
 }
 
-func (m *GamePersist) GetAll(q *datastore.Query, mc *Context) *QueryResponse {
-	c := []GamePersist{}
-	_, err := q.GetAll(mc.GaeCtx, &c)
-
-	ms := make(app.GameMediaCollection, len(c))
-
-	for i, model := range c {
-		tm := &app.GameMedia{}
-		copier.Copy(tm, model)
-		ms[i] = tm
-	}
-
-	return &QueryResponse{
-		Models: &ms,
-		Err:    err,
-	}
+func (m *GamePersist) GetModelCollection(ctx *Context) (interface{}, error) {
+	return nil, nil
 }
 
-func (m *GamePersist) GetOne(q *datastore.Query, mc *Context) *QueryResponse {
-	var tp *GamePersist
-	var k *datastore.Key
-	var err error
-
-	q = q.KeysOnly()
-	for iter := q.Run(mc.GaeCtx); ; {
-		var x GamePersist
-
-		key, err := iter.Next(&x)
-
-		if err == datastore.Done {
-			break
-		}
-
-		tp = &GamePersist{}
-		err = datastore.Get(mc.GaeCtx, key, tp)
-		k = key
-	}
-
-	return &QueryResponse{
-		Key:    k,
-		Models: tp,
-		Err:    err,
-	}
+func (m *GamePersist) GetModel() interface{} {
+	//	var tp *GamePersist
+	//	var k *datastore.Key
+	//	var err error
+	//
+	//	q = q.KeysOnly()
+	//	for iter := q.Run(mc.GaeCtx); ; {
+	//		var x GamePersist
+	//
+	//		key, err := iter.Next(&x)
+	//
+	//		if err == datastore.Done {
+	//			break
+	//		}
+	//
+	//		tp = &GamePersist{}
+	//		err = datastore.Get(mc.GaeCtx, key, tp)
+	//		k = key
+	//	}
+	//
+	//	return &QueryResponse{
+	//		Key:    k,
+	//		Models: tp,
+	//		Err:    err,
+	//	}
+	return &app.GameMedia{}
 }
 
-func (m *GamePersist) Add(ctx *Context) error {
-	return m.Set(ctx, datastore.NewKey(ctx.GaeCtx, ctx.Kind, ctx.ID, 0, nil))
-}
+func (m *GamePersist) Set(ctx *Context, key *datastore.Key) (string, error) {
+	rec := &app.GameMedia{}
 
-func (m *GamePersist) Set(ctx *Context, key *datastore.Key) error {
-	tp := &app.GamePayload{}
+	copier.Copy(rec, ctx.Payload)
+	_, err := datastore.Put(ctx.GaeCtx, key, rec)
 
-	copier.Copy(tp, ctx.Payload)
-	_, err := datastore.Put(ctx.GaeCtx, key, tp)
-
-	return err
+	return "", err
 }

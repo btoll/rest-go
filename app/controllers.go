@@ -4,9 +4,8 @@
 //
 // Command:
 // $ goagen
-// --design=github.com/dgaedcke/nmg_admin_service/design
-// --out=$(GOPATH)/src/github.com/dgaedcke/nmg_admin_service
-// --regen=true
+// --design=github.com/btoll/rest-go/design
+// --out=$(GOPATH)/src/github.com/btoll/rest-go
 // --version=v1.3.0
 
 package app
@@ -131,8 +130,8 @@ func MountEventController(service *goa.Service, ctrl EventController) {
 		}
 		return ctrl.Update(rctx)
 	}
-	service.Mux.Handle("PATCH", "/nmg/event/:id", ctrl.MuxHandler("update", h, unmarshalUpdateEventPayload))
-	service.LogInfo("mount", "ctrl", "Event", "action", "Update", "route", "PATCH /nmg/event/:id")
+	service.Mux.Handle("PUT", "/nmg/event/:id", ctrl.MuxHandler("update", h, unmarshalUpdateEventPayload))
+	service.LogInfo("mount", "ctrl", "Event", "action", "Update", "route", "PUT /nmg/event/:id")
 }
 
 // unmarshalCreateEventPayload unmarshals the request body into the context request data Payload field.

@@ -1,10 +1,11 @@
 package main
 
 import (
+	"fmt"
+
 	"github.com/btoll/rest-go/app"
 	"github.com/btoll/rest-go/models"
 	"github.com/goadesign/goa"
-	"github.com/jinzhu/copier"
 )
 
 // EventController implements the Event resource.
@@ -21,14 +22,7 @@ func NewEventController(service *goa.Service) *EventController {
 func (c *EventController) Create(ctx *app.CreateEventContext) error {
 	// EventController_Create: start_implement
 
-	modelctx := models.GetCtx("EventPersist", ctx)
-
-	if err := modelctx.Create(); err != nil {
-		return ctx.InternalServerError(err)
-	} else {
-		return ctx.OKTiny(&app.EventMediaTiny{modelctx.ID})
-	}
-
+	return nil
 	// EventController_Create: end_implement
 }
 
@@ -50,13 +44,13 @@ func (c *EventController) List(ctx *app.ListEventContext) error {
 	// EventController_List: start_implement
 
 	modelctx := models.GetCtx("EventPersist", ctx)
-	err := modelctx.List()
+	models, err := modelctx.List()
 
 	if err != nil {
 		return ctx.InternalServerError(err)
 	}
 
-	return ctx.OK(*modelctx.Persist.(*app.EventMediaCollection))
+	return ctx.OK(models.(app.EventMediaCollection))
 
 	// EventController_List: end_implement
 }
@@ -66,17 +60,22 @@ func (c *EventController) Show(ctx *app.ShowEventContext) error {
 	// EventController_Show: start_implement
 
 	modelctx := models.GetCtx("EventPersist", ctx)
-	err := modelctx.Read()
+	rec, err := modelctx.Read()
+
+	fmt.Println()
+	fmt.Println("rec", rec)
+	fmt.Println()
 
 	if err != nil {
 		return ctx.InternalServerError(err)
 	}
 
 	// TODO: Hacky?
-	res := &app.EventMedia{}
-	copier.Copy(res, modelctx.Persist)
-
-	return ctx.OK(res)
+	//	res := &app.EventMedia{}
+	//	copier.Copy(res, modelctx.Persist)
+	//
+	//	return ctx.OK(res)
+	return nil
 
 	// EventController_Show: end_implement
 }

@@ -52,60 +52,19 @@ func (m *EventPersist) GetCtx(ctx context.Context) *Context {
 	}
 }
 
-func (m *EventPersist) GetAll(q *datastore.Query, mc *Context) *QueryResponse {
-	c := []EventPersist{}
-	_, err := q.GetAll(mc.GaeCtx, &c)
-
-	ms := make(app.EventMediaCollection, len(c))
-
-	for i, model := range c {
-		tm := &app.EventMedia{}
-		copier.Copy(tm, model)
-		ms[i] = tm
-	}
-
-	return &QueryResponse{
-		Models: &ms,
-		Err:    err,
-	}
+func (m *EventPersist) GetModelCollection(ctx *Context) (interface{}, error) {
+	return nil, nil
 }
 
-func (m *EventPersist) GetOne(q *datastore.Query, mc *Context) *QueryResponse {
-	var tp *EventPersist
-	var k *datastore.Key
-	var err error
-
-	q = q.KeysOnly()
-	for iter := q.Run(mc.GaeCtx); ; {
-		var x EventPersist
-
-		key, err := iter.Next(&x)
-
-		if err == datastore.Done {
-			break
-		}
-
-		tp = &EventPersist{}
-		err = datastore.Get(mc.GaeCtx, key, tp)
-		k = key
-	}
-
-	return &QueryResponse{
-		Key:    k,
-		Models: tp,
-		Err:    err,
-	}
+func (m *EventPersist) GetModel() interface{} {
+	return &app.EventMedia{}
 }
 
-func (m *EventPersist) Add(ctx *Context) error {
-	return m.Set(ctx, datastore.NewKey(ctx.GaeCtx, ctx.Kind, ctx.ID, 0, nil))
-}
+func (m *EventPersist) Set(ctx *Context, key *datastore.Key) (string, error) {
+	rec := &app.EventMedia{}
 
-func (m *EventPersist) Set(ctx *Context, key *datastore.Key) error {
-	tp := &app.EventPayload{}
+	copier.Copy(rec, ctx.Payload)
+	_, err := datastore.Put(ctx.GaeCtx, key, rec)
 
-	copier.Copy(tp, ctx.Payload)
-	_, err := datastore.Put(ctx.GaeCtx, key, tp)
-
-	return err
+	return "", err
 }

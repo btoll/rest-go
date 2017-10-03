@@ -4,9 +4,8 @@
 //
 // Command:
 // $ goagen
-// --design=github.com/dgaedcke/nmg_admin_service/design
-// --out=$(GOPATH)/src/github.com/dgaedcke/nmg_admin_service
-// --regen=true
+// --design=github.com/btoll/rest-go/design
+// --out=$(GOPATH)/src/github.com/btoll/rest-go
 // --version=v1.3.0
 
 package test
@@ -15,7 +14,7 @@ import (
 	"bytes"
 	"context"
 	"fmt"
-	"github.com/dgaedcke/nmg_admin_service/app"
+	"github.com/btoll/rest-go/app"
 	"github.com/goadesign/goa"
 	"github.com/goadesign/goa/goatest"
 	"io"
@@ -1288,7 +1287,7 @@ func UpdateEventBadRequest(t goatest.TInterface, ctx context.Context, service *g
 	u := &url.URL{
 		Path: fmt.Sprintf("/nmg/event/%v", id),
 	}
-	req, _err := http.NewRequest("PATCH", u.String(), nil)
+	req, _err := http.NewRequest("PUT", u.String(), nil)
 	if _err != nil {
 		panic("invalid test " + _err.Error()) // bug
 	}
@@ -1356,7 +1355,7 @@ func UpdateEventInternalServerError(t goatest.TInterface, ctx context.Context, s
 	u := &url.URL{
 		Path: fmt.Sprintf("/nmg/event/%v", id),
 	}
-	req, _err := http.NewRequest("PATCH", u.String(), nil)
+	req, _err := http.NewRequest("PUT", u.String(), nil)
 	if _err != nil {
 		panic("invalid test " + _err.Error()) // bug
 	}
@@ -1433,7 +1432,7 @@ func UpdateEventNoContent(t goatest.TInterface, ctx context.Context, service *go
 	u := &url.URL{
 		Path: fmt.Sprintf("/nmg/event/%v", id),
 	}
-	req, _err := http.NewRequest("PATCH", u.String(), nil)
+	req, _err := http.NewRequest("PUT", u.String(), nil)
 	if _err != nil {
 		panic("invalid test " + _err.Error()) // bug
 	}
@@ -1502,7 +1501,7 @@ func UpdateEventNotFound(t goatest.TInterface, ctx context.Context, service *goa
 	u := &url.URL{
 		Path: fmt.Sprintf("/nmg/event/%v", id),
 	}
-	req, _err := http.NewRequest("PATCH", u.String(), nil)
+	req, _err := http.NewRequest("PUT", u.String(), nil)
 	if _err != nil {
 		panic("invalid test " + _err.Error()) // bug
 	}
@@ -1571,7 +1570,7 @@ func UpdateEventOK(t goatest.TInterface, ctx context.Context, service *goa.Servi
 	u := &url.URL{
 		Path: fmt.Sprintf("/nmg/event/%v", id),
 	}
-	req, _err := http.NewRequest("PATCH", u.String(), nil)
+	req, _err := http.NewRequest("PUT", u.String(), nil)
 	if _err != nil {
 		panic("invalid test " + _err.Error()) // bug
 	}
