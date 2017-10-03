@@ -56,25 +56,22 @@ func (m *TeamPersist) GetModel() interface{} {
 	return &app.TeamMedia{}
 }
 
-func (m *TeamPersist) GetModelCollection(ctx *Context) (interface{}, error) {
-	c := app.TeamMediaCollection{}
+func (m *TeamPersist) GetModelCollection(ctx *Context) ([]*datastore.Key, interface{}, error) {
+	c := []app.TeamMedia{}
+	keys, err := datastore.NewQuery(ctx.Kind).GetAll(ctx.GaeCtx, &c)
 
-	if _, err := datastore.NewQuery(ctx.Kind).GetAll(ctx.GaeCtx, &c); err != nil {
-		return nil, err
+	if err != nil {
+		return nil, nil, err
 	}
 
-	return c, nil
+	return keys, c, nil
 }
 
-func (m *TeamPersist) Set(ctx *Context, key *datastore.Key) (string, error) {
+func (m *TeamPersist) Set(ctx *Context, key *datastore.Key) error {
 	rec := &app.TeamMedia{}
 
 	copier.Copy(rec, ctx.Payload)
-	newkey, err := datastore.Put(ctx.GaeCtx, key, rec)
+	_, err := datastore.Put(ctx.GaeCtx, key, rec)
 
-	if err != nil {
-		return "", err
-	}
-
-	return newkey.Encode(), nil
+	return err
 }

@@ -44,14 +44,7 @@ func (c *TeamOpeningConfigController) Delete(ctx *app.DeleteTeamOpeningConfigCon
 func (c *TeamOpeningConfigController) List(ctx *app.ListTeamOpeningConfigContext) error {
 	// TeamOpeningConfigController_List: start_implement
 
-	modelctx := models.GetCtx("TeamOpeningConfigPersist", ctx)
-	models, err := modelctx.List()
-
-	if err != nil {
-		return ctx.InternalServerError(err)
-	}
-
-	return ctx.OK(models.(app.TeamOpeningConfigMediaCollection))
+	return nil
 
 	// TeamOpeningConfigController_List: end_implement
 }

@@ -920,21 +920,11 @@ func NewListTeamContext(ctx context.Context, r *http.Request, service *goa.Servi
 }
 
 // OK sends a HTTP response with status code 200.
-func (ctx *ListTeamContext) OK(r TeamMediaCollection) error {
-	ctx.ResponseData.Header().Set("Content-Type", "application/nmgapi.teamentity; type=collection")
-	if r == nil {
-		r = TeamMediaCollection{}
-	}
-	return ctx.ResponseData.Service.Send(ctx.Context, 200, r)
-}
-
-// OKTiny sends a HTTP response with status code 200.
-func (ctx *ListTeamContext) OKTiny(r TeamMediaTinyCollection) error {
-	ctx.ResponseData.Header().Set("Content-Type", "application/nmgapi.teamentity; type=collection")
-	if r == nil {
-		r = TeamMediaTinyCollection{}
-	}
-	return ctx.ResponseData.Service.Send(ctx.Context, 200, r)
+func (ctx *ListTeamContext) OK(resp []byte) error {
+	ctx.ResponseData.Header().Set("Content-Type", "application/json")
+	ctx.ResponseData.WriteHeader(200)
+	_, err := ctx.ResponseData.Write(resp)
+	return err
 }
 
 // BadRequest sends a HTTP response with status code 400.

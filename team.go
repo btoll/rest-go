@@ -1,6 +1,8 @@
 package main
 
 import (
+	"encoding/json"
+
 	"github.com/btoll/rest-go/app"
 	"github.com/btoll/rest-go/models"
 	"github.com/goadesign/goa"
@@ -48,13 +50,19 @@ func (c *TeamController) Delete(ctx *app.DeleteTeamContext) error {
 func (c *TeamController) List(ctx *app.ListTeamContext) error {
 	// TeamController_List: start_implement
 
-	models, err := models.GetCtx("TeamPersist", ctx).List()
+	store, err := models.GetCtx("TeamPersist", ctx).List()
 
 	if err != nil {
 		return ctx.InternalServerError(err)
 	}
 
-	return ctx.OK(models.(app.TeamMediaCollection))
+	b, err := json.Marshal(store)
+
+	if err != nil {
+		return ctx.InternalServerError(err)
+	}
+
+	return ctx.OK(b)
 
 	// TeamController_List: end_implement
 }

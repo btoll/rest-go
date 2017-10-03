@@ -392,40 +392,6 @@ func (mt *TeamMediaTiny) Validate() (err error) {
 	return
 }
 
-// TeamMediaCollection is the media type for an array of TeamMedia (default view)
-//
-// Identifier: application/nmgapi.teamentity; type=collection; view=default
-type TeamMediaCollection []*TeamMedia
-
-// Validate validates the TeamMediaCollection media type instance.
-func (mt TeamMediaCollection) Validate() (err error) {
-	for _, e := range mt {
-		if e != nil {
-			if err2 := e.Validate(); err2 != nil {
-				err = goa.MergeErrors(err, err2)
-			}
-		}
-	}
-	return
-}
-
-// TeamMediaCollection is the media type for an array of TeamMedia (tiny view)
-//
-// Identifier: application/nmgapi.teamentity; type=collection; view=tiny
-type TeamMediaTinyCollection []*TeamMediaTiny
-
-// Validate validates the TeamMediaTinyCollection media type instance.
-func (mt TeamMediaTinyCollection) Validate() (err error) {
-	for _, e := range mt {
-		if e != nil {
-			if err2 := e.Validate(); err2 != nil {
-				err = goa.MergeErrors(err, err2)
-			}
-		}
-	}
-	return
-}
-
 // Team sport response (default view)
 //
 // Identifier: application/nmgapi.teamopeningconfigentity; view=default

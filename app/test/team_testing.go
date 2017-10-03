@@ -797,10 +797,10 @@ func ListTeamNotFound(t goatest.TInterface, ctx context.Context, service *goa.Se
 }
 
 // ListTeamOK runs the method List of the given controller with the given parameters.
-// It returns the response writer so it's possible to inspect the response headers and the media type struct written to the response.
+// It returns the response writer so it's possible to inspect the response headers.
 // If ctx is nil then context.Background() is used.
 // If service is nil then a default service is created.
-func ListTeamOK(t goatest.TInterface, ctx context.Context, service *goa.Service, ctrl app.TeamController) (http.ResponseWriter, app.TeamMediaCollection) {
+func ListTeamOK(t goatest.TInterface, ctx context.Context, service *goa.Service, ctrl app.TeamController) http.ResponseWriter {
 	// Setup service
 	var (
 		logBuf bytes.Buffer
@@ -847,89 +847,9 @@ func ListTeamOK(t goatest.TInterface, ctx context.Context, service *goa.Service,
 	if rw.Code != 200 {
 		t.Errorf("invalid response status code: got %+v, expected 200", rw.Code)
 	}
-	var mt app.TeamMediaCollection
-	if resp != nil {
-		var ok bool
-		mt, ok = resp.(app.TeamMediaCollection)
-		if !ok {
-			t.Fatalf("invalid response media: got variable of type %T, value %+v, expected instance of app.TeamMediaCollection", resp, resp)
-		}
-		_err = mt.Validate()
-		if _err != nil {
-			t.Errorf("invalid response media type: %s", _err)
-		}
-	}
 
 	// Return results
-	return rw, mt
-}
-
-// ListTeamOKTiny runs the method List of the given controller with the given parameters.
-// It returns the response writer so it's possible to inspect the response headers and the media type struct written to the response.
-// If ctx is nil then context.Background() is used.
-// If service is nil then a default service is created.
-func ListTeamOKTiny(t goatest.TInterface, ctx context.Context, service *goa.Service, ctrl app.TeamController) (http.ResponseWriter, app.TeamMediaTinyCollection) {
-	// Setup service
-	var (
-		logBuf bytes.Buffer
-		resp   interface{}
-
-		respSetter goatest.ResponseSetterFunc = func(r interface{}) { resp = r }
-	)
-	if service == nil {
-		service = goatest.Service(&logBuf, respSetter)
-	} else {
-		logger := log.New(&logBuf, "", log.Ltime)
-		service.WithLogger(goa.NewLogger(logger))
-		newEncoder := func(io.Writer) goa.Encoder { return respSetter }
-		service.Encoder = goa.NewHTTPEncoder() // Make sure the code ends up using this decoder
-		service.Encoder.Register(newEncoder, "*/*")
-	}
-
-	// Setup request context
-	rw := httptest.NewRecorder()
-	u := &url.URL{
-		Path: fmt.Sprintf("/nmg/team/list"),
-	}
-	req, err := http.NewRequest("GET", u.String(), nil)
-	if err != nil {
-		panic("invalid test " + err.Error()) // bug
-	}
-	prms := url.Values{}
-	if ctx == nil {
-		ctx = context.Background()
-	}
-	goaCtx := goa.NewContext(goa.WithAction(ctx, "TeamTest"), rw, req, prms)
-	listCtx, _err := app.NewListTeamContext(goaCtx, req, service)
-	if _err != nil {
-		panic("invalid test data " + _err.Error()) // bug
-	}
-
-	// Perform action
-	_err = ctrl.List(listCtx)
-
-	// Validate response
-	if _err != nil {
-		t.Fatalf("controller returned %+v, logs:\n%s", _err, logBuf.String())
-	}
-	if rw.Code != 200 {
-		t.Errorf("invalid response status code: got %+v, expected 200", rw.Code)
-	}
-	var mt app.TeamMediaTinyCollection
-	if resp != nil {
-		var ok bool
-		mt, ok = resp.(app.TeamMediaTinyCollection)
-		if !ok {
-			t.Fatalf("invalid response media: got variable of type %T, value %+v, expected instance of app.TeamMediaTinyCollection", resp, resp)
-		}
-		_err = mt.Validate()
-		if _err != nil {
-			t.Errorf("invalid response media type: %s", _err)
-		}
-	}
-
-	// Return results
-	return rw, mt
+	return rw
 }
 
 // ShowTeamBadRequest runs the method Show of the given controller with the given parameters.

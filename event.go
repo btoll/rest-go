@@ -43,14 +43,7 @@ func (c *EventController) Delete(ctx *app.DeleteEventContext) error {
 func (c *EventController) List(ctx *app.ListEventContext) error {
 	// EventController_List: start_implement
 
-	modelctx := models.GetCtx("EventPersist", ctx)
-	models, err := modelctx.List()
-
-	if err != nil {
-		return ctx.InternalServerError(err)
-	}
-
-	return ctx.OK(models.(app.EventMediaCollection))
+	return nil
 
 	// EventController_List: end_implement
 }

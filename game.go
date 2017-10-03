@@ -44,14 +44,7 @@ func (c *GameController) Delete(ctx *app.DeleteGameContext) error {
 func (c *GameController) List(ctx *app.ListGameContext) error {
 	// GameController_List: start_implement
 
-	modelctx := models.GetCtx("GamePersist", ctx)
-	models, err := modelctx.List()
-
-	if err != nil {
-		return ctx.InternalServerError(err)
-	}
-
-	return ctx.OK(models.(app.GameMediaCollection))
+	return nil
 	// GameController_List: end_implement
 }
 

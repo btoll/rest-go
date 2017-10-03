@@ -44,14 +44,7 @@ func (c *SportController) Delete(ctx *app.DeleteSportContext) error {
 func (c *SportController) List(ctx *app.ListSportContext) error {
 	// SportController_List: start_implement
 
-	modelctx := models.GetCtx("SportPersist", ctx)
-	models, err := modelctx.List()
-
-	if err != nil {
-		return ctx.InternalServerError(err)
-	}
-
-	return ctx.OK(models.(app.SportMediaCollection))
+	return nil
 
 	// SportController_List: end_implement
 	res := app.SportMediaCollection{}

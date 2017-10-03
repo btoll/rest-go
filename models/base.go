@@ -2,6 +2,7 @@ package models
 
 import (
 	"context"
+	"strconv"
 
 	"google.golang.org/appengine/datastore"
 )
@@ -11,22 +12,27 @@ type App interface {
 	Read() (Model, error)
 	Update() error
 	Delete() error
-	List() ([]Model, error)
+	List() ([]string, []Model, error)
 }
 
 type Model interface {
 	GetCtx(ctx context.Context) *Context
+	GetModelCollection(c *Context) ([]*datastore.Key, interface{}, error)
 	GetModel() interface{}
-	GetModelCollection(c *Context) (interface{}, error)
-	Set(ctx *Context, key *datastore.Key) (string, error)
+	SetModel(ctx *Context, key *datastore.Key) error
 }
 
 type Context struct {
 	GaeCtx  context.Context
 	Payload interface{}
 	Kind    string
-	ID      string // serialized datastore.Key
+	ID      string
 	App
+}
+
+type ModelStore struct {
+	Keys   []int64     `json:"keys"`
+	Models interface{} `json:"models"`
 }
 
 const (
@@ -37,18 +43,25 @@ const (
 	TEAM_OPENING_CONFIG = "TeamOpeningConfigPersist"
 )
 
+func getKey(ctx *Context) *datastore.Key {
+	// This should never error b/c we're guaranteeing that ctx.ID is a
+	// valid string :)
+	id, _ := strconv.ParseInt(ctx.ID, 10, 64)
+	return datastore.NewKey(ctx.GaeCtx, ctx.Kind, "", id, nil)
+}
+
 func ModelFactory(name string) Model {
 	switch name {
-	case GAME:
-		return new(GamePersist)
-	case EVENT:
-		return new(EventPersist)
-	case SPORT:
-		return new(SportPersist)
+	//	case GAME:
+	//		return new(GamePersist)
+	//	case EVENT:
+	//		return new(EventPersist)
+	//	case SPORT:
+	//		return new(SportPersist)
 	case TEAM:
 		return new(TeamPersist)
-	case TEAM_OPENING_CONFIG:
-		return new(TeamOpeningConfigPersist)
+		//	case TEAM_OPENING_CONFIG:
+		//		return new(TeamOpeningConfigPersist)
 	}
 
 	// TODO: Return error?
@@ -64,26 +77,27 @@ func GetCtx(kind string, ctx context.Context) *Context {
 ----------------------------------------------------------- */
 
 func (ctx *Context) Create() (string, error) {
-	key := datastore.NewIncompleteKey(ctx.GaeCtx, ctx.Kind, nil)
-	id, err := ModelFactory(ctx.Kind).Set(ctx, key)
+	// Returns an int64.
+	low, _, err := datastore.AllocateIDs(ctx.GaeCtx, ctx.Kind, nil, 1)
 
 	if err != nil {
 		return "", err
 	}
 
-	return id, nil
+	key := datastore.NewKey(ctx.GaeCtx, ctx.Kind, "", low, nil)
+	err = ModelFactory(ctx.Kind).SetModel(ctx, key)
+
+	if err != nil {
+		return "", err
+	}
+
+	return strconv.FormatInt(low, 10), nil
 }
 
 func (ctx *Context) Read() (interface{}, error) {
-	decodedKey, err := datastore.DecodeKey(ctx.ID)
-
-	if err != nil {
-		return nil, err
-	}
-
 	model := ModelFactory(ctx.Kind).GetModel()
 
-	if datastore.Get(ctx.GaeCtx, decodedKey, model); err != nil {
+	if err := datastore.Get(ctx.GaeCtx, getKey(ctx), model); err != nil {
 		return nil, err
 	}
 
@@ -91,35 +105,34 @@ func (ctx *Context) Read() (interface{}, error) {
 }
 
 func (ctx *Context) Update() error {
-	decodedKey, err := datastore.DecodeKey(ctx.ID)
-
-	if err != nil {
-		return err
-	}
-
-	_, err = ModelFactory(ctx.Kind).Set(ctx, decodedKey)
-
-	return err
+	return ModelFactory(ctx.Kind).SetModel(ctx, getKey(ctx))
 }
 
 func (ctx *Context) Delete() error {
-	decodedKey, err := datastore.DecodeKey(ctx.ID)
-
-	if err != nil {
-		return err
-	}
-
-	return datastore.Delete(ctx.GaeCtx, decodedKey)
+	return datastore.Delete(ctx.GaeCtx, getKey(ctx))
 }
 
-func (ctx *Context) List() (interface{}, error) {
-	c, err := ModelFactory(ctx.Kind).GetModelCollection(ctx)
+func (ctx *Context) List() (*ModelStore, error) {
+	keys, c, err := ModelFactory(ctx.Kind).GetModelCollection(ctx)
 
 	if err != nil {
 		return nil, err
 	}
 
-	return c, nil
+	store := &ModelStore{
+		Keys:   make([]int64, len(keys)),
+		Models: c,
+	}
+
+	for i, key := range keys {
+		store.Keys[i] = key.IntID()
+	}
+
+	if err != nil {
+		return nil, err
+	}
+
+	return store, nil
 }
 
 /* -----------------------------------------------------------
