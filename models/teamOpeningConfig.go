@@ -2,6 +2,7 @@ package models
 
 import (
 	"context"
+	"time"
 
 	"github.com/btoll/rest-go/app"
 	"github.com/jinzhu/copier"
@@ -10,7 +11,15 @@ import (
 )
 
 type TeamOpeningConfigPersist struct {
-	app.TeamOpeningConfigPayload
+	BuyIncrementPrice  float64   `datastore:"buyIncrementPrice,noindex" json:"buyIncrementPrice,omitempty"`
+	BuyIncrementQuan   int       `datastore:"buyIncrementQuan,noindex" json:"buyIncrementQuan,omitempty"`
+	LiquidationFee     float64   `datastore:"liquidationFee,noindex" json:"liquidationFee,omitempty"`
+	OpeningPrice       float64   `datastore:"openingPrice,noindex" json:"openingPrice,omitempty"`
+	OpeningShares      int       `datastore:"openingShares,noindex" json:"openingShares,omitempty"`
+	SellDecrementPrice float64   `datastore:"sellDecrementPrice,noindex" json:"sellDecrementPrice,omitempty"`
+	SellDecrementQuan  int       `datastore:"sellDecrementQuan,noindex" json:"sellDecrementQuan,omitempty"`
+	StartTradeDtTm     time.Time `datastore:"startTradeDtTm,noindex" json:"startTradeDtTm,omitempty"`
+
 	Context
 }
 
