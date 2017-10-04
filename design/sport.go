@@ -41,7 +41,7 @@ var _ = Resource("Sport", func() {
 	Action("list", func() {
 		Routing(GET("/list"))
 		Description("Get all sports")
-		Response(OK, CollectionOf(SportMedia))
+		Response(OK, "application/json")
 		Response(NotFound)
 		Response(InternalServerError, ErrorMedia)
 		Response(BadRequest)
@@ -118,6 +118,7 @@ var SportMedia = MediaType("application/nmgapi.sportentity", func() {
 	Reference(SportPayload)
 
 	Attributes(func() {
+		Attribute("id", String, "ID")
 		Attribute("name")
 		Attribute("active")
 		Attribute("maxPreSplitPrice")

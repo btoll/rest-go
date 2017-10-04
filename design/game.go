@@ -41,7 +41,7 @@ var _ = Resource("Game", func() {
 	Action("list", func() {
 		Routing(GET("/list"))
 		Description("Get all games")
-		Response(OK, CollectionOf(GameMedia))
+		Response(OK, "application/json")
 		Response(NotFound)
 		Response(InternalServerError, ErrorMedia)
 		Response(BadRequest)
@@ -165,7 +165,6 @@ var GameMedia = MediaType("application/nmgapi.gameentity", func() {
 	})
 
 	View("default", func() {
-		Attribute("id")
 		Attribute("favTeamId")
 		Attribute("underTeamId")
 		Attribute("winnerTeamId")

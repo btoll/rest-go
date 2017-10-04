@@ -52,16 +52,16 @@ func getKey(ctx *Context) *datastore.Key {
 
 func ModelFactory(name string) Model {
 	switch name {
-	//	case GAME:
-	//		return new(GamePersist)
-	//	case EVENT:
-	//		return new(EventPersist)
-	//	case SPORT:
-	//		return new(SportPersist)
+	case GAME:
+		return new(GamePersist)
+	case EVENT:
+		return new(EventPersist)
+	case SPORT:
+		return new(SportPersist)
 	case TEAM:
 		return new(TeamPersist)
-		//	case TEAM_OPENING_CONFIG:
-		//		return new(TeamOpeningConfigPersist)
+	case TEAM_OPENING_CONFIG:
+		return new(TeamOpeningConfigPersist)
 	}
 
 	// TODO: Return error?
@@ -77,7 +77,7 @@ func GetCtx(kind string, ctx context.Context) *Context {
 ----------------------------------------------------------- */
 
 func (ctx *Context) Create() (string, error) {
-	// Returns an int64.
+	// Returns an int64. We only need one ID returned.
 	low, _, err := datastore.AllocateIDs(ctx.GaeCtx, ctx.Kind, nil, 1)
 
 	if err != nil {

@@ -1,7 +1,7 @@
 package main
 
 import (
-	"fmt"
+	"encoding/json"
 
 	"github.com/btoll/rest-go/app"
 	"github.com/btoll/rest-go/models"
@@ -22,7 +22,14 @@ func NewEventController(service *goa.Service) *EventController {
 func (c *EventController) Create(ctx *app.CreateEventContext) error {
 	// EventController_Create: start_implement
 
-	return nil
+	id, err := models.GetCtx("EventPersist", ctx).Create()
+
+	if err != nil {
+		return ctx.InternalServerError(err)
+	}
+
+	return ctx.OKTiny(&app.EventMediaTiny{id})
+
 	// EventController_Create: end_implement
 }
 
@@ -32,9 +39,9 @@ func (c *EventController) Delete(ctx *app.DeleteEventContext) error {
 
 	if err := models.GetCtx("EventPersist", ctx).Delete(); err != nil {
 		return ctx.InternalServerError(err)
-	} else {
-		return ctx.NoContent()
 	}
+
+	return ctx.NoContent()
 
 	// EventController_Delete: end_implement
 }
@@ -43,7 +50,19 @@ func (c *EventController) Delete(ctx *app.DeleteEventContext) error {
 func (c *EventController) List(ctx *app.ListEventContext) error {
 	// EventController_List: start_implement
 
-	return nil
+	store, err := models.GetCtx("EventPersist", ctx).List()
+
+	if err != nil {
+		return ctx.InternalServerError(err)
+	}
+
+	b, err := json.Marshal(store)
+
+	if err != nil {
+		return ctx.InternalServerError(err)
+	}
+
+	return ctx.OK(b)
 
 	// EventController_List: end_implement
 }
@@ -52,23 +71,13 @@ func (c *EventController) List(ctx *app.ListEventContext) error {
 func (c *EventController) Show(ctx *app.ShowEventContext) error {
 	// EventController_Show: start_implement
 
-	modelctx := models.GetCtx("EventPersist", ctx)
-	rec, err := modelctx.Read()
-
-	fmt.Println()
-	fmt.Println("rec", rec)
-	fmt.Println()
+	model, err := models.GetCtx("EventPersist", ctx).Read()
 
 	if err != nil {
 		return ctx.InternalServerError(err)
 	}
 
-	// TODO: Hacky?
-	//	res := &app.EventMedia{}
-	//	copier.Copy(res, modelctx.Persist)
-	//
-	//	return ctx.OK(res)
-	return nil
+	return ctx.OK(model.(*app.EventMedia))
 
 	// EventController_Show: end_implement
 }
@@ -79,9 +88,9 @@ func (c *EventController) Update(ctx *app.UpdateEventContext) error {
 
 	if err := models.GetCtx("EventPersist", ctx).Update(); err != nil {
 		return ctx.InternalServerError(err)
-	} else {
-		return ctx.NoContent()
 	}
+
+	return ctx.NoContent()
 
 	// EventController_Update: end_implement
 }

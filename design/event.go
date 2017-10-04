@@ -41,7 +41,7 @@ var _ = Resource("Event", func() {
 	Action("list", func() {
 		Routing(GET("/list"))
 		Description("Get all events")
-		Response(OK, CollectionOf(EventMedia))
+		Response(OK, "application/json")
 		Response(NotFound)
 		Response(InternalServerError, ErrorMedia)
 		Response(BadRequest)
@@ -136,7 +136,6 @@ var EventMedia = MediaType("application/nmgapi.evententity", func() {
 	})
 
 	View("default", func() {
-		Attribute("id")
 		Attribute("sportId")
 		Attribute("eventId")
 		Attribute("name")

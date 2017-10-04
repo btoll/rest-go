@@ -47,24 +47,31 @@ func (m *EventPersist) GetCtx(ctx context.Context) *Context {
 			Payload: t.Payload,
 		}
 	default:
-		// TODO: Return error.
+		// TODO: Return error?
 		return &Context{}
 	}
-}
-
-func (m *EventPersist) GetModelCollection(ctx *Context) (interface{}, error) {
-	return nil, nil
 }
 
 func (m *EventPersist) GetModel() interface{} {
 	return &app.EventMedia{}
 }
 
-func (m *EventPersist) Set(ctx *Context, key *datastore.Key) (string, error) {
+func (m *EventPersist) GetModelCollection(ctx *Context) ([]*datastore.Key, interface{}, error) {
+	c := []app.EventMedia{}
+	keys, err := datastore.NewQuery(ctx.Kind).GetAll(ctx.GaeCtx, &c)
+
+	if err != nil {
+		return nil, nil, err
+	}
+
+	return keys, c, nil
+}
+
+func (m *EventPersist) SetModel(ctx *Context, key *datastore.Key) error {
 	rec := &app.EventMedia{}
 
 	copier.Copy(rec, ctx.Payload)
 	_, err := datastore.Put(ctx.GaeCtx, key, rec)
 
-	return "", err
+	return err
 }

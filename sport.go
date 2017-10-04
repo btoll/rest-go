@@ -1,7 +1,7 @@
 package main
 
 import (
-	"fmt"
+	"encoding/json"
 
 	"github.com/btoll/rest-go/app"
 	"github.com/btoll/rest-go/models"
@@ -22,7 +22,13 @@ func NewSportController(service *goa.Service) *SportController {
 func (c *SportController) Create(ctx *app.CreateSportContext) error {
 	// SportController_Create: start_implement
 
-	return nil
+	id, err := models.GetCtx("SportPersist", ctx).Create()
+
+	if err != nil {
+		return ctx.InternalServerError(err)
+	}
+
+	return ctx.OKTiny(&app.SportMediaTiny{id})
 
 	// SportController_Create: end_implement
 }
@@ -33,9 +39,9 @@ func (c *SportController) Delete(ctx *app.DeleteSportContext) error {
 
 	if err := models.GetCtx("SportPersist", ctx).Delete(); err != nil {
 		return ctx.InternalServerError(err)
-	} else {
-		return ctx.NoContent()
 	}
+
+	return ctx.NoContent()
 
 	// SportController_Delete: end_implement
 }
@@ -44,34 +50,34 @@ func (c *SportController) Delete(ctx *app.DeleteSportContext) error {
 func (c *SportController) List(ctx *app.ListSportContext) error {
 	// SportController_List: start_implement
 
-	return nil
+	store, err := models.GetCtx("SportPersist", ctx).List()
+
+	if err != nil {
+		return ctx.InternalServerError(err)
+	}
+
+	b, err := json.Marshal(store)
+
+	if err != nil {
+		return ctx.InternalServerError(err)
+	}
+
+	return ctx.OK(b)
 
 	// SportController_List: end_implement
-	res := app.SportMediaCollection{}
-	return ctx.OK(res)
 }
 
 // Show runs the show action.
 func (c *SportController) Show(ctx *app.ShowSportContext) error {
 	// SportController_Show: start_implement
 
-	modelctx := models.GetCtx("SportPersist", ctx)
-	rec, err := modelctx.Read()
-
-	fmt.Println()
-	fmt.Println("rec", rec)
-	fmt.Println()
+	model, err := models.GetCtx("SportPersist", ctx).Read()
 
 	if err != nil {
 		return ctx.InternalServerError(err)
 	}
 
-	// TODO: Hacky?
-	//	res := &app.SportMedia{}
-	//	copier.Copy(res, modelctx.Persist)
-	//
-	//	return ctx.OK(res)
-	return nil
+	return ctx.OK(model.(*app.SportMedia))
 
 	// SportController_Show: end_implement
 }
@@ -82,9 +88,9 @@ func (c *SportController) Update(ctx *app.UpdateSportContext) error {
 
 	if err := models.GetCtx("SportPersist", ctx).Update(); err != nil {
 		return ctx.InternalServerError(err)
-	} else {
-		return ctx.NoContent()
 	}
+
+	return ctx.NoContent()
 
 	// SportController_Update: end_implement
 }

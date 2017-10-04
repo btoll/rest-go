@@ -1,7 +1,7 @@
 package main
 
 import (
-	"fmt"
+	"encoding/json"
 
 	"github.com/btoll/rest-go/app"
 	"github.com/btoll/rest-go/models"
@@ -22,7 +22,13 @@ func NewTeamOpeningConfigController(service *goa.Service) *TeamOpeningConfigCont
 func (c *TeamOpeningConfigController) Create(ctx *app.CreateTeamOpeningConfigContext) error {
 	// TeamOpeningConfigController_Create: start_implement
 
-	return nil
+	id, err := models.GetCtx("TeamOpeningConfigPersist", ctx).Create()
+
+	if err != nil {
+		return ctx.InternalServerError(err)
+	}
+
+	return ctx.OKTiny(&app.TeamOpeningConfigMediaTiny{id})
 
 	// TeamOpeningConfigController_Create: end_implement
 }
@@ -33,9 +39,9 @@ func (c *TeamOpeningConfigController) Delete(ctx *app.DeleteTeamOpeningConfigCon
 
 	if err := models.GetCtx("TeamOpeningConfigPersist", ctx).Delete(); err != nil {
 		return ctx.InternalServerError(err)
-	} else {
-		return ctx.NoContent()
 	}
+
+	return ctx.NoContent()
 
 	// TeamOpeningConfigController_Delete: end_implement
 }
@@ -44,7 +50,19 @@ func (c *TeamOpeningConfigController) Delete(ctx *app.DeleteTeamOpeningConfigCon
 func (c *TeamOpeningConfigController) List(ctx *app.ListTeamOpeningConfigContext) error {
 	// TeamOpeningConfigController_List: start_implement
 
-	return nil
+	store, err := models.GetCtx("TeamOpeningConfigPersist", ctx).List()
+
+	if err != nil {
+		return ctx.InternalServerError(err)
+	}
+
+	b, err := json.Marshal(store)
+
+	if err != nil {
+		return ctx.InternalServerError(err)
+	}
+
+	return ctx.OK(b)
 
 	// TeamOpeningConfigController_List: end_implement
 }
@@ -53,24 +71,14 @@ func (c *TeamOpeningConfigController) List(ctx *app.ListTeamOpeningConfigContext
 func (c *TeamOpeningConfigController) Show(ctx *app.ShowTeamOpeningConfigContext) error {
 	// TeamOpeningConfigController_Show: start_implement
 
-	modelctx := models.GetCtx("TeamOpeningConfigPersist", ctx)
-	rec, err := modelctx.Read()
-
-	fmt.Println()
-	fmt.Println("rec", rec)
-	fmt.Println()
+	model, err := models.GetCtx("TeamOpeningConfigPersist", ctx).Read()
 
 	if err != nil {
 		return ctx.InternalServerError(err)
 	}
 
-	// TODO: Hacky?
-	//	res := &app.TeamOpeningConfigMedia{}
-	//	copier.Copy(res, modelctx.Persist)
-	//
-	//	return ctx.OK(res)
+	return ctx.OK(model.(*app.TeamOpeningConfigMedia))
 
-	return nil
 	// TeamOpeningConfigController_Show: end_implement
 }
 
@@ -80,9 +88,9 @@ func (c *TeamOpeningConfigController) Update(ctx *app.UpdateTeamOpeningConfigCon
 
 	if err := models.GetCtx("TeamOpeningConfigPersist", ctx).Update(); err != nil {
 		return ctx.InternalServerError(err)
-	} else {
-		return ctx.NoContent()
 	}
+
+	return ctx.NoContent()
 
 	// TeamOpeningConfigController_Update: end_implement
 }

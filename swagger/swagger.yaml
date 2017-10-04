@@ -10,7 +10,6 @@ definitions:
     example:
       endDtTm: 1981-04-15T17:25:09Z
       eventId: Quia dolorum officiis eos.
-      id: Occaecati aut.
       locationId: Omnis soluta voluptas.
       name: Ut accusantium veritatis velit corporis consequatur minima.
       sportId: Dolor similique odit velit.
@@ -25,10 +24,6 @@ definitions:
       eventId:
         description: Not guaranteed to be unique
         example: Quia dolorum officiis eos.
-        type: string
-      id:
-        description: ID
-        example: Occaecati aut.
         type: string
       locationId:
         description: Location.defaultLoc.id
@@ -54,7 +49,6 @@ definitions:
         example: Consectetur sapiente sit sit omnis.
         type: string
     required:
-    - id
     - sportId
     - eventId
     - name
@@ -65,24 +59,6 @@ definitions:
     - teamAdvanceMethod
     title: 'Mediatype identifier: application/nmgapi.evententity; view=default'
     type: object
-  EventMediaCollection:
-    description: EventMediaCollection is the media type for an array of EventMedia
-      (default view)
-    example:
-    - endDtTm: 1981-04-15T17:25:09Z
-      eventId: Quia dolorum officiis eos.
-      id: Occaecati aut.
-      locationId: Omnis soluta voluptas.
-      name: Ut accusantium veritatis velit corporis consequatur minima.
-      sportId: Dolor similique odit velit.
-      startDtTm: 1993-09-14T18:24:18Z
-      subTitle: Quos occaecati et est et.
-      teamAdvanceMethod: Consectetur sapiente sit sit omnis.
-    items:
-      $ref: '#/definitions/EventMedia'
-    title: 'Mediatype identifier: application/nmgapi.evententity; type=collection;
-      view=default'
-    type: array
   EventMediaTiny:
     description: Event sport response (tiny view)
     example:
@@ -153,79 +129,73 @@ definitions:
   GameMedia:
     description: Game response (default view)
     example:
-      externalId: Eum corrupti iusto illum.
-      favTeamId: Quos cupiditate.
-      finishedAtDtTm: 2004-04-24T13:20:06Z
-      gameStatus: Possimus saepe deserunt culpa et sed.
-      id: Ipsum maiores dolorem labore harum eum.
-      location: Nisi adipisci sunt eum praesentium.
-      locationId: Natus ut.
-      loserProgressStatus: Recusandae molestias nemo qui accusantium qui enim.
-      oddsForFav: 0.6986109
-      playDtTm: 1986-03-07T19:46:22Z
-      sportId: Autem nobis dolor error cumque veritatis quos.
-      title: Dolor velit cupiditate.
-      underTeamId: Consequuntur ut dolores ducimus quia ea aut.
-      winnerTeamId: Quis natus aut.
+      externalId: Dignissimos eum.
+      favTeamId: Iusto illum alias.
+      finishedAtDtTm: 2011-03-15T19:41:00Z
+      gameStatus: Qui dolore possimus saepe deserunt culpa.
+      location: Harum eum cum nisi adipisci sunt eum.
+      locationId: Nostrum natus.
+      loserProgressStatus: Non recusandae molestias.
+      oddsForFav: 0.67565155
+      playDtTm: 1997-08-23T10:40:11Z
+      sportId: Qui enim.
+      title: Officiis dolor autem nobis dolor.
+      underTeamId: Cumque veritatis quos voluptatum.
+      winnerTeamId: Velit cupiditate ad consequuntur ut dolores ducimus.
     properties:
       externalId:
         description: Any public id for this game, not unique
-        example: Eum corrupti iusto illum.
+        example: Dignissimos eum.
         type: string
       favTeamId:
         description: Favorite team id
-        example: Quos cupiditate.
+        example: Iusto illum alias.
         type: string
       finishedAtDtTm:
-        example: 2004-04-24T13:20:06Z
+        example: 2011-03-15T19:41:00Z
         format: date-time
         type: string
       gameStatus:
         description: TeamGameStatus.preGame || tradeable || gameOn || ended
-        example: Possimus saepe deserunt culpa et sed.
-        type: string
-      id:
-        description: ID
-        example: Ipsum maiores dolorem labore harum eum.
+        example: Qui dolore possimus saepe deserunt culpa.
         type: string
       location:
         description: Name of location
-        example: Nisi adipisci sunt eum praesentium.
+        example: Harum eum cum nisi adipisci sunt eum.
         type: string
       locationId:
         description: True GPS location
-        example: Natus ut.
+        example: Nostrum natus.
         type: string
       loserProgressStatus:
         description: TeamGameStatus.eliminated
-        example: Recusandae molestias nemo qui accusantium qui enim.
+        example: Non recusandae molestias.
         type: string
       oddsForFav:
         description: "0"
-        example: 0.6986109
+        example: 0.67565155
         format: double
         type: number
       playDtTm:
-        example: 1986-03-07T19:46:22Z
+        example: 1997-08-23T10:40:11Z
         format: date-time
         type: string
       sportId:
         description: Sport ID
-        example: Autem nobis dolor error cumque veritatis quos.
+        example: Qui enim.
         type: string
       title:
         description: Public free form name
-        example: Dolor velit cupiditate.
+        example: Officiis dolor autem nobis dolor.
         type: string
       underTeamId:
-        example: Consequuntur ut dolores ducimus quia ea aut.
+        example: Cumque veritatis quos voluptatum.
         type: string
       winnerTeamId:
         description: Empty until game completed
-        example: Quis natus aut.
+        example: Velit cupiditate ad consequuntur ut dolores ducimus.
         type: string
     required:
-    - id
     - favTeamId
     - underTeamId
     - winnerTeamId
@@ -241,65 +211,14 @@ definitions:
     - loserProgressStatus
     title: 'Mediatype identifier: application/nmgapi.gameentity; view=default'
     type: object
-  GameMediaCollection:
-    description: GameMediaCollection is the media type for an array of GameMedia (default
-      view)
-    example:
-    - externalId: Eum corrupti iusto illum.
-      favTeamId: Quos cupiditate.
-      finishedAtDtTm: 2004-04-24T13:20:06Z
-      gameStatus: Possimus saepe deserunt culpa et sed.
-      id: Ipsum maiores dolorem labore harum eum.
-      location: Nisi adipisci sunt eum praesentium.
-      locationId: Natus ut.
-      loserProgressStatus: Recusandae molestias nemo qui accusantium qui enim.
-      oddsForFav: 0.6986109
-      playDtTm: 1986-03-07T19:46:22Z
-      sportId: Autem nobis dolor error cumque veritatis quos.
-      title: Dolor velit cupiditate.
-      underTeamId: Consequuntur ut dolores ducimus quia ea aut.
-      winnerTeamId: Quis natus aut.
-    - externalId: Eum corrupti iusto illum.
-      favTeamId: Quos cupiditate.
-      finishedAtDtTm: 2004-04-24T13:20:06Z
-      gameStatus: Possimus saepe deserunt culpa et sed.
-      id: Ipsum maiores dolorem labore harum eum.
-      location: Nisi adipisci sunt eum praesentium.
-      locationId: Natus ut.
-      loserProgressStatus: Recusandae molestias nemo qui accusantium qui enim.
-      oddsForFav: 0.6986109
-      playDtTm: 1986-03-07T19:46:22Z
-      sportId: Autem nobis dolor error cumque veritatis quos.
-      title: Dolor velit cupiditate.
-      underTeamId: Consequuntur ut dolores ducimus quia ea aut.
-      winnerTeamId: Quis natus aut.
-    - externalId: Eum corrupti iusto illum.
-      favTeamId: Quos cupiditate.
-      finishedAtDtTm: 2004-04-24T13:20:06Z
-      gameStatus: Possimus saepe deserunt culpa et sed.
-      id: Ipsum maiores dolorem labore harum eum.
-      location: Nisi adipisci sunt eum praesentium.
-      locationId: Natus ut.
-      loserProgressStatus: Recusandae molestias nemo qui accusantium qui enim.
-      oddsForFav: 0.6986109
-      playDtTm: 1986-03-07T19:46:22Z
-      sportId: Autem nobis dolor error cumque veritatis quos.
-      title: Dolor velit cupiditate.
-      underTeamId: Consequuntur ut dolores ducimus quia ea aut.
-      winnerTeamId: Quis natus aut.
-    items:
-      $ref: '#/definitions/GameMedia'
-    title: 'Mediatype identifier: application/nmgapi.gameentity; type=collection;
-      view=default'
-    type: array
   GameMediaTiny:
     description: Game response (tiny view)
     example:
-      id: Ipsum maiores dolorem labore harum eum.
+      id: Sed expedita ipsum maiores dolorem.
     properties:
       id:
         description: ID
-        example: Ipsum maiores dolorem labore harum eum.
+        example: Sed expedita ipsum maiores dolorem.
         type: string
     required:
     - id
@@ -398,33 +317,33 @@ definitions:
   SportMedia:
     description: Sport response (default view)
     example:
-      active: false
-      backgroundImageName: Qui aut non.
-      eventTerm: Sunt amet.
-      gameTerm: Totam fuga fugiat cupiditate autem occaecati omnis.
-      iconName: Alias delectus asperiores.
+      active: true
+      backgroundImageName: Aut dolore quis natus aut magnam provident.
+      eventTerm: Qui aut non.
+      gameTerm: Sunt amet.
+      iconName: Totam fuga fugiat cupiditate autem occaecati omnis.
       maxPreSplitPrice: 0.010741719
       name: Autem quasi dolorum est dolor.
     properties:
       active:
         description: Is in season?
-        example: false
+        example: true
         type: boolean
       backgroundImageName:
         description: sport_icon
-        example: Qui aut non.
+        example: Aut dolore quis natus aut magnam provident.
         type: string
       eventTerm:
         description: Tournament
-        example: Sunt amet.
+        example: Qui aut non.
         type: string
       gameTerm:
         description: Game
-        example: Totam fuga fugiat cupiditate autem occaecati omnis.
+        example: Sunt amet.
         type: string
       iconName:
         description: sport_icon
-        example: Alias delectus asperiores.
+        example: Totam fuga fugiat cupiditate autem occaecati omnis.
         type: string
       maxPreSplitPrice:
         example: 0.010741719
@@ -444,22 +363,6 @@ definitions:
     - backgroundImageName
     title: 'Mediatype identifier: application/nmgapi.sportentity; view=default'
     type: object
-  SportMediaCollection:
-    description: SportMediaCollection is the media type for an array of SportMedia
-      (default view)
-    example:
-    - active: false
-      backgroundImageName: Qui aut non.
-      eventTerm: Sunt amet.
-      gameTerm: Totam fuga fugiat cupiditate autem occaecati omnis.
-      iconName: Alias delectus asperiores.
-      maxPreSplitPrice: 0.010741719
-      name: Autem quasi dolorum est dolor.
-    items:
-      $ref: '#/definitions/SportMedia'
-    title: 'Mediatype identifier: application/nmgapi.sportentity; type=collection;
-      view=default'
-    type: array
   SportMediaTiny:
     description: Sport response (tiny view)
     example:
@@ -525,49 +428,44 @@ definitions:
   TeamMedia:
     description: Team sport response (default view)
     example:
-      currentWinRecord: Cum atque consequatur nostrum.
-      fullLogo: Officiis esse.
-      homeTownId: Ut dolor veritatis alias a.
-      iconName: Sed id quidem atque saepe sed dolores.
-      id: Beatae minus necessitatibus esse nostrum laboriosam reprehenderit.
-      name: Reiciendis magnam id.
-      shortName: Cum et laborum voluptatem assumenda.
-      sportId: Quibusdam velit occaecati excepturi omnis debitis.
+      currentWinRecord: In cum atque consequatur.
+      fullLogo: Eaque officiis esse quia ut.
+      homeTownId: Veritatis alias a repellat.
+      iconName: Id quidem atque saepe.
+      name: Necessitatibus esse nostrum laboriosam reprehenderit consequuntur reiciendis.
+      shortName: Id ut cum et.
+      sportId: Voluptatem assumenda sed quibusdam velit occaecati excepturi.
     properties:
       currentWinRecord:
         description: Team Win-Loss Record
-        example: Cum atque consequatur nostrum.
+        example: In cum atque consequatur.
         type: string
       fullLogo:
         description: Team Logo
-        example: Officiis esse.
+        example: Eaque officiis esse quia ut.
         type: string
       homeTownId:
         description: Sport HomeTown ID
-        example: Ut dolor veritatis alias a.
+        example: Veritatis alias a repellat.
         type: string
       iconName:
         description: Team Icon
-        example: Sed id quidem atque saepe sed dolores.
-        type: string
-      id:
-        description: ID
-        example: Beatae minus necessitatibus esse nostrum laboriosam reprehenderit.
+        example: Id quidem atque saepe.
         type: string
       name:
         description: Team name
-        example: Reiciendis magnam id.
+        example: Necessitatibus esse nostrum laboriosam reprehenderit consequuntur
+          reiciendis.
         type: string
       shortName:
         description: Team Nickname
-        example: Cum et laborum voluptatem assumenda.
+        example: Id ut cum et.
         type: string
       sportId:
         description: Sport ID
-        example: Quibusdam velit occaecati excepturi omnis debitis.
+        example: Voluptatem assumenda sed quibusdam velit occaecati excepturi.
         type: string
     required:
-    - id
     - name
     - sportId
     - homeTownId
@@ -580,11 +478,11 @@ definitions:
   TeamMediaTiny:
     description: Team sport response (tiny view)
     example:
-      id: Beatae minus necessitatibus esse nostrum laboriosam reprehenderit.
+      id: Dolores est beatae.
     properties:
       id:
         description: ID
-        example: Beatae minus necessitatibus esse nostrum laboriosam reprehenderit.
+        example: Dolores est beatae.
         type: string
     required:
     - id
@@ -593,54 +491,48 @@ definitions:
   TeamOpeningConfigMedia:
     description: Team sport response (default view)
     example:
-      buyIncrementPrice: 0.5519742
-      buyIncrementQuan: 1.3685513e+09
-      id: Qui velit.
-      liquidationFee: 0.7767424
-      openingPrice: 0.98755515
-      openingShares: 1.0483983e+08
-      sellDecrementPrice: 0.33004063
-      sellDecrementQuan: 1.2913059e+09
-      startTradeDtTm: 2015-06-03T23:32:17Z
+      buyIncrementPrice: 0.47375858
+      buyIncrementQuan: 1.062042e+09
+      liquidationFee: 0.98755515
+      openingPrice: 0.45573568
+      openingShares: 1.3313519e+09
+      sellDecrementPrice: 0.2278038
+      sellDecrementQuan: 6.608938e+08
+      startTradeDtTm: 1992-01-18T19:06:24Z
     properties:
       buyIncrementPrice:
-        example: 0.5519742
+        example: 0.47375858
         format: double
         type: number
       buyIncrementQuan:
-        example: 1.3685513e+09
+        example: 1.062042e+09
         format: int64
         type: integer
-      id:
-        description: ID
-        example: Qui velit.
-        type: string
       liquidationFee:
-        example: 0.7767424
-        format: double
-        type: number
-      openingPrice:
         example: 0.98755515
         format: double
         type: number
+      openingPrice:
+        example: 0.45573568
+        format: double
+        type: number
       openingShares:
-        example: 1.0483983e+08
+        example: 1.3313519e+09
         format: int64
         type: integer
       sellDecrementPrice:
-        example: 0.33004063
+        example: 0.2278038
         format: double
         type: number
       sellDecrementQuan:
-        example: 1.2913059e+09
+        example: 6.608938e+08
         format: int64
         type: integer
       startTradeDtTm:
-        example: 2015-06-03T23:32:17Z
+        example: 1992-01-18T19:06:24Z
         format: date-time
         type: string
     required:
-    - id
     - openingPrice
     - openingShares
     - buyIncrementQuan
@@ -651,32 +543,14 @@ definitions:
     - startTradeDtTm
     title: 'Mediatype identifier: application/nmgapi.teamopeningconfigentity; view=default'
     type: object
-  TeamOpeningConfigMediaCollection:
-    description: TeamOpeningConfigMediaCollection is the media type for an array of
-      TeamOpeningConfigMedia (default view)
-    example:
-    - buyIncrementPrice: 0.5519742
-      buyIncrementQuan: 1.3685513e+09
-      id: Qui velit.
-      liquidationFee: 0.7767424
-      openingPrice: 0.98755515
-      openingShares: 1.0483983e+08
-      sellDecrementPrice: 0.33004063
-      sellDecrementQuan: 1.2913059e+09
-      startTradeDtTm: 2015-06-03T23:32:17Z
-    items:
-      $ref: '#/definitions/TeamOpeningConfigMedia'
-    title: 'Mediatype identifier: application/nmgapi.teamopeningconfigentity; type=collection;
-      view=default'
-    type: array
   TeamOpeningConfigMediaTiny:
     description: Team sport response (tiny view)
     example:
-      id: Qui velit.
+      id: Debitis dolores qui velit autem.
     properties:
       id:
         description: ID
-        example: Qui velit.
+        example: Debitis dolores qui velit autem.
         type: string
     required:
     - id
@@ -974,12 +848,10 @@ paths:
       operationId: Event#list
       produces:
       - application/vnd.goa.error
-      - application/nmgapi.evententity; type=collection
+      - application/json
       responses:
         "200":
           description: OK
-          schema:
-            $ref: '#/definitions/EventMediaCollection'
         "400":
           description: Bad Request
         "404":
@@ -1126,12 +998,10 @@ paths:
       operationId: Game#list
       produces:
       - application/vnd.goa.error
-      - application/nmgapi.gameentity; type=collection
+      - application/json
       responses:
         "200":
           description: OK
-          schema:
-            $ref: '#/definitions/GameMediaCollection'
         "400":
           description: Bad Request
         "404":
@@ -1278,12 +1148,10 @@ paths:
       operationId: Sport#list
       produces:
       - application/vnd.goa.error
-      - application/nmgapi.sportentity; type=collection
+      - application/json
       responses:
         "200":
           description: OK
-          schema:
-            $ref: '#/definitions/SportMediaCollection'
         "400":
           description: Bad Request
         "404":
@@ -1580,12 +1448,10 @@ paths:
       operationId: TeamOpeningConfig#list
       produces:
       - application/vnd.goa.error
-      - application/nmgapi.teamopeningconfigentity; type=collection
+      - application/json
       responses:
         "200":
           description: OK
-          schema:
-            $ref: '#/definitions/TeamOpeningConfigMediaCollection'
         "400":
           description: Bad Request
         "404":

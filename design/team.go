@@ -41,7 +41,6 @@ var _ = Resource("Team", func() {
 	Action("list", func() {
 		Routing(GET("/list"))
 		Description("Get all teams")
-		//		Response(OK, CollectionOf(TeamMedia))
 		Response(OK, "application/json")
 		Response(NotFound)
 		Response(InternalServerError, ErrorMedia)
@@ -136,7 +135,6 @@ var TeamMedia = MediaType("application/nmgapi.teamentity", func() {
 	})
 
 	View("default", func() {
-		Attribute("id")
 		Attribute("name")
 		Attribute("sportId")
 		Attribute("homeTownId")

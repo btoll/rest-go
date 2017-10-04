@@ -10,7 +10,7 @@ import (
 )
 
 type SportPersist struct {
-	app.SportPayload `datastore:"flatten"`
+	app.SportPayload
 	Context
 }
 
@@ -47,24 +47,31 @@ func (m *SportPersist) GetCtx(ctx context.Context) *Context {
 			Payload: t.Payload,
 		}
 	default:
-		// TODO: Return error.
+		// TODO: Return error?
 		return &Context{}
 	}
-}
-
-func (m *SportPersist) GetModelCollection(ctx *Context) (interface{}, error) {
-	return nil, nil
 }
 
 func (m *SportPersist) GetModel() interface{} {
 	return &app.SportMedia{}
 }
 
-func (m *SportPersist) Set(ctx *Context, key *datastore.Key) (string, error) {
+func (m *SportPersist) GetModelCollection(ctx *Context) ([]*datastore.Key, interface{}, error) {
+	c := []app.SportMedia{}
+	keys, err := datastore.NewQuery(ctx.Kind).GetAll(ctx.GaeCtx, &c)
+
+	if err != nil {
+		return nil, nil, err
+	}
+
+	return keys, c, nil
+}
+
+func (m *SportPersist) SetModel(ctx *Context, key *datastore.Key) error {
 	rec := &app.SportMedia{}
 
 	copier.Copy(rec, ctx.Payload)
 	_, err := datastore.Put(ctx.GaeCtx, key, rec)
 
-	return "", err
+	return err
 }

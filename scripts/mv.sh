@@ -6,30 +6,43 @@ if [ "$PWD" != $(git rev-parse --show-toplevel) ]; then
     exit 1
 fi
 
-(
-    cd app;
+dest="$GOPATH/src/github.com/dgaedcke/nmg_admin_service"
 
-    for f in {contexts,controllers,media_types,user_types}.go; do
-        sed 's/\(package\) app/\1 admin/' $f > "$GOPATH/src/github.com/dgaedcke/nmg_shared/app/admin/$f"
-    done;
-)
+#(
+#    cd app;
+#
+#    for f in {contexts,controllers,media_types,user_types}.go; do
+#        sed 's/\(package\) app/\1 admin/' $f > "$GOPATH/src/github.com/dgaedcke/nmg_shared/app/admin/$f"
+#    done;
+#)
 
 # TODO: Brittle!
-for f in {event,game,sport,team,team_opening_config}.go; do
+# Move controllers from top-level into subdirectory and change package name.
+for f in {event,game,sport,team,team_opening_config}.go
+do
     # Only change text within the first 10 lines.
     sed '1,10s/\(package\) main/\1 controllers/' $f > "$GOPATH/src/github.com/dgaedcke/nmg_admin_service/controllers/$f"
-    sed -i '1,10s/nmg_admin_service/nmg_shared/' "$GOPATH/src/github.com/dgaedcke/nmg_admin_service/controllers/$f"
-    sed -i '1,10s/\(nmg_shared\/app\)/\1\/admin/' "$GOPATH/src/github.com/dgaedcke/nmg_admin_service/controllers/$f"
+#    sed -i '1,10s/nmg_admin_service/nmg_shared/' "$GOPATH/src/github.com/dgaedcke/nmg_admin_service/controllers/$f"
+#    sed -i '1,10s/\(nmg_shared\/app\)/\1\/admin/' "$GOPATH/src/github.com/dgaedcke/nmg_admin_service/controllers/$f"
 
     # Only change text starting at the 11th line.
-    sed -i '11,$s/\bapp\b/admin/' "$GOPATH/src/github.com/dgaedcke/nmg_admin_service/controllers/$f"
-done;
+#    sed -i '11,$s/\bapp\b/admin/' "$GOPATH/src/github.com/dgaedcke/nmg_admin_service/controllers/$f"
+done
 
-cp main.go "$GOPATH/src/github.com/dgaedcke/nmg_admin_service/main/"
-cp client/* "$GOPATH/src/github.com/dgaedcke/nmg_admin_service/client/"
-cp design/* "$GOPATH/src/github.com/dgaedcke/nmg_admin_service/design/"
-cp swagger/* "$GOPATH/src/github.com/dgaedcke/nmg_admin_service/swagger/"
-cp -r tool/* "$GOPATH/src/github.com/dgaedcke/nmg_admin_service/tool/"
+cp main.go "$dest/main/"
+cp app/* "$dest/app/"
+cp client/* "$dest/client/"
+cp design/* "$dest/design/"
+cp models/* "$dest/models/"
+cp swagger/* "$dest/swagger/"
+cp -r tool/* "$dest/tool/"
 
-cp models/* "$GOPATH/src/github.com/dgaedcke/nmg_shared/models/"
+(
+    cd $dest;
+
+    for f in $(ag -l btoll)
+    do
+    sed -i 's/btoll\/rest-go/dgaedcke\/nmg_admin_service/' $f
+    done;
+)
 

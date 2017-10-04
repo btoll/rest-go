@@ -6,6 +6,7 @@
 // $ goagen
 // --design=github.com/btoll/rest-go/design
 // --out=$(GOPATH)/src/github.com/btoll/rest-go
+// --regen=true
 // --version=v1.3.0
 
 package app
@@ -131,21 +132,11 @@ func NewListEventContext(ctx context.Context, r *http.Request, service *goa.Serv
 }
 
 // OK sends a HTTP response with status code 200.
-func (ctx *ListEventContext) OK(r EventMediaCollection) error {
-	ctx.ResponseData.Header().Set("Content-Type", "application/nmgapi.evententity; type=collection")
-	if r == nil {
-		r = EventMediaCollection{}
-	}
-	return ctx.ResponseData.Service.Send(ctx.Context, 200, r)
-}
-
-// OKTiny sends a HTTP response with status code 200.
-func (ctx *ListEventContext) OKTiny(r EventMediaTinyCollection) error {
-	ctx.ResponseData.Header().Set("Content-Type", "application/nmgapi.evententity; type=collection")
-	if r == nil {
-		r = EventMediaTinyCollection{}
-	}
-	return ctx.ResponseData.Service.Send(ctx.Context, 200, r)
+func (ctx *ListEventContext) OK(resp []byte) error {
+	ctx.ResponseData.Header().Set("Content-Type", "application/json")
+	ctx.ResponseData.WriteHeader(200)
+	_, err := ctx.ResponseData.Write(resp)
+	return err
 }
 
 // BadRequest sends a HTTP response with status code 400.
@@ -394,21 +385,11 @@ func NewListGameContext(ctx context.Context, r *http.Request, service *goa.Servi
 }
 
 // OK sends a HTTP response with status code 200.
-func (ctx *ListGameContext) OK(r GameMediaCollection) error {
-	ctx.ResponseData.Header().Set("Content-Type", "application/nmgapi.gameentity; type=collection")
-	if r == nil {
-		r = GameMediaCollection{}
-	}
-	return ctx.ResponseData.Service.Send(ctx.Context, 200, r)
-}
-
-// OKTiny sends a HTTP response with status code 200.
-func (ctx *ListGameContext) OKTiny(r GameMediaTinyCollection) error {
-	ctx.ResponseData.Header().Set("Content-Type", "application/nmgapi.gameentity; type=collection")
-	if r == nil {
-		r = GameMediaTinyCollection{}
-	}
-	return ctx.ResponseData.Service.Send(ctx.Context, 200, r)
+func (ctx *ListGameContext) OK(resp []byte) error {
+	ctx.ResponseData.Header().Set("Content-Type", "application/json")
+	ctx.ResponseData.WriteHeader(200)
+	_, err := ctx.ResponseData.Write(resp)
+	return err
 }
 
 // BadRequest sends a HTTP response with status code 400.
@@ -657,21 +638,11 @@ func NewListSportContext(ctx context.Context, r *http.Request, service *goa.Serv
 }
 
 // OK sends a HTTP response with status code 200.
-func (ctx *ListSportContext) OK(r SportMediaCollection) error {
-	ctx.ResponseData.Header().Set("Content-Type", "application/nmgapi.sportentity; type=collection")
-	if r == nil {
-		r = SportMediaCollection{}
-	}
-	return ctx.ResponseData.Service.Send(ctx.Context, 200, r)
-}
-
-// OKTiny sends a HTTP response with status code 200.
-func (ctx *ListSportContext) OKTiny(r SportMediaTinyCollection) error {
-	ctx.ResponseData.Header().Set("Content-Type", "application/nmgapi.sportentity; type=collection")
-	if r == nil {
-		r = SportMediaTinyCollection{}
-	}
-	return ctx.ResponseData.Service.Send(ctx.Context, 200, r)
+func (ctx *ListSportContext) OK(resp []byte) error {
+	ctx.ResponseData.Header().Set("Content-Type", "application/json")
+	ctx.ResponseData.WriteHeader(200)
+	_, err := ctx.ResponseData.Write(resp)
+	return err
 }
 
 // BadRequest sends a HTTP response with status code 400.
@@ -1173,21 +1144,11 @@ func NewListTeamOpeningConfigContext(ctx context.Context, r *http.Request, servi
 }
 
 // OK sends a HTTP response with status code 200.
-func (ctx *ListTeamOpeningConfigContext) OK(r TeamOpeningConfigMediaCollection) error {
-	ctx.ResponseData.Header().Set("Content-Type", "application/nmgapi.teamopeningconfigentity; type=collection")
-	if r == nil {
-		r = TeamOpeningConfigMediaCollection{}
-	}
-	return ctx.ResponseData.Service.Send(ctx.Context, 200, r)
-}
-
-// OKTiny sends a HTTP response with status code 200.
-func (ctx *ListTeamOpeningConfigContext) OKTiny(r TeamOpeningConfigMediaTinyCollection) error {
-	ctx.ResponseData.Header().Set("Content-Type", "application/nmgapi.teamopeningconfigentity; type=collection")
-	if r == nil {
-		r = TeamOpeningConfigMediaTinyCollection{}
-	}
-	return ctx.ResponseData.Service.Send(ctx.Context, 200, r)
+func (ctx *ListTeamOpeningConfigContext) OK(resp []byte) error {
+	ctx.ResponseData.Header().Set("Content-Type", "application/json")
+	ctx.ResponseData.WriteHeader(200)
+	_, err := ctx.ResponseData.Write(resp)
+	return err
 }
 
 // BadRequest sends a HTTP response with status code 400.

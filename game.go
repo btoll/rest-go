@@ -1,7 +1,7 @@
 package main
 
 import (
-	"fmt"
+	"encoding/json"
 
 	"github.com/btoll/rest-go/app"
 	"github.com/btoll/rest-go/models"
@@ -22,7 +22,13 @@ func NewGameController(service *goa.Service) *GameController {
 func (c *GameController) Create(ctx *app.CreateGameContext) error {
 	// GameController_Create: start_implement
 
-	return nil
+	id, err := models.GetCtx("GamePersist", ctx).Create()
+
+	if err != nil {
+		return ctx.InternalServerError(err)
+	}
+
+	return ctx.OKTiny(&app.GameMediaTiny{id})
 
 	// GameController_Create: end_implement
 }
@@ -33,9 +39,9 @@ func (c *GameController) Delete(ctx *app.DeleteGameContext) error {
 
 	if err := models.GetCtx("GamePersist", ctx).Delete(); err != nil {
 		return ctx.InternalServerError(err)
-	} else {
-		return ctx.NoContent()
 	}
+
+	return ctx.NoContent()
 
 	// GameController_Delete: end_implement
 }
@@ -44,7 +50,20 @@ func (c *GameController) Delete(ctx *app.DeleteGameContext) error {
 func (c *GameController) List(ctx *app.ListGameContext) error {
 	// GameController_List: start_implement
 
-	return nil
+	store, err := models.GetCtx("GamePersist", ctx).List()
+
+	if err != nil {
+		return ctx.InternalServerError(err)
+	}
+
+	b, err := json.Marshal(store)
+
+	if err != nil {
+		return ctx.InternalServerError(err)
+	}
+
+	return ctx.OK(b)
+
 	// GameController_List: end_implement
 }
 
@@ -52,23 +71,13 @@ func (c *GameController) List(ctx *app.ListGameContext) error {
 func (c *GameController) Show(ctx *app.ShowGameContext) error {
 	// GameController_Show: start_implement
 
-	modelctx := models.GetCtx("GamePersist", ctx)
-	rec, err := modelctx.Read()
-
-	fmt.Println()
-	fmt.Println("rec", rec)
-	fmt.Println()
+	model, err := models.GetCtx("GamePersist", ctx).Read()
 
 	if err != nil {
 		return ctx.InternalServerError(err)
 	}
 
-	// TODO: Hacky?
-	//	res := &app.GameMedia{}
-	//	copier.Copy(res, modelctx.Persist)
-	//
-	//	return ctx.OK(res)
-	return nil
+	return ctx.OK(model.(*app.GameMedia))
 
 	// GameController_Show: end_implement
 }
@@ -79,9 +88,9 @@ func (c *GameController) Update(ctx *app.UpdateGameContext) error {
 
 	if err := models.GetCtx("GamePersist", ctx).Update(); err != nil {
 		return ctx.InternalServerError(err)
-	} else {
-		return ctx.NoContent()
 	}
+
+	return ctx.NoContent()
 
 	// GameController_Update: end_implement
 }

@@ -47,24 +47,31 @@ func (m *TeamOpeningConfigPersist) GetCtx(ctx context.Context) *Context {
 			Payload: t.Payload,
 		}
 	default:
-		// TODO: Return error.
+		// TODO: Return error?
 		return &Context{}
 	}
-}
-
-func (m *TeamOpeningConfigPersist) GetModelCollection(ctx *Context) (interface{}, error) {
-	return nil, nil
 }
 
 func (m *TeamOpeningConfigPersist) GetModel() interface{} {
 	return &app.TeamOpeningConfigMedia{}
 }
 
-func (m *TeamOpeningConfigPersist) Set(ctx *Context, key *datastore.Key) (string, error) {
-	tp := &app.TeamOpeningConfigPayload{}
+func (m *TeamOpeningConfigPersist) GetModelCollection(ctx *Context) ([]*datastore.Key, interface{}, error) {
+	c := []app.TeamOpeningConfigMedia{}
+	keys, err := datastore.NewQuery(ctx.Kind).GetAll(ctx.GaeCtx, &c)
 
-	copier.Copy(tp, ctx.Payload)
-	_, err := datastore.Put(ctx.GaeCtx, key, tp)
+	if err != nil {
+		return nil, nil, err
+	}
 
-	return "", err
+	return keys, c, nil
+}
+
+func (m *TeamOpeningConfigPersist) SetModel(ctx *Context, key *datastore.Key) error {
+	rec := &app.TeamOpeningConfigMedia{}
+
+	copier.Copy(rec, ctx.Payload)
+	_, err := datastore.Put(ctx.GaeCtx, key, rec)
+
+	return err
 }

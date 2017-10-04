@@ -67,7 +67,7 @@ func (m *TeamPersist) GetModelCollection(ctx *Context) ([]*datastore.Key, interf
 	return keys, c, nil
 }
 
-func (m *TeamPersist) Set(ctx *Context, key *datastore.Key) error {
+func (m *TeamPersist) SetModel(ctx *Context, key *datastore.Key) error {
 	rec := &app.TeamMedia{}
 
 	copier.Copy(rec, ctx.Payload)

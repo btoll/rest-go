@@ -47,48 +47,31 @@ func (m *GamePersist) GetCtx(ctx context.Context) *Context {
 			Payload: t.Payload,
 		}
 	default:
-		// TODO: Return error.
+		// TODO: Return error?
 		return &Context{}
 	}
 }
 
-func (m *GamePersist) GetModelCollection(ctx *Context) (interface{}, error) {
-	return nil, nil
-}
-
 func (m *GamePersist) GetModel() interface{} {
-	//	var tp *GamePersist
-	//	var k *datastore.Key
-	//	var err error
-	//
-	//	q = q.KeysOnly()
-	//	for iter := q.Run(mc.GaeCtx); ; {
-	//		var x GamePersist
-	//
-	//		key, err := iter.Next(&x)
-	//
-	//		if err == datastore.Done {
-	//			break
-	//		}
-	//
-	//		tp = &GamePersist{}
-	//		err = datastore.Get(mc.GaeCtx, key, tp)
-	//		k = key
-	//	}
-	//
-	//	return &QueryResponse{
-	//		Key:    k,
-	//		Models: tp,
-	//		Err:    err,
-	//	}
 	return &app.GameMedia{}
 }
 
-func (m *GamePersist) Set(ctx *Context, key *datastore.Key) (string, error) {
+func (m *GamePersist) GetModelCollection(ctx *Context) ([]*datastore.Key, interface{}, error) {
+	c := []app.GameMedia{}
+	keys, err := datastore.NewQuery(ctx.Kind).GetAll(ctx.GaeCtx, &c)
+
+	if err != nil {
+		return nil, nil, err
+	}
+
+	return keys, c, nil
+}
+
+func (m *GamePersist) SetModel(ctx *Context, key *datastore.Key) error {
 	rec := &app.GameMedia{}
 
 	copier.Copy(rec, ctx.Payload)
 	_, err := datastore.Put(ctx.GaeCtx, key, rec)
 
-	return "", err
+	return err
 }

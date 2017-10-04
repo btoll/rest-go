@@ -43,7 +43,7 @@ var _ = Resource("TeamOpeningConfig", func() {
 	Action("list", func() {
 		Routing(GET("/list"))
 		Description("Get all teams openings")
-		Response(OK, CollectionOf(TeamOpeningConfigMedia))
+		Response(OK, "application/json")
 		Response(NotFound)
 		Response(InternalServerError, ErrorMedia)
 		Response(BadRequest)
@@ -157,7 +157,6 @@ var TeamOpeningConfigMedia = MediaType("application/nmgapi.teamopeningconfigenti
 
 	View("default", func() {
 		//		Attribute("teamGameEventKey")
-		Attribute("id")
 		Attribute("openingPrice")
 		Attribute("openingShares")
 		Attribute("buyIncrementQuan")

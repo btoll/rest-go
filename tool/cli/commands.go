@@ -6,6 +6,7 @@
 // $ goagen
 // --design=github.com/btoll/rest-go/design
 // --out=$(GOPATH)/src/github.com/btoll/rest-go
+// --regen=true
 // --version=v1.3.0
 
 package cli
