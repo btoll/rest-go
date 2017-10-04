@@ -5,6 +5,7 @@ import (
 
 	"github.com/btoll/rest-go/app"
 	"github.com/btoll/rest-go/models"
+	"github.com/dgaedcke/nmg_shared/constants"
 	"github.com/goadesign/goa"
 )
 
@@ -22,7 +23,7 @@ func NewEventController(service *goa.Service) *EventController {
 func (c *EventController) Create(ctx *app.CreateEventContext) error {
 	// EventController_Create: start_implement
 
-	id, err := models.GetCtx("EventPersist", ctx).Create()
+	id, err := models.GetCtx(constants.DB_EVENT, ctx).Create()
 
 	if err != nil {
 		return ctx.InternalServerError(err)
@@ -37,7 +38,7 @@ func (c *EventController) Create(ctx *app.CreateEventContext) error {
 func (c *EventController) Delete(ctx *app.DeleteEventContext) error {
 	// EventController_Delete: start_implement
 
-	if err := models.GetCtx("EventPersist", ctx).Delete(); err != nil {
+	if err := models.GetCtx(constants.DB_EVENT, ctx).Delete(); err != nil {
 		return ctx.InternalServerError(err)
 	}
 
@@ -50,7 +51,7 @@ func (c *EventController) Delete(ctx *app.DeleteEventContext) error {
 func (c *EventController) List(ctx *app.ListEventContext) error {
 	// EventController_List: start_implement
 
-	store, err := models.GetCtx("EventPersist", ctx).List()
+	store, err := models.GetCtx(constants.DB_EVENT, ctx).List()
 
 	if err != nil {
 		return ctx.InternalServerError(err)
@@ -71,7 +72,7 @@ func (c *EventController) List(ctx *app.ListEventContext) error {
 func (c *EventController) Show(ctx *app.ShowEventContext) error {
 	// EventController_Show: start_implement
 
-	model, err := models.GetCtx("EventPersist", ctx).Read()
+	model, err := models.GetCtx(constants.DB_EVENT, ctx).Read()
 
 	if err != nil {
 		return ctx.InternalServerError(err)
@@ -86,7 +87,7 @@ func (c *EventController) Show(ctx *app.ShowEventContext) error {
 func (c *EventController) Update(ctx *app.UpdateEventContext) error {
 	// EventController_Update: start_implement
 
-	if err := models.GetCtx("EventPersist", ctx).Update(); err != nil {
+	if err := models.GetCtx(constants.DB_EVENT, ctx).Update(); err != nil {
 		return ctx.InternalServerError(err)
 	}
 

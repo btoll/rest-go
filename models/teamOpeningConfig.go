@@ -5,6 +5,7 @@ import (
 	"time"
 
 	"github.com/btoll/rest-go/app"
+	"github.com/dgaedcke/nmg_shared/constants"
 	"github.com/jinzhu/copier"
 	"google.golang.org/appengine"
 	"google.golang.org/appengine/datastore"
@@ -27,30 +28,30 @@ func (m *TeamOpeningConfigPersist) GetCtx(ctx context.Context) *Context {
 	switch t := ctx.(type) {
 	case *app.CreateTeamOpeningConfigContext:
 		return &Context{
-			Kind:    "TeamOpeningConfigPersist",
+			Kind:    constants.DB_TEAM_OPENING_CONFIG,
 			GaeCtx:  appengine.NewContext(t.Request),
 			Payload: t.Payload,
 		}
 	case *app.DeleteTeamOpeningConfigContext:
 		return &Context{
-			Kind:   "TeamOpeningConfigPersist",
+			Kind:   constants.DB_TEAM_OPENING_CONFIG,
 			GaeCtx: appengine.NewContext(t.Request),
 			ID:     t.ID,
 		}
 	case *app.ListTeamOpeningConfigContext:
 		return &Context{
-			Kind:   "TeamOpeningConfigPersist",
+			Kind:   constants.DB_TEAM_OPENING_CONFIG,
 			GaeCtx: appengine.NewContext(t.Request),
 		}
 	case *app.ShowTeamOpeningConfigContext:
 		return &Context{
-			Kind:   "TeamOpeningConfigPersist",
+			Kind:   constants.DB_TEAM_OPENING_CONFIG,
 			GaeCtx: appengine.NewContext(t.Request),
 			ID:     t.ID,
 		}
 	case *app.UpdateTeamOpeningConfigContext:
 		return &Context{
-			Kind:    "TeamOpeningConfigPersist",
+			Kind:    constants.DB_TEAM_OPENING_CONFIG,
 			GaeCtx:  appengine.NewContext(t.Request),
 			ID:      t.ID,
 			Payload: t.Payload,

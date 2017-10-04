@@ -4,6 +4,7 @@ import (
 	"context"
 
 	"github.com/btoll/rest-go/app"
+	"github.com/dgaedcke/nmg_shared/constants"
 	"github.com/jinzhu/copier"
 	"google.golang.org/appengine"
 	"google.golang.org/appengine/datastore"
@@ -32,30 +33,30 @@ func (m *TeamPersist) GetCtx(ctx context.Context) *Context {
 	switch t := ctx.(type) {
 	case *app.CreateTeamContext:
 		return &Context{
-			Kind:    "TeamPersist",
+			Kind:    constants.DB_TEAM,
 			GaeCtx:  appengine.NewContext(t.Request),
 			Payload: t.Payload,
 		}
 	case *app.DeleteTeamContext:
 		return &Context{
-			Kind:   "TeamPersist",
+			Kind:   constants.DB_TEAM,
 			GaeCtx: appengine.NewContext(t.Request),
 			ID:     t.ID,
 		}
 	case *app.ListTeamContext:
 		return &Context{
-			Kind:   "TeamPersist",
+			Kind:   constants.DB_TEAM,
 			GaeCtx: appengine.NewContext(t.Request),
 		}
 	case *app.ShowTeamContext:
 		return &Context{
-			Kind:   "TeamPersist",
+			Kind:   constants.DB_TEAM,
 			GaeCtx: appengine.NewContext(t.Request),
 			ID:     t.ID,
 		}
 	case *app.UpdateTeamContext:
 		return &Context{
-			Kind:    "TeamPersist",
+			Kind:    constants.DB_TEAM,
 			GaeCtx:  appengine.NewContext(t.Request),
 			ID:      t.ID,
 			Payload: t.Payload,

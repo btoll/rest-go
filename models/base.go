@@ -4,6 +4,7 @@ import (
 	"context"
 	"strconv"
 
+	"github.com/dgaedcke/nmg_shared/constants"
 	"google.golang.org/appengine/datastore"
 )
 
@@ -36,11 +37,11 @@ type ModelStore struct {
 }
 
 const (
-	GAME                = "GamePersist"
-	EVENT               = "EventPersist"
-	SPORT               = "SportPersist"
-	TEAM                = "TeamPersist"
-	TEAM_OPENING_CONFIG = "TeamOpeningConfigPersist"
+	GAME                = constants.DB_GAME
+	EVENT               = constants.DB_EVENT
+	SPORT               = constants.DB_SPORT
+	TEAM                = constants.DB_TEAM
+	TEAM_OPENING_CONFIG = constants.DB_TEAM_OPENING_CONFIG
 )
 
 func getKey(ctx *Context) *datastore.Key {

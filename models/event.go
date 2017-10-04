@@ -5,6 +5,7 @@ import (
 	"time"
 
 	"github.com/btoll/rest-go/app"
+	"github.com/dgaedcke/nmg_shared/constants"
 	"github.com/jinzhu/copier"
 	"google.golang.org/appengine"
 	"google.golang.org/appengine/datastore"
@@ -32,30 +33,30 @@ func (m *EventPersist) GetCtx(ctx context.Context) *Context {
 	switch t := ctx.(type) {
 	case *app.CreateEventContext:
 		return &Context{
-			Kind:    "EventPersist",
+			Kind:    constants.DB_EVENT,
 			GaeCtx:  appengine.NewContext(t.Request),
 			Payload: t.Payload,
 		}
 	case *app.DeleteEventContext:
 		return &Context{
-			Kind:   "EventPersist",
+			Kind:   constants.DB_EVENT,
 			GaeCtx: appengine.NewContext(t.Request),
 			ID:     t.ID,
 		}
 	case *app.ListEventContext:
 		return &Context{
-			Kind:   "EventPersist",
+			Kind:   constants.DB_EVENT,
 			GaeCtx: appengine.NewContext(t.Request),
 		}
 	case *app.ShowEventContext:
 		return &Context{
-			Kind:   "EventPersist",
+			Kind:   constants.DB_EVENT,
 			GaeCtx: appengine.NewContext(t.Request),
 			ID:     t.ID,
 		}
 	case *app.UpdateEventContext:
 		return &Context{
-			Kind:    "EventPersist",
+			Kind:    constants.DB_EVENT,
 			GaeCtx:  appengine.NewContext(t.Request),
 			ID:      t.ID,
 			Payload: t.Payload,

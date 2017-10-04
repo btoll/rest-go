@@ -5,6 +5,7 @@ import (
 
 	"github.com/btoll/rest-go/app"
 	"github.com/btoll/rest-go/models"
+	"github.com/dgaedcke/nmg_shared/constants"
 	"github.com/goadesign/goa"
 )
 
@@ -22,7 +23,7 @@ func NewGameController(service *goa.Service) *GameController {
 func (c *GameController) Create(ctx *app.CreateGameContext) error {
 	// GameController_Create: start_implement
 
-	id, err := models.GetCtx("GamePersist", ctx).Create()
+	id, err := models.GetCtx(constants.DB_GAME, ctx).Create()
 
 	if err != nil {
 		return ctx.InternalServerError(err)
@@ -37,7 +38,7 @@ func (c *GameController) Create(ctx *app.CreateGameContext) error {
 func (c *GameController) Delete(ctx *app.DeleteGameContext) error {
 	// GameController_Delete: start_implement
 
-	if err := models.GetCtx("GamePersist", ctx).Delete(); err != nil {
+	if err := models.GetCtx(constants.DB_GAME, ctx).Delete(); err != nil {
 		return ctx.InternalServerError(err)
 	}
 
@@ -50,7 +51,7 @@ func (c *GameController) Delete(ctx *app.DeleteGameContext) error {
 func (c *GameController) List(ctx *app.ListGameContext) error {
 	// GameController_List: start_implement
 
-	store, err := models.GetCtx("GamePersist", ctx).List()
+	store, err := models.GetCtx(constants.DB_GAME, ctx).List()
 
 	if err != nil {
 		return ctx.InternalServerError(err)
@@ -71,7 +72,7 @@ func (c *GameController) List(ctx *app.ListGameContext) error {
 func (c *GameController) Show(ctx *app.ShowGameContext) error {
 	// GameController_Show: start_implement
 
-	model, err := models.GetCtx("GamePersist", ctx).Read()
+	model, err := models.GetCtx(constants.DB_GAME, ctx).Read()
 
 	if err != nil {
 		return ctx.InternalServerError(err)
@@ -86,7 +87,7 @@ func (c *GameController) Show(ctx *app.ShowGameContext) error {
 func (c *GameController) Update(ctx *app.UpdateGameContext) error {
 	// GameController_Update: start_implement
 
-	if err := models.GetCtx("GamePersist", ctx).Update(); err != nil {
+	if err := models.GetCtx(constants.DB_GAME, ctx).Update(); err != nil {
 		return ctx.InternalServerError(err)
 	}
 
