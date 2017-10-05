@@ -32,7 +32,7 @@ type Context struct {
 }
 
 type ModelStore struct {
-	Keys   []int64     `json:"keys"`
+	Keys   []string    `json:"keys"`
 	Models interface{} `json:"models"`
 }
 
@@ -43,13 +43,6 @@ const (
 	TEAM                = constants.DB_TEAM
 	TEAM_OPENING_CONFIG = constants.DB_TEAM_OPENING_CONFIG
 )
-
-func getKey(ctx *Context) *datastore.Key {
-	// This should never error b/c we're guaranteeing that ctx.ID is a
-	// valid string :)
-	id, _ := strconv.ParseInt(ctx.ID, 10, 64)
-	return datastore.NewKey(ctx.GaeCtx, ctx.Kind, "", id, nil)
-}
 
 func ModelFactory(name string) Model {
 	switch name {
@@ -73,6 +66,10 @@ func GetCtx(kind string, ctx context.Context) *Context {
 	return ModelFactory(kind).GetCtx(ctx)
 }
 
+func (ctx *Context) getKey() *datastore.Key {
+	return datastore.NewKey(ctx.GaeCtx, ctx.Kind, ctx.ID, 0, nil)
+}
+
 /* -----------------------------------------------------------
     CRUD(L)
 ----------------------------------------------------------- */
@@ -85,20 +82,20 @@ func (ctx *Context) Create() (string, error) {
 		return "", err
 	}
 
-	key := datastore.NewKey(ctx.GaeCtx, ctx.Kind, "", low, nil)
-	err = ModelFactory(ctx.Kind).SetModel(ctx, key)
+	ctx.ID = strconv.FormatInt(low, 10)
+	err = ModelFactory(ctx.Kind).SetModel(ctx, ctx.getKey())
 
 	if err != nil {
 		return "", err
 	}
 
-	return strconv.FormatInt(low, 10), nil
+	return ctx.ID, nil
 }
 
 func (ctx *Context) Read() (interface{}, error) {
 	model := ModelFactory(ctx.Kind).GetModel()
 
-	if err := datastore.Get(ctx.GaeCtx, getKey(ctx), model); err != nil {
+	if err := datastore.Get(ctx.GaeCtx, ctx.getKey(), model); err != nil {
 		return nil, err
 	}
 
@@ -106,11 +103,11 @@ func (ctx *Context) Read() (interface{}, error) {
 }
 
 func (ctx *Context) Update() error {
-	return ModelFactory(ctx.Kind).SetModel(ctx, getKey(ctx))
+	return ModelFactory(ctx.Kind).SetModel(ctx, ctx.getKey())
 }
 
 func (ctx *Context) Delete() error {
-	return datastore.Delete(ctx.GaeCtx, getKey(ctx))
+	return datastore.Delete(ctx.GaeCtx, ctx.getKey())
 }
 
 func (ctx *Context) List() (*ModelStore, error) {
@@ -121,12 +118,12 @@ func (ctx *Context) List() (*ModelStore, error) {
 	}
 
 	store := &ModelStore{
-		Keys:   make([]int64, len(keys)),
+		Keys:   make([]string, len(keys)),
 		Models: c,
 	}
 
 	for i, key := range keys {
-		store.Keys[i] = key.IntID()
+		store.Keys[i] = key.StringID()
 	}
 
 	if err != nil {
