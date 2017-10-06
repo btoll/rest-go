@@ -299,10 +299,9 @@ Payload example:
    "fullLogo": "Veritatis explicabo ullam cupiditate.",
    "homeTownId": "Delectus repellendus enim.",
    "iconName": "Qui reiciendis dolorem accusamus perspiciatis.",
-   "id": "Voluptas occaecati non.",
-   "name": "Enim laborum.",
-   "shortName": "Esse voluptatem.",
-   "sportId": "Est ut eum qui voluptatem voluptas illo."
+   "name": "Voluptas occaecati non.",
+   "shortName": "Enim laborum.",
+   "sportId": "Esse voluptatem."
 }`,
 		RunE: func(cmd *cobra.Command, args []string) error { return tmp4.Run(c, args) },
 	}
@@ -318,14 +317,14 @@ Payload example:
 Payload example:
 
 {
-   "buyIncrementPrice": 0.025119607650842632,
-   "buyIncrementQuan": 416724351,
-   "liquidationFee": 0.5452225039240716,
-   "openingPrice": 0.12163531910962996,
-   "openingShares": 75184129,
-   "sellDecrementPrice": 0.8437592135488748,
-   "sellDecrementQuan": 676987286,
-   "startTradeDtTm": "1980-12-03T22:48:01Z"
+   "buyIncrementPrice": 0.9707247018054228,
+   "buyIncrementQuan": 1412592824,
+   "liquidationFee": 0.11153699527666147,
+   "openingPrice": 0.3237282502855761,
+   "openingShares": 1359693070,
+   "sellDecrementPrice": 0.7580639258149352,
+   "sellDecrementQuan": 535296878,
+   "startTradeDtTm": "2009-06-03T11:59:53Z"
 }`,
 		RunE: func(cmd *cobra.Command, args []string) error { return tmp5.Run(c, args) },
 	}
@@ -574,10 +573,9 @@ Payload example:
    "fullLogo": "Veritatis explicabo ullam cupiditate.",
    "homeTownId": "Delectus repellendus enim.",
    "iconName": "Qui reiciendis dolorem accusamus perspiciatis.",
-   "id": "Voluptas occaecati non.",
-   "name": "Enim laborum.",
-   "shortName": "Esse voluptatem.",
-   "sportId": "Est ut eum qui voluptatem voluptas illo."
+   "name": "Voluptas occaecati non.",
+   "shortName": "Enim laborum.",
+   "sportId": "Esse voluptatem."
 }`,
 		RunE: func(cmd *cobra.Command, args []string) error { return tmp24.Run(c, args) },
 	}
@@ -593,14 +591,14 @@ Payload example:
 Payload example:
 
 {
-   "buyIncrementPrice": 0.025119607650842632,
-   "buyIncrementQuan": 416724351,
-   "liquidationFee": 0.5452225039240716,
-   "openingPrice": 0.12163531910962996,
-   "openingShares": 75184129,
-   "sellDecrementPrice": 0.8437592135488748,
-   "sellDecrementQuan": 676987286,
-   "startTradeDtTm": "1980-12-03T22:48:01Z"
+   "buyIncrementPrice": 0.9707247018054228,
+   "buyIncrementQuan": 1412592824,
+   "liquidationFee": 0.11153699527666147,
+   "openingPrice": 0.3237282502855761,
+   "openingShares": 1359693070,
+   "sellDecrementPrice": 0.7580639258149352,
+   "sellDecrementQuan": 535296878,
+   "startTradeDtTm": "2009-06-03T11:59:53Z"
 }`,
 		RunE: func(cmd *cobra.Command, args []string) error { return tmp25.Run(c, args) },
 	}

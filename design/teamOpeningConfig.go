@@ -19,34 +19,8 @@ var _ = Resource("TeamOpeningConfig", func() {
 			Status(200)
 			Media(TeamOpeningConfigMedia, "tiny")
 		})
+		Response(BadRequest, ErrorMedia)
 		Response(InternalServerError, ErrorMedia)
-		Response(BadRequest)
-	})
-
-	Action("delete", func() {
-		//		Routing(DELETE("/:teamGameEventKey"))
-		Routing(DELETE("/:id"))
-		Params(func() {
-			//			Param("teamGameEventKey", String, "Team Game Event Key")
-			Param("id", String, "Team Game Event Key")
-		})
-		Description("Delete a sports team by event key.")
-		Response(OK, func() {
-			Status(200)
-		})
-		Response(NoContent)
-		Response(NotFound)
-		Response(InternalServerError, ErrorMedia)
-		Response(BadRequest)
-	})
-
-	Action("list", func() {
-		Routing(GET("/list"))
-		Description("Get all teams openings")
-		Response(OK, "application/json")
-		Response(NotFound)
-		Response(InternalServerError, ErrorMedia)
-		Response(BadRequest)
 	})
 
 	Action("show", func() {
@@ -58,9 +32,8 @@ var _ = Resource("TeamOpeningConfig", func() {
 		})
 		Description("Get a sports team by event key.")
 		Response(OK, TeamOpeningConfigMedia)
-		Response(NotFound)
+		Response(BadRequest, ErrorMedia)
 		Response(InternalServerError, ErrorMedia)
-		Response(BadRequest)
 	})
 
 	Action("update", func() {
@@ -76,9 +49,32 @@ var _ = Resource("TeamOpeningConfig", func() {
 			Status(200)
 		})
 		Response(NoContent)
-		Response(NotFound)
+		Response(BadRequest, ErrorMedia)
 		Response(InternalServerError, ErrorMedia)
-		Response(BadRequest)
+	})
+
+	Action("delete", func() {
+		//		Routing(DELETE("/:teamGameEventKey"))
+		Routing(DELETE("/:id"))
+		Params(func() {
+			//			Param("teamGameEventKey", String, "Team Game Event Key")
+			Param("id", String, "Team Game Event Key")
+		})
+		Description("Delete a sports team by event key.")
+		Response(OK, func() {
+			Status(200)
+		})
+		Response(NoContent)
+		Response(BadRequest, ErrorMedia)
+		Response(InternalServerError, ErrorMedia)
+	})
+
+	Action("list", func() {
+		Routing(GET("/list"))
+		Description("Get all teams openings")
+		Response(OK, "application/json")
+		Response(BadRequest, ErrorMedia)
+		Response(InternalServerError, ErrorMedia)
 	})
 })
 

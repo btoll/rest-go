@@ -19,32 +19,8 @@ var _ = Resource("Game", func() {
 			Status(200)
 			Media(GameMedia, "tiny")
 		})
+		Response(BadRequest, ErrorMedia)
 		Response(InternalServerError, ErrorMedia)
-		Response(BadRequest)
-	})
-
-	Action("delete", func() {
-		Routing(DELETE("/:id"))
-		Params(func() {
-			Param("id", String, "Game ID")
-		})
-		Description("Delete a game by id.")
-		Response(OK, func() {
-			Status(200)
-		})
-		Response(NoContent)
-		Response(NotFound)
-		Response(InternalServerError, ErrorMedia)
-		Response(BadRequest)
-	})
-
-	Action("list", func() {
-		Routing(GET("/list"))
-		Description("Get all games")
-		Response(OK, "application/json")
-		Response(NotFound)
-		Response(InternalServerError, ErrorMedia)
-		Response(BadRequest)
 	})
 
 	Action("show", func() {
@@ -54,9 +30,8 @@ var _ = Resource("Game", func() {
 		})
 		Description("Get a game by id.")
 		Response(OK, GameMedia)
-		Response(NotFound)
+		Response(BadRequest, ErrorMedia)
 		Response(InternalServerError, ErrorMedia)
-		Response(BadRequest)
 	})
 
 	Action("update", func() {
@@ -70,9 +45,30 @@ var _ = Resource("Game", func() {
 			Status(200)
 		})
 		Response(NoContent)
-		Response(NotFound)
+		Response(BadRequest, ErrorMedia)
 		Response(InternalServerError, ErrorMedia)
-		Response(BadRequest)
+	})
+
+	Action("delete", func() {
+		Routing(DELETE("/:id"))
+		Params(func() {
+			Param("id", String, "Game ID")
+		})
+		Description("Delete a game by id.")
+		Response(OK, func() {
+			Status(200)
+		})
+		Response(NoContent)
+		Response(BadRequest, ErrorMedia)
+		Response(InternalServerError, ErrorMedia)
+	})
+
+	Action("list", func() {
+		Routing(GET("/list"))
+		Description("Get all games")
+		Response(OK, "application/json")
+		Response(BadRequest, ErrorMedia)
+		Response(InternalServerError, ErrorMedia)
 	})
 })
 

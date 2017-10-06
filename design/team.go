@@ -19,32 +19,8 @@ var _ = Resource("Team", func() {
 			Status(200)
 			Media(TeamMedia, "tiny")
 		})
+		Response(BadRequest, ErrorMedia)
 		Response(InternalServerError, ErrorMedia)
-		Response(BadRequest)
-	})
-
-	Action("delete", func() {
-		Routing(DELETE("/:id"))
-		Params(func() {
-			Param("id", String, "Team ID")
-		})
-		Description("Delete a sports team by id.")
-		Response(OK, func() {
-			Status(200)
-		})
-		Response(NoContent)
-		Response(NotFound)
-		Response(InternalServerError, ErrorMedia)
-		Response(BadRequest)
-	})
-
-	Action("list", func() {
-		Routing(GET("/list"))
-		Description("Get all teams")
-		Response(OK, "application/json")
-		Response(NotFound)
-		Response(InternalServerError, ErrorMedia)
-		Response(BadRequest)
 	})
 
 	Action("show", func() {
@@ -54,9 +30,8 @@ var _ = Resource("Team", func() {
 		})
 		Description("Get a sports team by id.")
 		Response(OK, TeamMedia)
-		Response(NotFound)
+		Response(BadRequest, ErrorMedia)
 		Response(InternalServerError, ErrorMedia)
-		Response(BadRequest)
 	})
 
 	Action("update", func() {
@@ -70,19 +45,36 @@ var _ = Resource("Team", func() {
 			Status(200)
 		})
 		Response(NoContent)
-		Response(NotFound)
+		Response(BadRequest, ErrorMedia)
 		Response(InternalServerError, ErrorMedia)
-		Response(BadRequest)
+	})
+
+	Action("delete", func() {
+		Routing(DELETE("/:id"))
+		Params(func() {
+			Param("id", String, "Team ID")
+		})
+		Description("Delete a sports team by id.")
+		Response(OK, func() {
+			Status(200)
+		})
+		Response(NoContent)
+		Response(BadRequest, ErrorMedia)
+		Response(InternalServerError, ErrorMedia)
+	})
+
+	Action("list", func() {
+		Routing(GET("/list"))
+		Description("Get all teams")
+		Response(OK, "application/json")
+		Response(BadRequest, ErrorMedia)
+		Response(InternalServerError, ErrorMedia)
 	})
 })
 
 var TeamPayload = Type("TeamPayload", func() {
 	Description("Team Description.")
 
-	Attribute("id", String, "GAE key", func() {
-		Metadata("struct:tag:datastore", "id")
-		Metadata("struct:tag:json", "id,omitempty")
-	})
 	Attribute("name", String, "Team name", func() {
 		Metadata("struct:tag:datastore", "name,noindex")
 		Metadata("struct:tag:json", "name,omitempty")

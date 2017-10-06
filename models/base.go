@@ -2,9 +2,11 @@ package models
 
 import (
 	"context"
+	"encoding/json"
 	"strconv"
 
 	"github.com/dgaedcke/nmg_shared/constants"
+	"github.com/goadesign/goa"
 	"google.golang.org/appengine/datastore"
 )
 
@@ -79,14 +81,14 @@ func (ctx *Context) Create() (string, error) {
 	low, _, err := datastore.AllocateIDs(ctx.GaeCtx, ctx.Kind, nil, 1)
 
 	if err != nil {
-		return "", err
+		return "", goa.ErrInternal(err, "endpoint", "create")
 	}
 
 	ctx.ID = strconv.FormatInt(low, 10)
 	err = ModelFactory(ctx.Kind).SetModel(ctx, ctx.getKey())
 
 	if err != nil {
-		return "", err
+		return "", goa.ErrInternal(err, "endpoint", "create")
 	}
 
 	return ctx.ID, nil
@@ -96,25 +98,37 @@ func (ctx *Context) Read() (interface{}, error) {
 	model := ModelFactory(ctx.Kind).GetModel()
 
 	if err := datastore.Get(ctx.GaeCtx, ctx.getKey(), model); err != nil {
-		return nil, err
+		return nil, goa.ErrBadRequest(err, "endpoint", "show")
 	}
 
 	return model, nil
 }
 
 func (ctx *Context) Update() error {
-	return ModelFactory(ctx.Kind).SetModel(ctx, ctx.getKey())
+	err := ModelFactory(ctx.Kind).SetModel(ctx, ctx.getKey())
+
+	if err != nil {
+		return goa.ErrInternal(err, "endpoint", "update")
+	}
+
+	return nil
 }
 
 func (ctx *Context) Delete() error {
-	return datastore.Delete(ctx.GaeCtx, ctx.getKey())
+	err := datastore.Delete(ctx.GaeCtx, ctx.getKey())
+
+	if err != nil {
+		return goa.ErrInternal(err, "endpoint", "delete")
+	}
+
+	return nil
 }
 
-func (ctx *Context) List() (*ModelStore, error) {
+func (ctx *Context) List() ([]byte, error) {
 	keys, c, err := ModelFactory(ctx.Kind).GetModelCollection(ctx)
 
 	if err != nil {
-		return nil, err
+		return nil, goa.ErrInternal(err, "endpoint", "list")
 	}
 
 	store := &ModelStore{
@@ -126,13 +140,11 @@ func (ctx *Context) List() (*ModelStore, error) {
 		store.Keys[i] = key.StringID()
 	}
 
+	b, err := json.Marshal(store)
+
 	if err != nil {
-		return nil, err
+		return nil, goa.ErrInternal(err, "endpoint", "list")
 	}
 
-	return store, nil
+	return b, nil
 }
-
-/* -----------------------------------------------------------
-    ERROR (TODO)
------------------------------------------------------------ */

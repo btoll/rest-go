@@ -1,8 +1,6 @@
 package main
 
 import (
-	"encoding/json"
-
 	"github.com/btoll/rest-go/app"
 	"github.com/btoll/rest-go/models"
 	"github.com/dgaedcke/nmg_shared/constants"
@@ -51,13 +49,7 @@ func (c *TeamController) Delete(ctx *app.DeleteTeamContext) error {
 func (c *TeamController) List(ctx *app.ListTeamContext) error {
 	// TeamController_List: start_implement
 
-	store, err := models.GetCtx(constants.DB_TEAM, ctx).List()
-
-	if err != nil {
-		return ctx.InternalServerError(err)
-	}
-
-	b, err := json.Marshal(store)
+	b, err := models.GetCtx(constants.DB_TEAM, ctx).List()
 
 	if err != nil {
 		return ctx.InternalServerError(err)
@@ -75,7 +67,7 @@ func (c *TeamController) Show(ctx *app.ShowTeamContext) error {
 	model, err := models.GetCtx(constants.DB_TEAM, ctx).Read()
 
 	if err != nil {
-		return ctx.InternalServerError(err)
+		return ctx.BadRequest(err)
 	}
 
 	return ctx.OK(model.(*app.TeamMedia))

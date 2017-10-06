@@ -1,8 +1,6 @@
 package main
 
 import (
-	"encoding/json"
-
 	"github.com/btoll/rest-go/app"
 	"github.com/btoll/rest-go/models"
 	"github.com/dgaedcke/nmg_shared/constants"
@@ -51,13 +49,7 @@ func (c *EventController) Delete(ctx *app.DeleteEventContext) error {
 func (c *EventController) List(ctx *app.ListEventContext) error {
 	// EventController_List: start_implement
 
-	store, err := models.GetCtx(constants.DB_EVENT, ctx).List()
-
-	if err != nil {
-		return ctx.InternalServerError(err)
-	}
-
-	b, err := json.Marshal(store)
+	b, err := models.GetCtx(constants.DB_EVENT, ctx).List()
 
 	if err != nil {
 		return ctx.InternalServerError(err)
@@ -75,7 +67,7 @@ func (c *EventController) Show(ctx *app.ShowEventContext) error {
 	model, err := models.GetCtx(constants.DB_EVENT, ctx).Read()
 
 	if err != nil {
-		return ctx.InternalServerError(err)
+		return ctx.BadRequest(err)
 	}
 
 	return ctx.OK(model.(*app.EventMedia))

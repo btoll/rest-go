@@ -44,9 +44,9 @@ func (ctx *CreateEventContext) OKTiny(r *EventMediaTiny) error {
 }
 
 // BadRequest sends a HTTP response with status code 400.
-func (ctx *CreateEventContext) BadRequest() error {
-	ctx.ResponseData.WriteHeader(400)
-	return nil
+func (ctx *CreateEventContext) BadRequest(r error) error {
+	ctx.ResponseData.Header().Set("Content-Type", "application/vnd.goa.error")
+	return ctx.ResponseData.Service.Send(ctx.Context, 400, r)
 }
 
 // InternalServerError sends a HTTP response with status code 500.
@@ -95,15 +95,9 @@ func (ctx *DeleteEventContext) NoContent() error {
 }
 
 // BadRequest sends a HTTP response with status code 400.
-func (ctx *DeleteEventContext) BadRequest() error {
-	ctx.ResponseData.WriteHeader(400)
-	return nil
-}
-
-// NotFound sends a HTTP response with status code 404.
-func (ctx *DeleteEventContext) NotFound() error {
-	ctx.ResponseData.WriteHeader(404)
-	return nil
+func (ctx *DeleteEventContext) BadRequest(r error) error {
+	ctx.ResponseData.Header().Set("Content-Type", "application/vnd.goa.error")
+	return ctx.ResponseData.Service.Send(ctx.Context, 400, r)
 }
 
 // InternalServerError sends a HTTP response with status code 500.
@@ -142,12 +136,6 @@ func (ctx *ListEventContext) OK(resp []byte) error {
 // BadRequest sends a HTTP response with status code 400.
 func (ctx *ListEventContext) BadRequest() error {
 	ctx.ResponseData.WriteHeader(400)
-	return nil
-}
-
-// NotFound sends a HTTP response with status code 404.
-func (ctx *ListEventContext) NotFound() error {
-	ctx.ResponseData.WriteHeader(404)
 	return nil
 }
 
@@ -195,15 +183,9 @@ func (ctx *ShowEventContext) OKTiny(r *EventMediaTiny) error {
 }
 
 // BadRequest sends a HTTP response with status code 400.
-func (ctx *ShowEventContext) BadRequest() error {
-	ctx.ResponseData.WriteHeader(400)
-	return nil
-}
-
-// NotFound sends a HTTP response with status code 404.
-func (ctx *ShowEventContext) NotFound() error {
-	ctx.ResponseData.WriteHeader(404)
-	return nil
+func (ctx *ShowEventContext) BadRequest(r error) error {
+	ctx.ResponseData.Header().Set("Content-Type", "application/vnd.goa.error")
+	return ctx.ResponseData.Service.Send(ctx.Context, 400, r)
 }
 
 // InternalServerError sends a HTTP response with status code 500.
@@ -253,15 +235,9 @@ func (ctx *UpdateEventContext) NoContent() error {
 }
 
 // BadRequest sends a HTTP response with status code 400.
-func (ctx *UpdateEventContext) BadRequest() error {
-	ctx.ResponseData.WriteHeader(400)
-	return nil
-}
-
-// NotFound sends a HTTP response with status code 404.
-func (ctx *UpdateEventContext) NotFound() error {
-	ctx.ResponseData.WriteHeader(404)
-	return nil
+func (ctx *UpdateEventContext) BadRequest(r error) error {
+	ctx.ResponseData.Header().Set("Content-Type", "application/vnd.goa.error")
+	return ctx.ResponseData.Service.Send(ctx.Context, 400, r)
 }
 
 // InternalServerError sends a HTTP response with status code 500.
@@ -297,9 +273,9 @@ func (ctx *CreateGameContext) OKTiny(r *GameMediaTiny) error {
 }
 
 // BadRequest sends a HTTP response with status code 400.
-func (ctx *CreateGameContext) BadRequest() error {
-	ctx.ResponseData.WriteHeader(400)
-	return nil
+func (ctx *CreateGameContext) BadRequest(r error) error {
+	ctx.ResponseData.Header().Set("Content-Type", "application/vnd.goa.error")
+	return ctx.ResponseData.Service.Send(ctx.Context, 400, r)
 }
 
 // InternalServerError sends a HTTP response with status code 500.
@@ -348,15 +324,9 @@ func (ctx *DeleteGameContext) NoContent() error {
 }
 
 // BadRequest sends a HTTP response with status code 400.
-func (ctx *DeleteGameContext) BadRequest() error {
-	ctx.ResponseData.WriteHeader(400)
-	return nil
-}
-
-// NotFound sends a HTTP response with status code 404.
-func (ctx *DeleteGameContext) NotFound() error {
-	ctx.ResponseData.WriteHeader(404)
-	return nil
+func (ctx *DeleteGameContext) BadRequest(r error) error {
+	ctx.ResponseData.Header().Set("Content-Type", "application/vnd.goa.error")
+	return ctx.ResponseData.Service.Send(ctx.Context, 400, r)
 }
 
 // InternalServerError sends a HTTP response with status code 500.
@@ -393,15 +363,9 @@ func (ctx *ListGameContext) OK(resp []byte) error {
 }
 
 // BadRequest sends a HTTP response with status code 400.
-func (ctx *ListGameContext) BadRequest() error {
-	ctx.ResponseData.WriteHeader(400)
-	return nil
-}
-
-// NotFound sends a HTTP response with status code 404.
-func (ctx *ListGameContext) NotFound() error {
-	ctx.ResponseData.WriteHeader(404)
-	return nil
+func (ctx *ListGameContext) BadRequest(r error) error {
+	ctx.ResponseData.Header().Set("Content-Type", "application/vnd.goa.error")
+	return ctx.ResponseData.Service.Send(ctx.Context, 400, r)
 }
 
 // InternalServerError sends a HTTP response with status code 500.
@@ -448,15 +412,9 @@ func (ctx *ShowGameContext) OKTiny(r *GameMediaTiny) error {
 }
 
 // BadRequest sends a HTTP response with status code 400.
-func (ctx *ShowGameContext) BadRequest() error {
-	ctx.ResponseData.WriteHeader(400)
-	return nil
-}
-
-// NotFound sends a HTTP response with status code 404.
-func (ctx *ShowGameContext) NotFound() error {
-	ctx.ResponseData.WriteHeader(404)
-	return nil
+func (ctx *ShowGameContext) BadRequest(r error) error {
+	ctx.ResponseData.Header().Set("Content-Type", "application/vnd.goa.error")
+	return ctx.ResponseData.Service.Send(ctx.Context, 400, r)
 }
 
 // InternalServerError sends a HTTP response with status code 500.
@@ -506,15 +464,9 @@ func (ctx *UpdateGameContext) NoContent() error {
 }
 
 // BadRequest sends a HTTP response with status code 400.
-func (ctx *UpdateGameContext) BadRequest() error {
-	ctx.ResponseData.WriteHeader(400)
-	return nil
-}
-
-// NotFound sends a HTTP response with status code 404.
-func (ctx *UpdateGameContext) NotFound() error {
-	ctx.ResponseData.WriteHeader(404)
-	return nil
+func (ctx *UpdateGameContext) BadRequest(r error) error {
+	ctx.ResponseData.Header().Set("Content-Type", "application/vnd.goa.error")
+	return ctx.ResponseData.Service.Send(ctx.Context, 400, r)
 }
 
 // InternalServerError sends a HTTP response with status code 500.
@@ -550,9 +502,9 @@ func (ctx *CreateSportContext) OKTiny(r *SportMediaTiny) error {
 }
 
 // BadRequest sends a HTTP response with status code 400.
-func (ctx *CreateSportContext) BadRequest() error {
-	ctx.ResponseData.WriteHeader(400)
-	return nil
+func (ctx *CreateSportContext) BadRequest(r error) error {
+	ctx.ResponseData.Header().Set("Content-Type", "application/vnd.goa.error")
+	return ctx.ResponseData.Service.Send(ctx.Context, 400, r)
 }
 
 // InternalServerError sends a HTTP response with status code 500.
@@ -601,15 +553,9 @@ func (ctx *DeleteSportContext) NoContent() error {
 }
 
 // BadRequest sends a HTTP response with status code 400.
-func (ctx *DeleteSportContext) BadRequest() error {
-	ctx.ResponseData.WriteHeader(400)
-	return nil
-}
-
-// NotFound sends a HTTP response with status code 404.
-func (ctx *DeleteSportContext) NotFound() error {
-	ctx.ResponseData.WriteHeader(404)
-	return nil
+func (ctx *DeleteSportContext) BadRequest(r error) error {
+	ctx.ResponseData.Header().Set("Content-Type", "application/vnd.goa.error")
+	return ctx.ResponseData.Service.Send(ctx.Context, 400, r)
 }
 
 // InternalServerError sends a HTTP response with status code 500.
@@ -646,15 +592,9 @@ func (ctx *ListSportContext) OK(resp []byte) error {
 }
 
 // BadRequest sends a HTTP response with status code 400.
-func (ctx *ListSportContext) BadRequest() error {
-	ctx.ResponseData.WriteHeader(400)
-	return nil
-}
-
-// NotFound sends a HTTP response with status code 404.
-func (ctx *ListSportContext) NotFound() error {
-	ctx.ResponseData.WriteHeader(404)
-	return nil
+func (ctx *ListSportContext) BadRequest(r error) error {
+	ctx.ResponseData.Header().Set("Content-Type", "application/vnd.goa.error")
+	return ctx.ResponseData.Service.Send(ctx.Context, 400, r)
 }
 
 // InternalServerError sends a HTTP response with status code 500.
@@ -701,15 +641,9 @@ func (ctx *ShowSportContext) OKTiny(r *SportMediaTiny) error {
 }
 
 // BadRequest sends a HTTP response with status code 400.
-func (ctx *ShowSportContext) BadRequest() error {
-	ctx.ResponseData.WriteHeader(400)
-	return nil
-}
-
-// NotFound sends a HTTP response with status code 404.
-func (ctx *ShowSportContext) NotFound() error {
-	ctx.ResponseData.WriteHeader(404)
-	return nil
+func (ctx *ShowSportContext) BadRequest(r error) error {
+	ctx.ResponseData.Header().Set("Content-Type", "application/vnd.goa.error")
+	return ctx.ResponseData.Service.Send(ctx.Context, 400, r)
 }
 
 // InternalServerError sends a HTTP response with status code 500.
@@ -759,15 +693,9 @@ func (ctx *UpdateSportContext) NoContent() error {
 }
 
 // BadRequest sends a HTTP response with status code 400.
-func (ctx *UpdateSportContext) BadRequest() error {
-	ctx.ResponseData.WriteHeader(400)
-	return nil
-}
-
-// NotFound sends a HTTP response with status code 404.
-func (ctx *UpdateSportContext) NotFound() error {
-	ctx.ResponseData.WriteHeader(404)
-	return nil
+func (ctx *UpdateSportContext) BadRequest(r error) error {
+	ctx.ResponseData.Header().Set("Content-Type", "application/vnd.goa.error")
+	return ctx.ResponseData.Service.Send(ctx.Context, 400, r)
 }
 
 // InternalServerError sends a HTTP response with status code 500.
@@ -803,9 +731,9 @@ func (ctx *CreateTeamContext) OKTiny(r *TeamMediaTiny) error {
 }
 
 // BadRequest sends a HTTP response with status code 400.
-func (ctx *CreateTeamContext) BadRequest() error {
-	ctx.ResponseData.WriteHeader(400)
-	return nil
+func (ctx *CreateTeamContext) BadRequest(r error) error {
+	ctx.ResponseData.Header().Set("Content-Type", "application/vnd.goa.error")
+	return ctx.ResponseData.Service.Send(ctx.Context, 400, r)
 }
 
 // InternalServerError sends a HTTP response with status code 500.
@@ -854,15 +782,9 @@ func (ctx *DeleteTeamContext) NoContent() error {
 }
 
 // BadRequest sends a HTTP response with status code 400.
-func (ctx *DeleteTeamContext) BadRequest() error {
-	ctx.ResponseData.WriteHeader(400)
-	return nil
-}
-
-// NotFound sends a HTTP response with status code 404.
-func (ctx *DeleteTeamContext) NotFound() error {
-	ctx.ResponseData.WriteHeader(404)
-	return nil
+func (ctx *DeleteTeamContext) BadRequest(r error) error {
+	ctx.ResponseData.Header().Set("Content-Type", "application/vnd.goa.error")
+	return ctx.ResponseData.Service.Send(ctx.Context, 400, r)
 }
 
 // InternalServerError sends a HTTP response with status code 500.
@@ -899,15 +821,9 @@ func (ctx *ListTeamContext) OK(resp []byte) error {
 }
 
 // BadRequest sends a HTTP response with status code 400.
-func (ctx *ListTeamContext) BadRequest() error {
-	ctx.ResponseData.WriteHeader(400)
-	return nil
-}
-
-// NotFound sends a HTTP response with status code 404.
-func (ctx *ListTeamContext) NotFound() error {
-	ctx.ResponseData.WriteHeader(404)
-	return nil
+func (ctx *ListTeamContext) BadRequest(r error) error {
+	ctx.ResponseData.Header().Set("Content-Type", "application/vnd.goa.error")
+	return ctx.ResponseData.Service.Send(ctx.Context, 400, r)
 }
 
 // InternalServerError sends a HTTP response with status code 500.
@@ -954,15 +870,9 @@ func (ctx *ShowTeamContext) OKTiny(r *TeamMediaTiny) error {
 }
 
 // BadRequest sends a HTTP response with status code 400.
-func (ctx *ShowTeamContext) BadRequest() error {
-	ctx.ResponseData.WriteHeader(400)
-	return nil
-}
-
-// NotFound sends a HTTP response with status code 404.
-func (ctx *ShowTeamContext) NotFound() error {
-	ctx.ResponseData.WriteHeader(404)
-	return nil
+func (ctx *ShowTeamContext) BadRequest(r error) error {
+	ctx.ResponseData.Header().Set("Content-Type", "application/vnd.goa.error")
+	return ctx.ResponseData.Service.Send(ctx.Context, 400, r)
 }
 
 // InternalServerError sends a HTTP response with status code 500.
@@ -1012,15 +922,9 @@ func (ctx *UpdateTeamContext) NoContent() error {
 }
 
 // BadRequest sends a HTTP response with status code 400.
-func (ctx *UpdateTeamContext) BadRequest() error {
-	ctx.ResponseData.WriteHeader(400)
-	return nil
-}
-
-// NotFound sends a HTTP response with status code 404.
-func (ctx *UpdateTeamContext) NotFound() error {
-	ctx.ResponseData.WriteHeader(404)
-	return nil
+func (ctx *UpdateTeamContext) BadRequest(r error) error {
+	ctx.ResponseData.Header().Set("Content-Type", "application/vnd.goa.error")
+	return ctx.ResponseData.Service.Send(ctx.Context, 400, r)
 }
 
 // InternalServerError sends a HTTP response with status code 500.
@@ -1056,9 +960,9 @@ func (ctx *CreateTeamOpeningConfigContext) OKTiny(r *TeamOpeningConfigMediaTiny)
 }
 
 // BadRequest sends a HTTP response with status code 400.
-func (ctx *CreateTeamOpeningConfigContext) BadRequest() error {
-	ctx.ResponseData.WriteHeader(400)
-	return nil
+func (ctx *CreateTeamOpeningConfigContext) BadRequest(r error) error {
+	ctx.ResponseData.Header().Set("Content-Type", "application/vnd.goa.error")
+	return ctx.ResponseData.Service.Send(ctx.Context, 400, r)
 }
 
 // InternalServerError sends a HTTP response with status code 500.
@@ -1107,15 +1011,9 @@ func (ctx *DeleteTeamOpeningConfigContext) NoContent() error {
 }
 
 // BadRequest sends a HTTP response with status code 400.
-func (ctx *DeleteTeamOpeningConfigContext) BadRequest() error {
-	ctx.ResponseData.WriteHeader(400)
-	return nil
-}
-
-// NotFound sends a HTTP response with status code 404.
-func (ctx *DeleteTeamOpeningConfigContext) NotFound() error {
-	ctx.ResponseData.WriteHeader(404)
-	return nil
+func (ctx *DeleteTeamOpeningConfigContext) BadRequest(r error) error {
+	ctx.ResponseData.Header().Set("Content-Type", "application/vnd.goa.error")
+	return ctx.ResponseData.Service.Send(ctx.Context, 400, r)
 }
 
 // InternalServerError sends a HTTP response with status code 500.
@@ -1152,15 +1050,9 @@ func (ctx *ListTeamOpeningConfigContext) OK(resp []byte) error {
 }
 
 // BadRequest sends a HTTP response with status code 400.
-func (ctx *ListTeamOpeningConfigContext) BadRequest() error {
-	ctx.ResponseData.WriteHeader(400)
-	return nil
-}
-
-// NotFound sends a HTTP response with status code 404.
-func (ctx *ListTeamOpeningConfigContext) NotFound() error {
-	ctx.ResponseData.WriteHeader(404)
-	return nil
+func (ctx *ListTeamOpeningConfigContext) BadRequest(r error) error {
+	ctx.ResponseData.Header().Set("Content-Type", "application/vnd.goa.error")
+	return ctx.ResponseData.Service.Send(ctx.Context, 400, r)
 }
 
 // InternalServerError sends a HTTP response with status code 500.
@@ -1207,15 +1099,9 @@ func (ctx *ShowTeamOpeningConfigContext) OKTiny(r *TeamOpeningConfigMediaTiny) e
 }
 
 // BadRequest sends a HTTP response with status code 400.
-func (ctx *ShowTeamOpeningConfigContext) BadRequest() error {
-	ctx.ResponseData.WriteHeader(400)
-	return nil
-}
-
-// NotFound sends a HTTP response with status code 404.
-func (ctx *ShowTeamOpeningConfigContext) NotFound() error {
-	ctx.ResponseData.WriteHeader(404)
-	return nil
+func (ctx *ShowTeamOpeningConfigContext) BadRequest(r error) error {
+	ctx.ResponseData.Header().Set("Content-Type", "application/vnd.goa.error")
+	return ctx.ResponseData.Service.Send(ctx.Context, 400, r)
 }
 
 // InternalServerError sends a HTTP response with status code 500.
@@ -1265,15 +1151,9 @@ func (ctx *UpdateTeamOpeningConfigContext) NoContent() error {
 }
 
 // BadRequest sends a HTTP response with status code 400.
-func (ctx *UpdateTeamOpeningConfigContext) BadRequest() error {
-	ctx.ResponseData.WriteHeader(400)
-	return nil
-}
-
-// NotFound sends a HTTP response with status code 404.
-func (ctx *UpdateTeamOpeningConfigContext) NotFound() error {
-	ctx.ResponseData.WriteHeader(404)
-	return nil
+func (ctx *UpdateTeamOpeningConfigContext) BadRequest(r error) error {
+	ctx.ResponseData.Header().Set("Content-Type", "application/vnd.goa.error")
+	return ctx.ResponseData.Service.Send(ctx.Context, 400, r)
 }
 
 // InternalServerError sends a HTTP response with status code 500.

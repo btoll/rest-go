@@ -26,10 +26,10 @@ import (
 )
 
 // CreateGameBadRequest runs the method Create of the given controller with the given parameters and payload.
-// It returns the response writer so it's possible to inspect the response headers.
+// It returns the response writer so it's possible to inspect the response headers and the media type struct written to the response.
 // If ctx is nil then context.Background() is used.
 // If service is nil then a default service is created.
-func CreateGameBadRequest(t goatest.TInterface, ctx context.Context, service *goa.Service, ctrl app.GameController, payload *app.GamePayload) http.ResponseWriter {
+func CreateGameBadRequest(t goatest.TInterface, ctx context.Context, service *goa.Service, ctrl app.GameController, payload *app.GamePayload) (http.ResponseWriter, error) {
 	// Setup service
 	var (
 		logBuf bytes.Buffer
@@ -54,8 +54,7 @@ func CreateGameBadRequest(t goatest.TInterface, ctx context.Context, service *go
 		if !ok {
 			panic(err) // bug
 		}
-		t.Errorf("unexpected payload validation error: %+v", e)
-		return nil
+		return nil, e
 	}
 
 	// Setup request context
@@ -88,9 +87,17 @@ func CreateGameBadRequest(t goatest.TInterface, ctx context.Context, service *go
 	if rw.Code != 400 {
 		t.Errorf("invalid response status code: got %+v, expected 400", rw.Code)
 	}
+	var mt error
+	if resp != nil {
+		var _ok bool
+		mt, _ok = resp.(error)
+		if !_ok {
+			t.Fatalf("invalid response media: got variable of type %T, value %+v, expected instance of error", resp, resp)
+		}
+	}
 
 	// Return results
-	return rw
+	return rw, mt
 }
 
 // CreateGameInternalServerError runs the method Create of the given controller with the given parameters and payload.
@@ -329,10 +336,10 @@ func CreateGameOKTiny(t goatest.TInterface, ctx context.Context, service *goa.Se
 }
 
 // DeleteGameBadRequest runs the method Delete of the given controller with the given parameters.
-// It returns the response writer so it's possible to inspect the response headers.
+// It returns the response writer so it's possible to inspect the response headers and the media type struct written to the response.
 // If ctx is nil then context.Background() is used.
 // If service is nil then a default service is created.
-func DeleteGameBadRequest(t goatest.TInterface, ctx context.Context, service *goa.Service, ctrl app.GameController, id string) http.ResponseWriter {
+func DeleteGameBadRequest(t goatest.TInterface, ctx context.Context, service *goa.Service, ctrl app.GameController, id string) (http.ResponseWriter, error) {
 	// Setup service
 	var (
 		logBuf bytes.Buffer
@@ -380,9 +387,17 @@ func DeleteGameBadRequest(t goatest.TInterface, ctx context.Context, service *go
 	if rw.Code != 400 {
 		t.Errorf("invalid response status code: got %+v, expected 400", rw.Code)
 	}
+	var mt error
+	if resp != nil {
+		var ok bool
+		mt, ok = resp.(error)
+		if !ok {
+			t.Fatalf("invalid response media: got variable of type %T, value %+v, expected instance of error", resp, resp)
+		}
+	}
 
 	// Return results
-	return rw
+	return rw, mt
 }
 
 // DeleteGameInternalServerError runs the method Delete of the given controller with the given parameters.
@@ -507,63 +522,6 @@ func DeleteGameNoContent(t goatest.TInterface, ctx context.Context, service *goa
 	return rw
 }
 
-// DeleteGameNotFound runs the method Delete of the given controller with the given parameters.
-// It returns the response writer so it's possible to inspect the response headers.
-// If ctx is nil then context.Background() is used.
-// If service is nil then a default service is created.
-func DeleteGameNotFound(t goatest.TInterface, ctx context.Context, service *goa.Service, ctrl app.GameController, id string) http.ResponseWriter {
-	// Setup service
-	var (
-		logBuf bytes.Buffer
-		resp   interface{}
-
-		respSetter goatest.ResponseSetterFunc = func(r interface{}) { resp = r }
-	)
-	if service == nil {
-		service = goatest.Service(&logBuf, respSetter)
-	} else {
-		logger := log.New(&logBuf, "", log.Ltime)
-		service.WithLogger(goa.NewLogger(logger))
-		newEncoder := func(io.Writer) goa.Encoder { return respSetter }
-		service.Encoder = goa.NewHTTPEncoder() // Make sure the code ends up using this decoder
-		service.Encoder.Register(newEncoder, "*/*")
-	}
-
-	// Setup request context
-	rw := httptest.NewRecorder()
-	u := &url.URL{
-		Path: fmt.Sprintf("/nmg/game/%v", id),
-	}
-	req, err := http.NewRequest("DELETE", u.String(), nil)
-	if err != nil {
-		panic("invalid test " + err.Error()) // bug
-	}
-	prms := url.Values{}
-	prms["id"] = []string{fmt.Sprintf("%v", id)}
-	if ctx == nil {
-		ctx = context.Background()
-	}
-	goaCtx := goa.NewContext(goa.WithAction(ctx, "GameTest"), rw, req, prms)
-	deleteCtx, _err := app.NewDeleteGameContext(goaCtx, req, service)
-	if _err != nil {
-		panic("invalid test data " + _err.Error()) // bug
-	}
-
-	// Perform action
-	_err = ctrl.Delete(deleteCtx)
-
-	// Validate response
-	if _err != nil {
-		t.Fatalf("controller returned %+v, logs:\n%s", _err, logBuf.String())
-	}
-	if rw.Code != 404 {
-		t.Errorf("invalid response status code: got %+v, expected 404", rw.Code)
-	}
-
-	// Return results
-	return rw
-}
-
 // DeleteGameOK runs the method Delete of the given controller with the given parameters.
 // It returns the response writer so it's possible to inspect the response headers.
 // If ctx is nil then context.Background() is used.
@@ -622,10 +580,10 @@ func DeleteGameOK(t goatest.TInterface, ctx context.Context, service *goa.Servic
 }
 
 // ListGameBadRequest runs the method List of the given controller with the given parameters.
-// It returns the response writer so it's possible to inspect the response headers.
+// It returns the response writer so it's possible to inspect the response headers and the media type struct written to the response.
 // If ctx is nil then context.Background() is used.
 // If service is nil then a default service is created.
-func ListGameBadRequest(t goatest.TInterface, ctx context.Context, service *goa.Service, ctrl app.GameController) http.ResponseWriter {
+func ListGameBadRequest(t goatest.TInterface, ctx context.Context, service *goa.Service, ctrl app.GameController) (http.ResponseWriter, error) {
 	// Setup service
 	var (
 		logBuf bytes.Buffer
@@ -672,9 +630,17 @@ func ListGameBadRequest(t goatest.TInterface, ctx context.Context, service *goa.
 	if rw.Code != 400 {
 		t.Errorf("invalid response status code: got %+v, expected 400", rw.Code)
 	}
+	var mt error
+	if resp != nil {
+		var ok bool
+		mt, ok = resp.(error)
+		if !ok {
+			t.Fatalf("invalid response media: got variable of type %T, value %+v, expected instance of error", resp, resp)
+		}
+	}
 
 	// Return results
-	return rw
+	return rw, mt
 }
 
 // ListGameInternalServerError runs the method List of the given controller with the given parameters.
@@ -741,62 +707,6 @@ func ListGameInternalServerError(t goatest.TInterface, ctx context.Context, serv
 	return rw, mt
 }
 
-// ListGameNotFound runs the method List of the given controller with the given parameters.
-// It returns the response writer so it's possible to inspect the response headers.
-// If ctx is nil then context.Background() is used.
-// If service is nil then a default service is created.
-func ListGameNotFound(t goatest.TInterface, ctx context.Context, service *goa.Service, ctrl app.GameController) http.ResponseWriter {
-	// Setup service
-	var (
-		logBuf bytes.Buffer
-		resp   interface{}
-
-		respSetter goatest.ResponseSetterFunc = func(r interface{}) { resp = r }
-	)
-	if service == nil {
-		service = goatest.Service(&logBuf, respSetter)
-	} else {
-		logger := log.New(&logBuf, "", log.Ltime)
-		service.WithLogger(goa.NewLogger(logger))
-		newEncoder := func(io.Writer) goa.Encoder { return respSetter }
-		service.Encoder = goa.NewHTTPEncoder() // Make sure the code ends up using this decoder
-		service.Encoder.Register(newEncoder, "*/*")
-	}
-
-	// Setup request context
-	rw := httptest.NewRecorder()
-	u := &url.URL{
-		Path: fmt.Sprintf("/nmg/game/list"),
-	}
-	req, err := http.NewRequest("GET", u.String(), nil)
-	if err != nil {
-		panic("invalid test " + err.Error()) // bug
-	}
-	prms := url.Values{}
-	if ctx == nil {
-		ctx = context.Background()
-	}
-	goaCtx := goa.NewContext(goa.WithAction(ctx, "GameTest"), rw, req, prms)
-	listCtx, _err := app.NewListGameContext(goaCtx, req, service)
-	if _err != nil {
-		panic("invalid test data " + _err.Error()) // bug
-	}
-
-	// Perform action
-	_err = ctrl.List(listCtx)
-
-	// Validate response
-	if _err != nil {
-		t.Fatalf("controller returned %+v, logs:\n%s", _err, logBuf.String())
-	}
-	if rw.Code != 404 {
-		t.Errorf("invalid response status code: got %+v, expected 404", rw.Code)
-	}
-
-	// Return results
-	return rw
-}
-
 // ListGameOK runs the method List of the given controller with the given parameters.
 // It returns the response writer so it's possible to inspect the response headers.
 // If ctx is nil then context.Background() is used.
@@ -854,10 +764,10 @@ func ListGameOK(t goatest.TInterface, ctx context.Context, service *goa.Service,
 }
 
 // ShowGameBadRequest runs the method Show of the given controller with the given parameters.
-// It returns the response writer so it's possible to inspect the response headers.
+// It returns the response writer so it's possible to inspect the response headers and the media type struct written to the response.
 // If ctx is nil then context.Background() is used.
 // If service is nil then a default service is created.
-func ShowGameBadRequest(t goatest.TInterface, ctx context.Context, service *goa.Service, ctrl app.GameController, id string) http.ResponseWriter {
+func ShowGameBadRequest(t goatest.TInterface, ctx context.Context, service *goa.Service, ctrl app.GameController, id string) (http.ResponseWriter, error) {
 	// Setup service
 	var (
 		logBuf bytes.Buffer
@@ -905,9 +815,17 @@ func ShowGameBadRequest(t goatest.TInterface, ctx context.Context, service *goa.
 	if rw.Code != 400 {
 		t.Errorf("invalid response status code: got %+v, expected 400", rw.Code)
 	}
+	var mt error
+	if resp != nil {
+		var ok bool
+		mt, ok = resp.(error)
+		if !ok {
+			t.Fatalf("invalid response media: got variable of type %T, value %+v, expected instance of error", resp, resp)
+		}
+	}
 
 	// Return results
-	return rw
+	return rw, mt
 }
 
 // ShowGameInternalServerError runs the method Show of the given controller with the given parameters.
@@ -973,63 +891,6 @@ func ShowGameInternalServerError(t goatest.TInterface, ctx context.Context, serv
 
 	// Return results
 	return rw, mt
-}
-
-// ShowGameNotFound runs the method Show of the given controller with the given parameters.
-// It returns the response writer so it's possible to inspect the response headers.
-// If ctx is nil then context.Background() is used.
-// If service is nil then a default service is created.
-func ShowGameNotFound(t goatest.TInterface, ctx context.Context, service *goa.Service, ctrl app.GameController, id string) http.ResponseWriter {
-	// Setup service
-	var (
-		logBuf bytes.Buffer
-		resp   interface{}
-
-		respSetter goatest.ResponseSetterFunc = func(r interface{}) { resp = r }
-	)
-	if service == nil {
-		service = goatest.Service(&logBuf, respSetter)
-	} else {
-		logger := log.New(&logBuf, "", log.Ltime)
-		service.WithLogger(goa.NewLogger(logger))
-		newEncoder := func(io.Writer) goa.Encoder { return respSetter }
-		service.Encoder = goa.NewHTTPEncoder() // Make sure the code ends up using this decoder
-		service.Encoder.Register(newEncoder, "*/*")
-	}
-
-	// Setup request context
-	rw := httptest.NewRecorder()
-	u := &url.URL{
-		Path: fmt.Sprintf("/nmg/game/%v", id),
-	}
-	req, err := http.NewRequest("GET", u.String(), nil)
-	if err != nil {
-		panic("invalid test " + err.Error()) // bug
-	}
-	prms := url.Values{}
-	prms["id"] = []string{fmt.Sprintf("%v", id)}
-	if ctx == nil {
-		ctx = context.Background()
-	}
-	goaCtx := goa.NewContext(goa.WithAction(ctx, "GameTest"), rw, req, prms)
-	showCtx, _err := app.NewShowGameContext(goaCtx, req, service)
-	if _err != nil {
-		panic("invalid test data " + _err.Error()) // bug
-	}
-
-	// Perform action
-	_err = ctrl.Show(showCtx)
-
-	// Validate response
-	if _err != nil {
-		t.Fatalf("controller returned %+v, logs:\n%s", _err, logBuf.String())
-	}
-	if rw.Code != 404 {
-		t.Errorf("invalid response status code: got %+v, expected 404", rw.Code)
-	}
-
-	// Return results
-	return rw
 }
 
 // ShowGameOK runs the method Show of the given controller with the given parameters.
@@ -1171,10 +1032,10 @@ func ShowGameOKTiny(t goatest.TInterface, ctx context.Context, service *goa.Serv
 }
 
 // UpdateGameBadRequest runs the method Update of the given controller with the given parameters and payload.
-// It returns the response writer so it's possible to inspect the response headers.
+// It returns the response writer so it's possible to inspect the response headers and the media type struct written to the response.
 // If ctx is nil then context.Background() is used.
 // If service is nil then a default service is created.
-func UpdateGameBadRequest(t goatest.TInterface, ctx context.Context, service *goa.Service, ctrl app.GameController, id string, payload *app.GamePayload) http.ResponseWriter {
+func UpdateGameBadRequest(t goatest.TInterface, ctx context.Context, service *goa.Service, ctrl app.GameController, id string, payload *app.GamePayload) (http.ResponseWriter, error) {
 	// Setup service
 	var (
 		logBuf bytes.Buffer
@@ -1199,8 +1060,7 @@ func UpdateGameBadRequest(t goatest.TInterface, ctx context.Context, service *go
 		if !ok {
 			panic(err) // bug
 		}
-		t.Errorf("unexpected payload validation error: %+v", e)
-		return nil
+		return nil, e
 	}
 
 	// Setup request context
@@ -1234,9 +1094,17 @@ func UpdateGameBadRequest(t goatest.TInterface, ctx context.Context, service *go
 	if rw.Code != 400 {
 		t.Errorf("invalid response status code: got %+v, expected 400", rw.Code)
 	}
+	var mt error
+	if resp != nil {
+		var _ok bool
+		mt, _ok = resp.(error)
+		if !_ok {
+			t.Fatalf("invalid response media: got variable of type %T, value %+v, expected instance of error", resp, resp)
+		}
+	}
 
 	// Return results
-	return rw
+	return rw, mt
 }
 
 // UpdateGameInternalServerError runs the method Update of the given controller with the given parameters and payload.
@@ -1378,75 +1246,6 @@ func UpdateGameNoContent(t goatest.TInterface, ctx context.Context, service *goa
 	}
 	if rw.Code != 204 {
 		t.Errorf("invalid response status code: got %+v, expected 204", rw.Code)
-	}
-
-	// Return results
-	return rw
-}
-
-// UpdateGameNotFound runs the method Update of the given controller with the given parameters and payload.
-// It returns the response writer so it's possible to inspect the response headers.
-// If ctx is nil then context.Background() is used.
-// If service is nil then a default service is created.
-func UpdateGameNotFound(t goatest.TInterface, ctx context.Context, service *goa.Service, ctrl app.GameController, id string, payload *app.GamePayload) http.ResponseWriter {
-	// Setup service
-	var (
-		logBuf bytes.Buffer
-		resp   interface{}
-
-		respSetter goatest.ResponseSetterFunc = func(r interface{}) { resp = r }
-	)
-	if service == nil {
-		service = goatest.Service(&logBuf, respSetter)
-	} else {
-		logger := log.New(&logBuf, "", log.Ltime)
-		service.WithLogger(goa.NewLogger(logger))
-		newEncoder := func(io.Writer) goa.Encoder { return respSetter }
-		service.Encoder = goa.NewHTTPEncoder() // Make sure the code ends up using this decoder
-		service.Encoder.Register(newEncoder, "*/*")
-	}
-
-	// Validate payload
-	err := payload.Validate()
-	if err != nil {
-		e, ok := err.(goa.ServiceError)
-		if !ok {
-			panic(err) // bug
-		}
-		t.Errorf("unexpected payload validation error: %+v", e)
-		return nil
-	}
-
-	// Setup request context
-	rw := httptest.NewRecorder()
-	u := &url.URL{
-		Path: fmt.Sprintf("/nmg/game/%v", id),
-	}
-	req, _err := http.NewRequest("PUT", u.String(), nil)
-	if _err != nil {
-		panic("invalid test " + _err.Error()) // bug
-	}
-	prms := url.Values{}
-	prms["id"] = []string{fmt.Sprintf("%v", id)}
-	if ctx == nil {
-		ctx = context.Background()
-	}
-	goaCtx := goa.NewContext(goa.WithAction(ctx, "GameTest"), rw, req, prms)
-	updateCtx, __err := app.NewUpdateGameContext(goaCtx, req, service)
-	if __err != nil {
-		panic("invalid test data " + __err.Error()) // bug
-	}
-	updateCtx.Payload = payload
-
-	// Perform action
-	__err = ctrl.Update(updateCtx)
-
-	// Validate response
-	if __err != nil {
-		t.Fatalf("controller returned %+v, logs:\n%s", __err, logBuf.String())
-	}
-	if rw.Code != 404 {
-		t.Errorf("invalid response status code: got %+v, expected 404", rw.Code)
 	}
 
 	// Return results

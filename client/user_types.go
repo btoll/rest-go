@@ -528,8 +528,6 @@ type teamPayload struct {
 	HomeTownID *string `datastore:"homeTownId,noindex" json:"homeTownId,omitempty"`
 	// Team Icon
 	IconName *string `datastore:"iconName,noindex" json:"iconName,omitempty"`
-	// GAE key
-	ID *string `datastore:"id" json:"id,omitempty"`
 	// Team name
 	Name *string `datastore:"name,noindex" json:"name,omitempty"`
 	// Team Nickname
@@ -579,9 +577,6 @@ func (ut *teamPayload) Publicize() *TeamPayload {
 	if ut.IconName != nil {
 		pub.IconName = *ut.IconName
 	}
-	if ut.ID != nil {
-		pub.ID = ut.ID
-	}
 	if ut.Name != nil {
 		pub.Name = *ut.Name
 	}
@@ -604,8 +599,6 @@ type TeamPayload struct {
 	HomeTownID string `datastore:"homeTownId,noindex" json:"homeTownId,omitempty"`
 	// Team Icon
 	IconName string `datastore:"iconName,noindex" json:"iconName,omitempty"`
-	// GAE key
-	ID *string `datastore:"id" json:"id,omitempty"`
 	// Team name
 	Name string `datastore:"name,noindex" json:"name,omitempty"`
 	// Team Nickname

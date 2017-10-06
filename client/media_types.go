@@ -308,7 +308,7 @@ func (mt *TeamMedia) Validate() (err error) {
 // Identifier: application/nmgapi.teamentity; view=tiny
 type TeamMediaTiny struct {
 	// ID
-	ID string `datastore:"id" json:"id,omitempty"`
+	ID string `form:"id" json:"id" xml:"id"`
 }
 
 // Validate validates the TeamMediaTiny media type instance.

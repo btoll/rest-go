@@ -26,10 +26,10 @@ import (
 )
 
 // CreateSportBadRequest runs the method Create of the given controller with the given parameters and payload.
-// It returns the response writer so it's possible to inspect the response headers.
+// It returns the response writer so it's possible to inspect the response headers and the media type struct written to the response.
 // If ctx is nil then context.Background() is used.
 // If service is nil then a default service is created.
-func CreateSportBadRequest(t goatest.TInterface, ctx context.Context, service *goa.Service, ctrl app.SportController, payload *app.SportPayload) http.ResponseWriter {
+func CreateSportBadRequest(t goatest.TInterface, ctx context.Context, service *goa.Service, ctrl app.SportController, payload *app.SportPayload) (http.ResponseWriter, error) {
 	// Setup service
 	var (
 		logBuf bytes.Buffer
@@ -54,8 +54,7 @@ func CreateSportBadRequest(t goatest.TInterface, ctx context.Context, service *g
 		if !ok {
 			panic(err) // bug
 		}
-		t.Errorf("unexpected payload validation error: %+v", e)
-		return nil
+		return nil, e
 	}
 
 	// Setup request context
@@ -88,9 +87,17 @@ func CreateSportBadRequest(t goatest.TInterface, ctx context.Context, service *g
 	if rw.Code != 400 {
 		t.Errorf("invalid response status code: got %+v, expected 400", rw.Code)
 	}
+	var mt error
+	if resp != nil {
+		var _ok bool
+		mt, _ok = resp.(error)
+		if !_ok {
+			t.Fatalf("invalid response media: got variable of type %T, value %+v, expected instance of error", resp, resp)
+		}
+	}
 
 	// Return results
-	return rw
+	return rw, mt
 }
 
 // CreateSportInternalServerError runs the method Create of the given controller with the given parameters and payload.
@@ -329,10 +336,10 @@ func CreateSportOKTiny(t goatest.TInterface, ctx context.Context, service *goa.S
 }
 
 // DeleteSportBadRequest runs the method Delete of the given controller with the given parameters.
-// It returns the response writer so it's possible to inspect the response headers.
+// It returns the response writer so it's possible to inspect the response headers and the media type struct written to the response.
 // If ctx is nil then context.Background() is used.
 // If service is nil then a default service is created.
-func DeleteSportBadRequest(t goatest.TInterface, ctx context.Context, service *goa.Service, ctrl app.SportController, id string) http.ResponseWriter {
+func DeleteSportBadRequest(t goatest.TInterface, ctx context.Context, service *goa.Service, ctrl app.SportController, id string) (http.ResponseWriter, error) {
 	// Setup service
 	var (
 		logBuf bytes.Buffer
@@ -380,9 +387,17 @@ func DeleteSportBadRequest(t goatest.TInterface, ctx context.Context, service *g
 	if rw.Code != 400 {
 		t.Errorf("invalid response status code: got %+v, expected 400", rw.Code)
 	}
+	var mt error
+	if resp != nil {
+		var ok bool
+		mt, ok = resp.(error)
+		if !ok {
+			t.Fatalf("invalid response media: got variable of type %T, value %+v, expected instance of error", resp, resp)
+		}
+	}
 
 	// Return results
-	return rw
+	return rw, mt
 }
 
 // DeleteSportInternalServerError runs the method Delete of the given controller with the given parameters.
@@ -507,63 +522,6 @@ func DeleteSportNoContent(t goatest.TInterface, ctx context.Context, service *go
 	return rw
 }
 
-// DeleteSportNotFound runs the method Delete of the given controller with the given parameters.
-// It returns the response writer so it's possible to inspect the response headers.
-// If ctx is nil then context.Background() is used.
-// If service is nil then a default service is created.
-func DeleteSportNotFound(t goatest.TInterface, ctx context.Context, service *goa.Service, ctrl app.SportController, id string) http.ResponseWriter {
-	// Setup service
-	var (
-		logBuf bytes.Buffer
-		resp   interface{}
-
-		respSetter goatest.ResponseSetterFunc = func(r interface{}) { resp = r }
-	)
-	if service == nil {
-		service = goatest.Service(&logBuf, respSetter)
-	} else {
-		logger := log.New(&logBuf, "", log.Ltime)
-		service.WithLogger(goa.NewLogger(logger))
-		newEncoder := func(io.Writer) goa.Encoder { return respSetter }
-		service.Encoder = goa.NewHTTPEncoder() // Make sure the code ends up using this decoder
-		service.Encoder.Register(newEncoder, "*/*")
-	}
-
-	// Setup request context
-	rw := httptest.NewRecorder()
-	u := &url.URL{
-		Path: fmt.Sprintf("/nmg/sport/%v", id),
-	}
-	req, err := http.NewRequest("DELETE", u.String(), nil)
-	if err != nil {
-		panic("invalid test " + err.Error()) // bug
-	}
-	prms := url.Values{}
-	prms["id"] = []string{fmt.Sprintf("%v", id)}
-	if ctx == nil {
-		ctx = context.Background()
-	}
-	goaCtx := goa.NewContext(goa.WithAction(ctx, "SportTest"), rw, req, prms)
-	deleteCtx, _err := app.NewDeleteSportContext(goaCtx, req, service)
-	if _err != nil {
-		panic("invalid test data " + _err.Error()) // bug
-	}
-
-	// Perform action
-	_err = ctrl.Delete(deleteCtx)
-
-	// Validate response
-	if _err != nil {
-		t.Fatalf("controller returned %+v, logs:\n%s", _err, logBuf.String())
-	}
-	if rw.Code != 404 {
-		t.Errorf("invalid response status code: got %+v, expected 404", rw.Code)
-	}
-
-	// Return results
-	return rw
-}
-
 // DeleteSportOK runs the method Delete of the given controller with the given parameters.
 // It returns the response writer so it's possible to inspect the response headers.
 // If ctx is nil then context.Background() is used.
@@ -622,10 +580,10 @@ func DeleteSportOK(t goatest.TInterface, ctx context.Context, service *goa.Servi
 }
 
 // ListSportBadRequest runs the method List of the given controller with the given parameters.
-// It returns the response writer so it's possible to inspect the response headers.
+// It returns the response writer so it's possible to inspect the response headers and the media type struct written to the response.
 // If ctx is nil then context.Background() is used.
 // If service is nil then a default service is created.
-func ListSportBadRequest(t goatest.TInterface, ctx context.Context, service *goa.Service, ctrl app.SportController) http.ResponseWriter {
+func ListSportBadRequest(t goatest.TInterface, ctx context.Context, service *goa.Service, ctrl app.SportController) (http.ResponseWriter, error) {
 	// Setup service
 	var (
 		logBuf bytes.Buffer
@@ -672,9 +630,17 @@ func ListSportBadRequest(t goatest.TInterface, ctx context.Context, service *goa
 	if rw.Code != 400 {
 		t.Errorf("invalid response status code: got %+v, expected 400", rw.Code)
 	}
+	var mt error
+	if resp != nil {
+		var ok bool
+		mt, ok = resp.(error)
+		if !ok {
+			t.Fatalf("invalid response media: got variable of type %T, value %+v, expected instance of error", resp, resp)
+		}
+	}
 
 	// Return results
-	return rw
+	return rw, mt
 }
 
 // ListSportInternalServerError runs the method List of the given controller with the given parameters.
@@ -741,62 +707,6 @@ func ListSportInternalServerError(t goatest.TInterface, ctx context.Context, ser
 	return rw, mt
 }
 
-// ListSportNotFound runs the method List of the given controller with the given parameters.
-// It returns the response writer so it's possible to inspect the response headers.
-// If ctx is nil then context.Background() is used.
-// If service is nil then a default service is created.
-func ListSportNotFound(t goatest.TInterface, ctx context.Context, service *goa.Service, ctrl app.SportController) http.ResponseWriter {
-	// Setup service
-	var (
-		logBuf bytes.Buffer
-		resp   interface{}
-
-		respSetter goatest.ResponseSetterFunc = func(r interface{}) { resp = r }
-	)
-	if service == nil {
-		service = goatest.Service(&logBuf, respSetter)
-	} else {
-		logger := log.New(&logBuf, "", log.Ltime)
-		service.WithLogger(goa.NewLogger(logger))
-		newEncoder := func(io.Writer) goa.Encoder { return respSetter }
-		service.Encoder = goa.NewHTTPEncoder() // Make sure the code ends up using this decoder
-		service.Encoder.Register(newEncoder, "*/*")
-	}
-
-	// Setup request context
-	rw := httptest.NewRecorder()
-	u := &url.URL{
-		Path: fmt.Sprintf("/nmg/sport/list"),
-	}
-	req, err := http.NewRequest("GET", u.String(), nil)
-	if err != nil {
-		panic("invalid test " + err.Error()) // bug
-	}
-	prms := url.Values{}
-	if ctx == nil {
-		ctx = context.Background()
-	}
-	goaCtx := goa.NewContext(goa.WithAction(ctx, "SportTest"), rw, req, prms)
-	listCtx, _err := app.NewListSportContext(goaCtx, req, service)
-	if _err != nil {
-		panic("invalid test data " + _err.Error()) // bug
-	}
-
-	// Perform action
-	_err = ctrl.List(listCtx)
-
-	// Validate response
-	if _err != nil {
-		t.Fatalf("controller returned %+v, logs:\n%s", _err, logBuf.String())
-	}
-	if rw.Code != 404 {
-		t.Errorf("invalid response status code: got %+v, expected 404", rw.Code)
-	}
-
-	// Return results
-	return rw
-}
-
 // ListSportOK runs the method List of the given controller with the given parameters.
 // It returns the response writer so it's possible to inspect the response headers.
 // If ctx is nil then context.Background() is used.
@@ -854,10 +764,10 @@ func ListSportOK(t goatest.TInterface, ctx context.Context, service *goa.Service
 }
 
 // ShowSportBadRequest runs the method Show of the given controller with the given parameters.
-// It returns the response writer so it's possible to inspect the response headers.
+// It returns the response writer so it's possible to inspect the response headers and the media type struct written to the response.
 // If ctx is nil then context.Background() is used.
 // If service is nil then a default service is created.
-func ShowSportBadRequest(t goatest.TInterface, ctx context.Context, service *goa.Service, ctrl app.SportController, id string) http.ResponseWriter {
+func ShowSportBadRequest(t goatest.TInterface, ctx context.Context, service *goa.Service, ctrl app.SportController, id string) (http.ResponseWriter, error) {
 	// Setup service
 	var (
 		logBuf bytes.Buffer
@@ -905,9 +815,17 @@ func ShowSportBadRequest(t goatest.TInterface, ctx context.Context, service *goa
 	if rw.Code != 400 {
 		t.Errorf("invalid response status code: got %+v, expected 400", rw.Code)
 	}
+	var mt error
+	if resp != nil {
+		var ok bool
+		mt, ok = resp.(error)
+		if !ok {
+			t.Fatalf("invalid response media: got variable of type %T, value %+v, expected instance of error", resp, resp)
+		}
+	}
 
 	// Return results
-	return rw
+	return rw, mt
 }
 
 // ShowSportInternalServerError runs the method Show of the given controller with the given parameters.
@@ -973,63 +891,6 @@ func ShowSportInternalServerError(t goatest.TInterface, ctx context.Context, ser
 
 	// Return results
 	return rw, mt
-}
-
-// ShowSportNotFound runs the method Show of the given controller with the given parameters.
-// It returns the response writer so it's possible to inspect the response headers.
-// If ctx is nil then context.Background() is used.
-// If service is nil then a default service is created.
-func ShowSportNotFound(t goatest.TInterface, ctx context.Context, service *goa.Service, ctrl app.SportController, id string) http.ResponseWriter {
-	// Setup service
-	var (
-		logBuf bytes.Buffer
-		resp   interface{}
-
-		respSetter goatest.ResponseSetterFunc = func(r interface{}) { resp = r }
-	)
-	if service == nil {
-		service = goatest.Service(&logBuf, respSetter)
-	} else {
-		logger := log.New(&logBuf, "", log.Ltime)
-		service.WithLogger(goa.NewLogger(logger))
-		newEncoder := func(io.Writer) goa.Encoder { return respSetter }
-		service.Encoder = goa.NewHTTPEncoder() // Make sure the code ends up using this decoder
-		service.Encoder.Register(newEncoder, "*/*")
-	}
-
-	// Setup request context
-	rw := httptest.NewRecorder()
-	u := &url.URL{
-		Path: fmt.Sprintf("/nmg/sport/%v", id),
-	}
-	req, err := http.NewRequest("GET", u.String(), nil)
-	if err != nil {
-		panic("invalid test " + err.Error()) // bug
-	}
-	prms := url.Values{}
-	prms["id"] = []string{fmt.Sprintf("%v", id)}
-	if ctx == nil {
-		ctx = context.Background()
-	}
-	goaCtx := goa.NewContext(goa.WithAction(ctx, "SportTest"), rw, req, prms)
-	showCtx, _err := app.NewShowSportContext(goaCtx, req, service)
-	if _err != nil {
-		panic("invalid test data " + _err.Error()) // bug
-	}
-
-	// Perform action
-	_err = ctrl.Show(showCtx)
-
-	// Validate response
-	if _err != nil {
-		t.Fatalf("controller returned %+v, logs:\n%s", _err, logBuf.String())
-	}
-	if rw.Code != 404 {
-		t.Errorf("invalid response status code: got %+v, expected 404", rw.Code)
-	}
-
-	// Return results
-	return rw
 }
 
 // ShowSportOK runs the method Show of the given controller with the given parameters.
@@ -1171,10 +1032,10 @@ func ShowSportOKTiny(t goatest.TInterface, ctx context.Context, service *goa.Ser
 }
 
 // UpdateSportBadRequest runs the method Update of the given controller with the given parameters and payload.
-// It returns the response writer so it's possible to inspect the response headers.
+// It returns the response writer so it's possible to inspect the response headers and the media type struct written to the response.
 // If ctx is nil then context.Background() is used.
 // If service is nil then a default service is created.
-func UpdateSportBadRequest(t goatest.TInterface, ctx context.Context, service *goa.Service, ctrl app.SportController, id string, payload *app.SportPayload) http.ResponseWriter {
+func UpdateSportBadRequest(t goatest.TInterface, ctx context.Context, service *goa.Service, ctrl app.SportController, id string, payload *app.SportPayload) (http.ResponseWriter, error) {
 	// Setup service
 	var (
 		logBuf bytes.Buffer
@@ -1199,8 +1060,7 @@ func UpdateSportBadRequest(t goatest.TInterface, ctx context.Context, service *g
 		if !ok {
 			panic(err) // bug
 		}
-		t.Errorf("unexpected payload validation error: %+v", e)
-		return nil
+		return nil, e
 	}
 
 	// Setup request context
@@ -1234,9 +1094,17 @@ func UpdateSportBadRequest(t goatest.TInterface, ctx context.Context, service *g
 	if rw.Code != 400 {
 		t.Errorf("invalid response status code: got %+v, expected 400", rw.Code)
 	}
+	var mt error
+	if resp != nil {
+		var _ok bool
+		mt, _ok = resp.(error)
+		if !_ok {
+			t.Fatalf("invalid response media: got variable of type %T, value %+v, expected instance of error", resp, resp)
+		}
+	}
 
 	// Return results
-	return rw
+	return rw, mt
 }
 
 // UpdateSportInternalServerError runs the method Update of the given controller with the given parameters and payload.
@@ -1378,75 +1246,6 @@ func UpdateSportNoContent(t goatest.TInterface, ctx context.Context, service *go
 	}
 	if rw.Code != 204 {
 		t.Errorf("invalid response status code: got %+v, expected 204", rw.Code)
-	}
-
-	// Return results
-	return rw
-}
-
-// UpdateSportNotFound runs the method Update of the given controller with the given parameters and payload.
-// It returns the response writer so it's possible to inspect the response headers.
-// If ctx is nil then context.Background() is used.
-// If service is nil then a default service is created.
-func UpdateSportNotFound(t goatest.TInterface, ctx context.Context, service *goa.Service, ctrl app.SportController, id string, payload *app.SportPayload) http.ResponseWriter {
-	// Setup service
-	var (
-		logBuf bytes.Buffer
-		resp   interface{}
-
-		respSetter goatest.ResponseSetterFunc = func(r interface{}) { resp = r }
-	)
-	if service == nil {
-		service = goatest.Service(&logBuf, respSetter)
-	} else {
-		logger := log.New(&logBuf, "", log.Ltime)
-		service.WithLogger(goa.NewLogger(logger))
-		newEncoder := func(io.Writer) goa.Encoder { return respSetter }
-		service.Encoder = goa.NewHTTPEncoder() // Make sure the code ends up using this decoder
-		service.Encoder.Register(newEncoder, "*/*")
-	}
-
-	// Validate payload
-	err := payload.Validate()
-	if err != nil {
-		e, ok := err.(goa.ServiceError)
-		if !ok {
-			panic(err) // bug
-		}
-		t.Errorf("unexpected payload validation error: %+v", e)
-		return nil
-	}
-
-	// Setup request context
-	rw := httptest.NewRecorder()
-	u := &url.URL{
-		Path: fmt.Sprintf("/nmg/sport/%v", id),
-	}
-	req, _err := http.NewRequest("PUT", u.String(), nil)
-	if _err != nil {
-		panic("invalid test " + _err.Error()) // bug
-	}
-	prms := url.Values{}
-	prms["id"] = []string{fmt.Sprintf("%v", id)}
-	if ctx == nil {
-		ctx = context.Background()
-	}
-	goaCtx := goa.NewContext(goa.WithAction(ctx, "SportTest"), rw, req, prms)
-	updateCtx, __err := app.NewUpdateSportContext(goaCtx, req, service)
-	if __err != nil {
-		panic("invalid test data " + __err.Error()) // bug
-	}
-	updateCtx.Payload = payload
-
-	// Perform action
-	__err = ctrl.Update(updateCtx)
-
-	// Validate response
-	if __err != nil {
-		t.Fatalf("controller returned %+v, logs:\n%s", __err, logBuf.String())
-	}
-	if rw.Code != 404 {
-		t.Errorf("invalid response status code: got %+v, expected 404", rw.Code)
 	}
 
 	// Return results

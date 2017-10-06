@@ -37,15 +37,6 @@ func main() {
 	c5 := NewTeamOpeningConfigController(service)
 	app.MountTeamOpeningConfigController(service, c5)
 
-	//	if t := appengine.IsDevAppServer(); t {
-	//		fmt.Printf("appengine.IsDevAppServer() %t\n", t)
 	http.Handle("/", service.Mux)
 	appengine.Main()
-	//	} else {
-	//		fmt.Printf("appengine.IsDevAppServer() %t\n", t)
-	//
-	//		if err := service.ListenAndServe(":8080"); err != nil {
-	//			service.LogError("startup", "err", err)
-	//		}
-	//	}
 }
