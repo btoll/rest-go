@@ -10,34 +10,6 @@ import (
 	"google.golang.org/appengine/datastore"
 )
 
-type App interface {
-	Create() (string, error)
-	Read() (Model, error)
-	Update() error
-	Delete() error
-	List() ([]string, []Model, error)
-}
-
-type Model interface {
-	GetCtx(ctx context.Context) *Context
-	GetModelCollection(c *Context) ([]*datastore.Key, interface{}, error)
-	GetModel() interface{}
-	SetModel(ctx *Context, key *datastore.Key) error
-}
-
-type Context struct {
-	GaeCtx  context.Context
-	Payload interface{}
-	Kind    string
-	ID      string
-	App
-}
-
-type ModelStore struct {
-	Keys   []string    `json:"keys"`
-	Models interface{} `json:"models"`
-}
-
 const (
 	GAME                = constants.DB_GAME
 	EVENT               = constants.DB_EVENT
@@ -45,6 +17,50 @@ const (
 	TEAM                = constants.DB_TEAM
 	TEAM_OPENING_CONFIG = constants.DB_TEAM_OPENING_CONFIG
 )
+
+type Model interface {
+	AllocateID(ctx *Context) error
+	GetCtx(ctx context.Context) *Context
+	GetModelCollection(c *Context) ([]*datastore.Key, interface{}, error)
+	GetModelInstance() interface{}
+	SetModel(ctx *Context) error
+}
+
+type Context struct {
+	GaeCtx  context.Context
+	Payload interface{}
+	Kind    string
+	ID      string
+}
+
+type ModelStore struct {
+	Keys   []string    `json:"keys"`
+	Models interface{} `json:"models"`
+}
+
+func initModel(kind string, c context.Context) (Model, *Context) {
+	model := ModelFactory(kind)
+	return model, model.GetCtx(c)
+}
+
+// This function will be used by all models that don't need a custom id
+// like "baseball".
+func Allocate(ctx *Context) error {
+	// Returns an int64. We only need one ID returned.
+	low, _, err := datastore.AllocateIDs(ctx.GaeCtx, ctx.Kind, nil, 1)
+
+	if err != nil {
+		return err
+	}
+
+	ctx.ID = strconv.FormatInt(low, 10)
+
+	return nil
+}
+
+func GetKey(ctx *Context) *datastore.Key {
+	return datastore.NewKey(ctx.GaeCtx, ctx.Kind, ctx.ID, 0, nil)
+}
 
 func ModelFactory(name string) Model {
 	switch name {
@@ -64,29 +80,20 @@ func ModelFactory(name string) Model {
 	return nil
 }
 
-func GetCtx(kind string, ctx context.Context) *Context {
-	return ModelFactory(kind).GetCtx(ctx)
-}
-
-func (ctx *Context) getKey() *datastore.Key {
-	return datastore.NewKey(ctx.GaeCtx, ctx.Kind, ctx.ID, 0, nil)
-}
-
 /* -----------------------------------------------------------
     CRUD(L)
 ----------------------------------------------------------- */
 
-func (ctx *Context) Create() (string, error) {
-	// Returns an int64. We only need one ID returned.
-	low, _, err := datastore.AllocateIDs(ctx.GaeCtx, ctx.Kind, nil, 1)
+func Create(kind string, c context.Context) (string, error) {
+	model, ctx := initModel(kind, c)
 
+	// Get unique string ID, will be different by model.
+	err := model.AllocateID(ctx)
 	if err != nil {
 		return "", goa.ErrInternal(err, "endpoint", "create")
 	}
 
-	ctx.ID = strconv.FormatInt(low, 10)
-	err = ModelFactory(ctx.Kind).SetModel(ctx, ctx.getKey())
-
+	err = model.SetModel(ctx)
 	if err != nil {
 		return "", goa.ErrInternal(err, "endpoint", "create")
 	}
@@ -94,19 +101,21 @@ func (ctx *Context) Create() (string, error) {
 	return ctx.ID, nil
 }
 
-func (ctx *Context) Read() (interface{}, error) {
-	model := ModelFactory(ctx.Kind).GetModel()
+func Read(kind string, c context.Context) (interface{}, error) {
+	model, ctx := initModel(kind, c)
+	instance := model.GetModelInstance()
 
-	if err := datastore.Get(ctx.GaeCtx, ctx.getKey(), model); err != nil {
+	if err := datastore.Get(ctx.GaeCtx, GetKey(ctx), instance); err != nil {
 		return nil, goa.ErrBadRequest(err, "endpoint", "show")
 	}
 
-	return model, nil
+	return instance, nil
 }
 
-func (ctx *Context) Update() error {
-	err := ModelFactory(ctx.Kind).SetModel(ctx, ctx.getKey())
+func Update(kind string, c context.Context) error {
+	model, ctx := initModel(kind, c)
 
+	err := model.SetModel(ctx)
 	if err != nil {
 		return goa.ErrInternal(err, "endpoint", "update")
 	}
@@ -114,9 +123,10 @@ func (ctx *Context) Update() error {
 	return nil
 }
 
-func (ctx *Context) Delete() error {
-	err := datastore.Delete(ctx.GaeCtx, ctx.getKey())
+func Delete(kind string, c context.Context) error {
+	_, ctx := initModel(kind, c)
 
+	err := datastore.Delete(ctx.GaeCtx, GetKey(ctx))
 	if err != nil {
 		return goa.ErrInternal(err, "endpoint", "delete")
 	}
@@ -124,16 +134,17 @@ func (ctx *Context) Delete() error {
 	return nil
 }
 
-func (ctx *Context) List() ([]byte, error) {
-	keys, c, err := ModelFactory(ctx.Kind).GetModelCollection(ctx)
+func List(kind string, c context.Context) ([]byte, error) {
+	model, ctx := initModel(kind, c)
 
+	keys, coll, err := model.GetModelCollection(ctx)
 	if err != nil {
 		return nil, goa.ErrInternal(err, "endpoint", "list")
 	}
 
 	store := &ModelStore{
 		Keys:   make([]string, len(keys)),
-		Models: c,
+		Models: coll,
 	}
 
 	for i, key := range keys {
@@ -141,7 +152,6 @@ func (ctx *Context) List() ([]byte, error) {
 	}
 
 	b, err := json.Marshal(store)
-
 	if err != nil {
 		return nil, goa.ErrInternal(err, "endpoint", "list")
 	}

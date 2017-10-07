@@ -21,7 +21,7 @@ func NewTeamOpeningConfigController(service *goa.Service) *TeamOpeningConfigCont
 func (c *TeamOpeningConfigController) Create(ctx *app.CreateTeamOpeningConfigContext) error {
 	// TeamOpeningConfigController_Create: start_implement
 
-	id, err := models.GetCtx(constants.DB_TEAM_OPENING_CONFIG, ctx).Create()
+	id, err := models.Create(constants.DB_TEAM_OPENING_CONFIG, ctx)
 
 	if err != nil {
 		return ctx.InternalServerError(err)
@@ -36,7 +36,7 @@ func (c *TeamOpeningConfigController) Create(ctx *app.CreateTeamOpeningConfigCon
 func (c *TeamOpeningConfigController) Delete(ctx *app.DeleteTeamOpeningConfigContext) error {
 	// TeamOpeningConfigController_Delete: start_implement
 
-	if err := models.GetCtx(constants.DB_TEAM_OPENING_CONFIG, ctx).Delete(); err != nil {
+	if err := models.Delete(constants.DB_TEAM_OPENING_CONFIG, ctx); err != nil {
 		return ctx.InternalServerError(err)
 	}
 
@@ -49,7 +49,7 @@ func (c *TeamOpeningConfigController) Delete(ctx *app.DeleteTeamOpeningConfigCon
 func (c *TeamOpeningConfigController) List(ctx *app.ListTeamOpeningConfigContext) error {
 	// TeamOpeningConfigController_List: start_implement
 
-	b, err := models.GetCtx(constants.DB_TEAM_OPENING_CONFIG, ctx).List()
+	b, err := models.List(constants.DB_TEAM_OPENING_CONFIG, ctx)
 
 	if err != nil {
 		return ctx.InternalServerError(err)
@@ -64,7 +64,7 @@ func (c *TeamOpeningConfigController) List(ctx *app.ListTeamOpeningConfigContext
 func (c *TeamOpeningConfigController) Show(ctx *app.ShowTeamOpeningConfigContext) error {
 	// TeamOpeningConfigController_Show: start_implement
 
-	model, err := models.GetCtx(constants.DB_TEAM_OPENING_CONFIG, ctx).Read()
+	model, err := models.Read(constants.DB_TEAM_OPENING_CONFIG, ctx)
 
 	if err != nil {
 		return ctx.BadRequest(err)
@@ -79,7 +79,7 @@ func (c *TeamOpeningConfigController) Show(ctx *app.ShowTeamOpeningConfigContext
 func (c *TeamOpeningConfigController) Update(ctx *app.UpdateTeamOpeningConfigContext) error {
 	// TeamOpeningConfigController_Update: start_implement
 
-	if err := models.GetCtx(constants.DB_TEAM_OPENING_CONFIG, ctx).Update(); err != nil {
+	if err := models.Update(constants.DB_TEAM_OPENING_CONFIG, ctx); err != nil {
 		return ctx.InternalServerError(err)
 	}
 

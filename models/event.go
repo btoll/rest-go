@@ -26,7 +26,11 @@ type EventPersist struct {
 	// EventAdvanceMethod.singleElimination || doubleElim || bestOf
 	TeamAdvanceMethod string `datastore:"teamAdvanceMethod,noindex" json:"teamAdvanceMethod,omitempty"`
 
-	Context
+	*Context
+}
+
+func (m *EventPersist) AllocateID(ctx *Context) error {
+	return Allocate(ctx)
 }
 
 func (m *EventPersist) GetCtx(ctx context.Context) *Context {
@@ -67,7 +71,7 @@ func (m *EventPersist) GetCtx(ctx context.Context) *Context {
 	}
 }
 
-func (m *EventPersist) GetModel() interface{} {
+func (m *EventPersist) GetModelInstance() interface{} {
 	return &app.EventMedia{}
 }
 
@@ -82,11 +86,11 @@ func (m *EventPersist) GetModelCollection(ctx *Context) ([]*datastore.Key, inter
 	return keys, c, nil
 }
 
-func (m *EventPersist) SetModel(ctx *Context, key *datastore.Key) error {
+func (m *EventPersist) SetModel(ctx *Context) error {
 	rec := &app.EventMedia{}
 
 	copier.Copy(rec, ctx.Payload)
-	_, err := datastore.Put(ctx.GaeCtx, key, rec)
+	_, err := datastore.Put(ctx.GaeCtx, GetKey(ctx), rec)
 
 	return err
 }

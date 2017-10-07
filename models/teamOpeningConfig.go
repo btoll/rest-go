@@ -21,7 +21,11 @@ type TeamOpeningConfigPersist struct {
 	SellDecrementQuan  int       `datastore:"sellDecrementQuan,noindex" json:"sellDecrementQuan,omitempty"`
 	StartTradeDtTm     time.Time `datastore:"startTradeDtTm,noindex" json:"startTradeDtTm,omitempty"`
 
-	Context
+	*Context
+}
+
+func (m *TeamOpeningConfigPersist) AllocateID(ctx *Context) error {
+	return Allocate(ctx)
 }
 
 func (m *TeamOpeningConfigPersist) GetCtx(ctx context.Context) *Context {
@@ -62,7 +66,7 @@ func (m *TeamOpeningConfigPersist) GetCtx(ctx context.Context) *Context {
 	}
 }
 
-func (m *TeamOpeningConfigPersist) GetModel() interface{} {
+func (m *TeamOpeningConfigPersist) GetModelInstance() interface{} {
 	return &app.TeamOpeningConfigMedia{}
 }
 
@@ -77,11 +81,11 @@ func (m *TeamOpeningConfigPersist) GetModelCollection(ctx *Context) ([]*datastor
 	return keys, c, nil
 }
 
-func (m *TeamOpeningConfigPersist) SetModel(ctx *Context, key *datastore.Key) error {
+func (m *TeamOpeningConfigPersist) SetModel(ctx *Context) error {
 	rec := &app.TeamOpeningConfigMedia{}
 
 	copier.Copy(rec, ctx.Payload)
-	_, err := datastore.Put(ctx.GaeCtx, key, rec)
+	_, err := datastore.Put(ctx.GaeCtx, GetKey(ctx), rec)
 
 	return err
 }

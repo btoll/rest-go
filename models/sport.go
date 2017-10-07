@@ -25,7 +25,12 @@ type SportPersist struct {
 	// Sport name
 	Name string `datastore:"name,noindex" json:"name,omitempty"`
 
-	Context
+	*Context
+}
+
+func (m *SportPersist) AllocateID(ctx *Context) error {
+	ctx.ID = ctx.Payload.(*app.SportPayload).Name
+	return nil
 }
 
 func (m *SportPersist) GetCtx(ctx context.Context) *Context {
@@ -66,7 +71,7 @@ func (m *SportPersist) GetCtx(ctx context.Context) *Context {
 	}
 }
 
-func (m *SportPersist) GetModel() interface{} {
+func (m *SportPersist) GetModelInstance() interface{} {
 	return &app.SportMedia{}
 }
 
@@ -81,11 +86,11 @@ func (m *SportPersist) GetModelCollection(ctx *Context) ([]*datastore.Key, inter
 	return keys, c, nil
 }
 
-func (m *SportPersist) SetModel(ctx *Context, key *datastore.Key) error {
+func (m *SportPersist) SetModel(ctx *Context) error {
 	rec := &app.SportMedia{}
 
 	copier.Copy(rec, ctx.Payload)
-	_, err := datastore.Put(ctx.GaeCtx, key, rec)
+	_, err := datastore.Put(ctx.GaeCtx, GetKey(ctx), rec)
 
 	return err
 }

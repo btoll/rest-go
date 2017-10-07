@@ -21,7 +21,7 @@ func NewTeamController(service *goa.Service) *TeamController {
 func (c *TeamController) Create(ctx *app.CreateTeamContext) error {
 	// TeamController_Create: start_implement
 
-	id, err := models.GetCtx(constants.DB_TEAM, ctx).Create()
+	id, err := models.Create(constants.DB_TEAM, ctx)
 
 	if err != nil {
 		return ctx.InternalServerError(err)
@@ -36,7 +36,7 @@ func (c *TeamController) Create(ctx *app.CreateTeamContext) error {
 func (c *TeamController) Delete(ctx *app.DeleteTeamContext) error {
 	// TeamController_Delete: start_implement
 
-	if err := models.GetCtx(constants.DB_TEAM, ctx).Delete(); err != nil {
+	if err := models.Delete(constants.DB_TEAM, ctx); err != nil {
 		return ctx.InternalServerError(err)
 	}
 
@@ -49,7 +49,7 @@ func (c *TeamController) Delete(ctx *app.DeleteTeamContext) error {
 func (c *TeamController) List(ctx *app.ListTeamContext) error {
 	// TeamController_List: start_implement
 
-	b, err := models.GetCtx(constants.DB_TEAM, ctx).List()
+	b, err := models.List(constants.DB_TEAM, ctx)
 
 	if err != nil {
 		return ctx.InternalServerError(err)
@@ -64,7 +64,7 @@ func (c *TeamController) List(ctx *app.ListTeamContext) error {
 func (c *TeamController) Show(ctx *app.ShowTeamContext) error {
 	// TeamController_Show: start_implement
 
-	model, err := models.GetCtx(constants.DB_TEAM, ctx).Read()
+	model, err := models.Read(constants.DB_TEAM, ctx)
 
 	if err != nil {
 		return ctx.BadRequest(err)
@@ -79,7 +79,7 @@ func (c *TeamController) Show(ctx *app.ShowTeamContext) error {
 func (c *TeamController) Update(ctx *app.UpdateTeamContext) error {
 	// TeamController_Update: start_implement
 
-	if err := models.GetCtx(constants.DB_TEAM, ctx).Update(); err != nil {
+	if err := models.Update(constants.DB_TEAM, ctx); err != nil {
 		return ctx.InternalServerError(err)
 	}
 

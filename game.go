@@ -21,7 +21,7 @@ func NewGameController(service *goa.Service) *GameController {
 func (c *GameController) Create(ctx *app.CreateGameContext) error {
 	// GameController_Create: start_implement
 
-	id, err := models.GetCtx(constants.DB_GAME, ctx).Create()
+	id, err := models.Create(constants.DB_GAME, ctx)
 
 	if err != nil {
 		return ctx.InternalServerError(err)
@@ -36,7 +36,7 @@ func (c *GameController) Create(ctx *app.CreateGameContext) error {
 func (c *GameController) Delete(ctx *app.DeleteGameContext) error {
 	// GameController_Delete: start_implement
 
-	if err := models.GetCtx(constants.DB_GAME, ctx).Delete(); err != nil {
+	if err := models.Delete(constants.DB_GAME, ctx); err != nil {
 		return ctx.InternalServerError(err)
 	}
 
@@ -49,7 +49,7 @@ func (c *GameController) Delete(ctx *app.DeleteGameContext) error {
 func (c *GameController) List(ctx *app.ListGameContext) error {
 	// GameController_List: start_implement
 
-	b, err := models.GetCtx(constants.DB_GAME, ctx).List()
+	b, err := models.List(constants.DB_GAME, ctx)
 
 	if err != nil {
 		return ctx.InternalServerError(err)
@@ -64,7 +64,7 @@ func (c *GameController) List(ctx *app.ListGameContext) error {
 func (c *GameController) Show(ctx *app.ShowGameContext) error {
 	// GameController_Show: start_implement
 
-	model, err := models.GetCtx(constants.DB_GAME, ctx).Read()
+	model, err := models.Read(constants.DB_GAME, ctx)
 
 	if err != nil {
 		return ctx.BadRequest(err)
@@ -79,7 +79,7 @@ func (c *GameController) Show(ctx *app.ShowGameContext) error {
 func (c *GameController) Update(ctx *app.UpdateGameContext) error {
 	// GameController_Update: start_implement
 
-	if err := models.GetCtx(constants.DB_GAME, ctx).Update(); err != nil {
+	if err := models.Update(constants.DB_GAME, ctx); err != nil {
 		return ctx.InternalServerError(err)
 	}
 

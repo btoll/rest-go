@@ -38,7 +38,11 @@ type GamePersist struct {
 	// Empty until game completed
 	WinnerTeamID string `datastore:"winnerTeamId,noindex" json:"winnerTeamId,omitempty"`
 
-	Context
+	*Context
+}
+
+func (m *GamePersist) AllocateID(ctx *Context) error {
+	return Allocate(ctx)
 }
 
 func (m *GamePersist) GetCtx(ctx context.Context) *Context {
@@ -79,7 +83,7 @@ func (m *GamePersist) GetCtx(ctx context.Context) *Context {
 	}
 }
 
-func (m *GamePersist) GetModel() interface{} {
+func (m *GamePersist) GetModelInstance() interface{} {
 	return &app.GameMedia{}
 }
 
@@ -94,11 +98,11 @@ func (m *GamePersist) GetModelCollection(ctx *Context) ([]*datastore.Key, interf
 	return keys, c, nil
 }
 
-func (m *GamePersist) SetModel(ctx *Context, key *datastore.Key) error {
+func (m *GamePersist) SetModel(ctx *Context) error {
 	rec := &app.GameMedia{}
 
 	copier.Copy(rec, ctx.Payload)
-	_, err := datastore.Put(ctx.GaeCtx, key, rec)
+	_, err := datastore.Put(ctx.GaeCtx, GetKey(ctx), rec)
 
 	return err
 }
