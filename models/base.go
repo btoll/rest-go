@@ -39,30 +39,11 @@ type ModelStore struct {
 }
 
 func initModel(kind string, c context.Context) (Model, *Context) {
-	model := ModelFactory(kind)
+	model := modelFactory(kind)
 	return model, model.GetCtx(c)
 }
 
-// This function will be used by all models that don't need a custom id
-// like "baseball".
-func Allocate(ctx *Context) error {
-	// Returns an int64. We only need one ID returned.
-	low, _, err := datastore.AllocateIDs(ctx.GaeCtx, ctx.Kind, nil, 1)
-
-	if err != nil {
-		return err
-	}
-
-	ctx.ID = strconv.FormatInt(low, 10)
-
-	return nil
-}
-
-func GetKey(ctx *Context) *datastore.Key {
-	return datastore.NewKey(ctx.GaeCtx, ctx.Kind, ctx.ID, 0, nil)
-}
-
-func ModelFactory(name string) Model {
+func modelFactory(name string) Model {
 	switch name {
 	case GAME:
 		return new(GamePersist)
@@ -78,6 +59,24 @@ func ModelFactory(name string) Model {
 
 	// TODO: Return error?
 	return nil
+}
+
+// Will be used by all models that don't need a custom id like "baseball".
+func AllocateSequentialID(ctx *Context) error {
+	// Returns an int64. We only need one ID returned.
+	low, _, err := datastore.AllocateIDs(ctx.GaeCtx, ctx.Kind, nil, 1)
+
+	if err != nil {
+		return err
+	}
+
+	ctx.ID = strconv.FormatInt(low, 10)
+
+	return nil
+}
+
+func GetKey(ctx *Context) *datastore.Key {
+	return datastore.NewKey(ctx.GaeCtx, ctx.Kind, ctx.ID, 0, nil)
 }
 
 /* -----------------------------------------------------------

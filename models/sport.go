@@ -10,23 +10,7 @@ import (
 	"google.golang.org/appengine/datastore"
 )
 
-type SportPersist struct {
-	// Is in season?
-	Active bool `datastore:"active,noindex" json:"active,omitempty"`
-	// sport_icon
-	BackgroundImageName string `datastore:"backgroundImageName,noindex" json:"backgroundImageName,omitempty"`
-	// Tournament
-	EventTerm string `datastore:"eventTerm,noindex" json:"eventTerm,omitempty"`
-	// Game
-	GameTerm string `datastore:"gameTerm,noindex" json:"gameTerm,omitempty"`
-	// sport_icon
-	IconName         string  `datastore:"iconName,noindex" json:"iconName,omitempty"`
-	MaxPreSplitPrice float64 `datastore:"maxPreSplitPrice,noindex" json:"maxPreSplitPrice,omitempty"`
-	// Sport name
-	Name string `datastore:"name,noindex" json:"name,omitempty"`
-
-	*Context
-}
+type SportPersist struct{}
 
 func (m *SportPersist) AllocateID(ctx *Context) error {
 	ctx.ID = ctx.Payload.(*app.SportPayload).Name

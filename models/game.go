@@ -2,7 +2,6 @@ package models
 
 import (
 	"context"
-	"time"
 
 	"github.com/btoll/rest-go/app"
 	"github.com/dgaedcke/nmg_shared/constants"
@@ -11,38 +10,10 @@ import (
 	"google.golang.org/appengine/datastore"
 )
 
-type GamePersist struct {
-	// Event ID
-	EventID *string `datastore:"eventId,noindex" json:"eventId,omitempty"`
-	// Any public id for this game, not unique
-	ExternalID string `datastore:"externalId,noindex" json:"externalId,omitempty"`
-	// Favorite team id
-	FavTeamID      string    `datastore:"favTeamId,noindex" json:"favTeamId,omitempty"`
-	FinishedAtDtTm time.Time `datastore:"finishedAtDtTm,noindex" json:"finishedAtDtTm,omitempty"`
-	// TeamGameStatus.preGame || tradeable || gameOn || ended
-	GameStatus string `datastore:"gameStatus,noindex" json:"gameStatus,omitempty"`
-	// Name of location
-	Location string `datastore:"location,noindex" json:"location,omitempty"`
-	// True GPS location
-	LocationID string `datastore:"locationId,noindex" json:"locationId,omitempty"`
-	// TeamGameStatus.eliminated
-	LoserProgressStatus string `datastore:"loserProgressStatus,noindex" json:"loserProgressStatus,omitempty"`
-	// 0
-	OddsForFav float64   `datastore:"oddsForFav,noindex" json:"oddsForFav,omitempty"`
-	PlayDtTm   time.Time `datastore:"playDtTm,noindex" json:"playDtTm,omitempty"`
-	// Sport ID
-	SportID string `datastore:"sportId,noindex" json:"sportId,omitempty"`
-	// Public free form name
-	Title       string `datastore:"title,noindex" json:"title,omitempty"`
-	UnderTeamID string `datastore:"underTeamId,noindex" json:"underTeamId,omitempty"`
-	// Empty until game completed
-	WinnerTeamID string `datastore:"winnerTeamId,noindex" json:"winnerTeamId,omitempty"`
-
-	*Context
-}
+type GamePersist struct{}
 
 func (m *GamePersist) AllocateID(ctx *Context) error {
-	return Allocate(ctx)
+	return AllocateSequentialID(ctx)
 }
 
 func (m *GamePersist) GetCtx(ctx context.Context) *Context {

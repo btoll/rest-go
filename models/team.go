@@ -10,27 +10,10 @@ import (
 	"google.golang.org/appengine/datastore"
 )
 
-type TeamPersist struct {
-	// Team Win-Loss Record
-	CurrentWinRecord string `datastore:"currentWinRecord,noindex" json:"currentWinRecord,omitempty"`
-	// Team Logo
-	FullLogo string `datastore:"fullLogo,noindex" json:"fullLogo,omitempty"`
-	// Sport HomeTown ID
-	HomeTownID string `datastore:"homeTownId,noindex" json:"homeTownId,omitempty"`
-	// Team Icon
-	IconName string `datastore:"iconName,noindex" json:"iconName,omitempty"`
-	// Team name
-	Name string `datastore:"name,noindex" json:"name,omitempty"`
-	// Team Nickname
-	ShortName string `datastore:"shortName,noindex" json:"shortName,omitempty"`
-	// Sport ID
-	SportID string `datastore:"sportId,noindex" json:"sportId,omitempty"`
-
-	*Context
-}
+type TeamPersist struct{}
 
 func (m *TeamPersist) AllocateID(ctx *Context) error {
-	return Allocate(ctx)
+	return AllocateSequentialID(ctx)
 }
 
 func (m *TeamPersist) GetCtx(ctx context.Context) *Context {

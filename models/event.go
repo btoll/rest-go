@@ -2,7 +2,6 @@ package models
 
 import (
 	"context"
-	"time"
 
 	"github.com/btoll/rest-go/app"
 	"github.com/dgaedcke/nmg_shared/constants"
@@ -11,26 +10,10 @@ import (
 	"google.golang.org/appengine/datastore"
 )
 
-type EventPersist struct {
-	EndDtTm time.Time `datastore:"endDtTm,noindex" json:"endDtTm,omitempty"`
-	// Not guaranteed to be unique
-	EventID string `datastore:"eventId,noindex" json:"eventId,omitempty"`
-	// Location.defaultLoc.id
-	LocationID string `datastore:"locationId,noindex" json:"locationId,omitempty"`
-	// e.g., March Madness
-	Name string `datastore:"name,noindex" json:"name,omitempty"`
-	// Sport ID
-	SportID   string    `datastore:"sportId,noindex" json:"sportId,omitempty"`
-	StartDtTm time.Time `datastore:"startDtTm,noindex" json:"startDtTm,omitempty"`
-	SubTitle  string    `datastore:"subTitle,noindex" json:"subTitle,omitempty"`
-	// EventAdvanceMethod.singleElimination || doubleElim || bestOf
-	TeamAdvanceMethod string `datastore:"teamAdvanceMethod,noindex" json:"teamAdvanceMethod,omitempty"`
-
-	*Context
-}
+type EventPersist struct{}
 
 func (m *EventPersist) AllocateID(ctx *Context) error {
-	return Allocate(ctx)
+	return AllocateSequentialID(ctx)
 }
 
 func (m *EventPersist) GetCtx(ctx context.Context) *Context {
