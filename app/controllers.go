@@ -6,7 +6,6 @@
 // $ goagen
 // --design=github.com/btoll/rest-go/design
 // --out=$(GOPATH)/src/github.com/btoll/rest-go
-// --regen=true
 // --version=v1.3.0
 
 package app
@@ -14,6 +13,7 @@ package app
 import (
 	"context"
 	"github.com/goadesign/goa"
+	"github.com/goadesign/goa/cors"
 	"net/http"
 )
 
@@ -46,6 +46,9 @@ type EventController interface {
 func MountEventController(service *goa.Service, ctrl EventController) {
 	initService(service)
 	var h goa.Handler
+	service.Mux.Handle("OPTIONS", "/nmg/event/", ctrl.MuxHandler("preflight", handleEventOrigin(cors.HandlePreflight()), nil))
+	service.Mux.Handle("OPTIONS", "/nmg/event/:id", ctrl.MuxHandler("preflight", handleEventOrigin(cors.HandlePreflight()), nil))
+	service.Mux.Handle("OPTIONS", "/nmg/event/list", ctrl.MuxHandler("preflight", handleEventOrigin(cors.HandlePreflight()), nil))
 
 	h = func(ctx context.Context, rw http.ResponseWriter, req *http.Request) error {
 		// Check if there was an error loading the request
@@ -65,6 +68,7 @@ func MountEventController(service *goa.Service, ctrl EventController) {
 		}
 		return ctrl.Create(rctx)
 	}
+	h = handleEventOrigin(h)
 	service.Mux.Handle("POST", "/nmg/event/", ctrl.MuxHandler("create", h, unmarshalCreateEventPayload))
 	service.LogInfo("mount", "ctrl", "Event", "action", "Create", "route", "POST /nmg/event/")
 
@@ -80,6 +84,7 @@ func MountEventController(service *goa.Service, ctrl EventController) {
 		}
 		return ctrl.Delete(rctx)
 	}
+	h = handleEventOrigin(h)
 	service.Mux.Handle("DELETE", "/nmg/event/:id", ctrl.MuxHandler("delete", h, nil))
 	service.LogInfo("mount", "ctrl", "Event", "action", "Delete", "route", "DELETE /nmg/event/:id")
 
@@ -95,6 +100,7 @@ func MountEventController(service *goa.Service, ctrl EventController) {
 		}
 		return ctrl.List(rctx)
 	}
+	h = handleEventOrigin(h)
 	service.Mux.Handle("GET", "/nmg/event/list", ctrl.MuxHandler("list", h, nil))
 	service.LogInfo("mount", "ctrl", "Event", "action", "List", "route", "GET /nmg/event/list")
 
@@ -110,6 +116,7 @@ func MountEventController(service *goa.Service, ctrl EventController) {
 		}
 		return ctrl.Show(rctx)
 	}
+	h = handleEventOrigin(h)
 	service.Mux.Handle("GET", "/nmg/event/:id", ctrl.MuxHandler("show", h, nil))
 	service.LogInfo("mount", "ctrl", "Event", "action", "Show", "route", "GET /nmg/event/:id")
 
@@ -131,8 +138,34 @@ func MountEventController(service *goa.Service, ctrl EventController) {
 		}
 		return ctrl.Update(rctx)
 	}
+	h = handleEventOrigin(h)
 	service.Mux.Handle("PUT", "/nmg/event/:id", ctrl.MuxHandler("update", h, unmarshalUpdateEventPayload))
 	service.LogInfo("mount", "ctrl", "Event", "action", "Update", "route", "PUT /nmg/event/:id")
+}
+
+// handleEventOrigin applies the CORS response headers corresponding to the origin.
+func handleEventOrigin(h goa.Handler) goa.Handler {
+
+	return func(ctx context.Context, rw http.ResponseWriter, req *http.Request) error {
+		origin := req.Header.Get("Origin")
+		if origin == "" {
+			// Not a CORS request
+			return h(ctx, rw, req)
+		}
+		if cors.MatchOrigin(origin, "*") {
+			ctx = goa.WithLogContext(ctx, "origin", origin)
+			rw.Header().Set("Access-Control-Allow-Origin", origin)
+			rw.Header().Set("Access-Control-Max-Age", "600")
+			rw.Header().Set("Access-Control-Allow-Credentials", "true")
+			if acrm := req.Header.Get("Access-Control-Request-Method"); acrm != "" {
+				// We are handling a preflight request
+				rw.Header().Set("Access-Control-Allow-Methods", "GET, POST, PUT, DELETE")
+			}
+			return h(ctx, rw, req)
+		}
+
+		return h(ctx, rw, req)
+	}
 }
 
 // unmarshalCreateEventPayload unmarshals the request body into the context request data Payload field.
@@ -179,6 +212,9 @@ type GameController interface {
 func MountGameController(service *goa.Service, ctrl GameController) {
 	initService(service)
 	var h goa.Handler
+	service.Mux.Handle("OPTIONS", "/nmg/game/", ctrl.MuxHandler("preflight", handleGameOrigin(cors.HandlePreflight()), nil))
+	service.Mux.Handle("OPTIONS", "/nmg/game/:id", ctrl.MuxHandler("preflight", handleGameOrigin(cors.HandlePreflight()), nil))
+	service.Mux.Handle("OPTIONS", "/nmg/game/list", ctrl.MuxHandler("preflight", handleGameOrigin(cors.HandlePreflight()), nil))
 
 	h = func(ctx context.Context, rw http.ResponseWriter, req *http.Request) error {
 		// Check if there was an error loading the request
@@ -198,6 +234,7 @@ func MountGameController(service *goa.Service, ctrl GameController) {
 		}
 		return ctrl.Create(rctx)
 	}
+	h = handleGameOrigin(h)
 	service.Mux.Handle("POST", "/nmg/game/", ctrl.MuxHandler("create", h, unmarshalCreateGamePayload))
 	service.LogInfo("mount", "ctrl", "Game", "action", "Create", "route", "POST /nmg/game/")
 
@@ -213,6 +250,7 @@ func MountGameController(service *goa.Service, ctrl GameController) {
 		}
 		return ctrl.Delete(rctx)
 	}
+	h = handleGameOrigin(h)
 	service.Mux.Handle("DELETE", "/nmg/game/:id", ctrl.MuxHandler("delete", h, nil))
 	service.LogInfo("mount", "ctrl", "Game", "action", "Delete", "route", "DELETE /nmg/game/:id")
 
@@ -228,6 +266,7 @@ func MountGameController(service *goa.Service, ctrl GameController) {
 		}
 		return ctrl.List(rctx)
 	}
+	h = handleGameOrigin(h)
 	service.Mux.Handle("GET", "/nmg/game/list", ctrl.MuxHandler("list", h, nil))
 	service.LogInfo("mount", "ctrl", "Game", "action", "List", "route", "GET /nmg/game/list")
 
@@ -243,6 +282,7 @@ func MountGameController(service *goa.Service, ctrl GameController) {
 		}
 		return ctrl.Show(rctx)
 	}
+	h = handleGameOrigin(h)
 	service.Mux.Handle("GET", "/nmg/game/:id", ctrl.MuxHandler("show", h, nil))
 	service.LogInfo("mount", "ctrl", "Game", "action", "Show", "route", "GET /nmg/game/:id")
 
@@ -264,8 +304,34 @@ func MountGameController(service *goa.Service, ctrl GameController) {
 		}
 		return ctrl.Update(rctx)
 	}
+	h = handleGameOrigin(h)
 	service.Mux.Handle("PUT", "/nmg/game/:id", ctrl.MuxHandler("update", h, unmarshalUpdateGamePayload))
 	service.LogInfo("mount", "ctrl", "Game", "action", "Update", "route", "PUT /nmg/game/:id")
+}
+
+// handleGameOrigin applies the CORS response headers corresponding to the origin.
+func handleGameOrigin(h goa.Handler) goa.Handler {
+
+	return func(ctx context.Context, rw http.ResponseWriter, req *http.Request) error {
+		origin := req.Header.Get("Origin")
+		if origin == "" {
+			// Not a CORS request
+			return h(ctx, rw, req)
+		}
+		if cors.MatchOrigin(origin, "*") {
+			ctx = goa.WithLogContext(ctx, "origin", origin)
+			rw.Header().Set("Access-Control-Allow-Origin", origin)
+			rw.Header().Set("Access-Control-Max-Age", "600")
+			rw.Header().Set("Access-Control-Allow-Credentials", "true")
+			if acrm := req.Header.Get("Access-Control-Request-Method"); acrm != "" {
+				// We are handling a preflight request
+				rw.Header().Set("Access-Control-Allow-Methods", "GET, POST, PUT, DELETE")
+			}
+			return h(ctx, rw, req)
+		}
+
+		return h(ctx, rw, req)
+	}
 }
 
 // unmarshalCreateGamePayload unmarshals the request body into the context request data Payload field.
@@ -312,6 +378,9 @@ type SportController interface {
 func MountSportController(service *goa.Service, ctrl SportController) {
 	initService(service)
 	var h goa.Handler
+	service.Mux.Handle("OPTIONS", "/nmg/sport/", ctrl.MuxHandler("preflight", handleSportOrigin(cors.HandlePreflight()), nil))
+	service.Mux.Handle("OPTIONS", "/nmg/sport/:id", ctrl.MuxHandler("preflight", handleSportOrigin(cors.HandlePreflight()), nil))
+	service.Mux.Handle("OPTIONS", "/nmg/sport/list", ctrl.MuxHandler("preflight", handleSportOrigin(cors.HandlePreflight()), nil))
 
 	h = func(ctx context.Context, rw http.ResponseWriter, req *http.Request) error {
 		// Check if there was an error loading the request
@@ -331,6 +400,7 @@ func MountSportController(service *goa.Service, ctrl SportController) {
 		}
 		return ctrl.Create(rctx)
 	}
+	h = handleSportOrigin(h)
 	service.Mux.Handle("POST", "/nmg/sport/", ctrl.MuxHandler("create", h, unmarshalCreateSportPayload))
 	service.LogInfo("mount", "ctrl", "Sport", "action", "Create", "route", "POST /nmg/sport/")
 
@@ -346,6 +416,7 @@ func MountSportController(service *goa.Service, ctrl SportController) {
 		}
 		return ctrl.Delete(rctx)
 	}
+	h = handleSportOrigin(h)
 	service.Mux.Handle("DELETE", "/nmg/sport/:id", ctrl.MuxHandler("delete", h, nil))
 	service.LogInfo("mount", "ctrl", "Sport", "action", "Delete", "route", "DELETE /nmg/sport/:id")
 
@@ -361,6 +432,7 @@ func MountSportController(service *goa.Service, ctrl SportController) {
 		}
 		return ctrl.List(rctx)
 	}
+	h = handleSportOrigin(h)
 	service.Mux.Handle("GET", "/nmg/sport/list", ctrl.MuxHandler("list", h, nil))
 	service.LogInfo("mount", "ctrl", "Sport", "action", "List", "route", "GET /nmg/sport/list")
 
@@ -376,6 +448,7 @@ func MountSportController(service *goa.Service, ctrl SportController) {
 		}
 		return ctrl.Show(rctx)
 	}
+	h = handleSportOrigin(h)
 	service.Mux.Handle("GET", "/nmg/sport/:id", ctrl.MuxHandler("show", h, nil))
 	service.LogInfo("mount", "ctrl", "Sport", "action", "Show", "route", "GET /nmg/sport/:id")
 
@@ -397,8 +470,34 @@ func MountSportController(service *goa.Service, ctrl SportController) {
 		}
 		return ctrl.Update(rctx)
 	}
+	h = handleSportOrigin(h)
 	service.Mux.Handle("PUT", "/nmg/sport/:id", ctrl.MuxHandler("update", h, unmarshalUpdateSportPayload))
 	service.LogInfo("mount", "ctrl", "Sport", "action", "Update", "route", "PUT /nmg/sport/:id")
+}
+
+// handleSportOrigin applies the CORS response headers corresponding to the origin.
+func handleSportOrigin(h goa.Handler) goa.Handler {
+
+	return func(ctx context.Context, rw http.ResponseWriter, req *http.Request) error {
+		origin := req.Header.Get("Origin")
+		if origin == "" {
+			// Not a CORS request
+			return h(ctx, rw, req)
+		}
+		if cors.MatchOrigin(origin, "*") {
+			ctx = goa.WithLogContext(ctx, "origin", origin)
+			rw.Header().Set("Access-Control-Allow-Origin", origin)
+			rw.Header().Set("Access-Control-Max-Age", "600")
+			rw.Header().Set("Access-Control-Allow-Credentials", "true")
+			if acrm := req.Header.Get("Access-Control-Request-Method"); acrm != "" {
+				// We are handling a preflight request
+				rw.Header().Set("Access-Control-Allow-Methods", "GET, POST, PUT, DELETE")
+			}
+			return h(ctx, rw, req)
+		}
+
+		return h(ctx, rw, req)
+	}
 }
 
 // unmarshalCreateSportPayload unmarshals the request body into the context request data Payload field.
@@ -445,6 +544,9 @@ type TeamController interface {
 func MountTeamController(service *goa.Service, ctrl TeamController) {
 	initService(service)
 	var h goa.Handler
+	service.Mux.Handle("OPTIONS", "/nmg/team/", ctrl.MuxHandler("preflight", handleTeamOrigin(cors.HandlePreflight()), nil))
+	service.Mux.Handle("OPTIONS", "/nmg/team/:id", ctrl.MuxHandler("preflight", handleTeamOrigin(cors.HandlePreflight()), nil))
+	service.Mux.Handle("OPTIONS", "/nmg/team/list", ctrl.MuxHandler("preflight", handleTeamOrigin(cors.HandlePreflight()), nil))
 
 	h = func(ctx context.Context, rw http.ResponseWriter, req *http.Request) error {
 		// Check if there was an error loading the request
@@ -464,6 +566,7 @@ func MountTeamController(service *goa.Service, ctrl TeamController) {
 		}
 		return ctrl.Create(rctx)
 	}
+	h = handleTeamOrigin(h)
 	service.Mux.Handle("POST", "/nmg/team/", ctrl.MuxHandler("create", h, unmarshalCreateTeamPayload))
 	service.LogInfo("mount", "ctrl", "Team", "action", "Create", "route", "POST /nmg/team/")
 
@@ -479,6 +582,7 @@ func MountTeamController(service *goa.Service, ctrl TeamController) {
 		}
 		return ctrl.Delete(rctx)
 	}
+	h = handleTeamOrigin(h)
 	service.Mux.Handle("DELETE", "/nmg/team/:id", ctrl.MuxHandler("delete", h, nil))
 	service.LogInfo("mount", "ctrl", "Team", "action", "Delete", "route", "DELETE /nmg/team/:id")
 
@@ -494,6 +598,7 @@ func MountTeamController(service *goa.Service, ctrl TeamController) {
 		}
 		return ctrl.List(rctx)
 	}
+	h = handleTeamOrigin(h)
 	service.Mux.Handle("GET", "/nmg/team/list", ctrl.MuxHandler("list", h, nil))
 	service.LogInfo("mount", "ctrl", "Team", "action", "List", "route", "GET /nmg/team/list")
 
@@ -509,6 +614,7 @@ func MountTeamController(service *goa.Service, ctrl TeamController) {
 		}
 		return ctrl.Show(rctx)
 	}
+	h = handleTeamOrigin(h)
 	service.Mux.Handle("GET", "/nmg/team/:id", ctrl.MuxHandler("show", h, nil))
 	service.LogInfo("mount", "ctrl", "Team", "action", "Show", "route", "GET /nmg/team/:id")
 
@@ -530,8 +636,34 @@ func MountTeamController(service *goa.Service, ctrl TeamController) {
 		}
 		return ctrl.Update(rctx)
 	}
+	h = handleTeamOrigin(h)
 	service.Mux.Handle("PUT", "/nmg/team/:id", ctrl.MuxHandler("update", h, unmarshalUpdateTeamPayload))
 	service.LogInfo("mount", "ctrl", "Team", "action", "Update", "route", "PUT /nmg/team/:id")
+}
+
+// handleTeamOrigin applies the CORS response headers corresponding to the origin.
+func handleTeamOrigin(h goa.Handler) goa.Handler {
+
+	return func(ctx context.Context, rw http.ResponseWriter, req *http.Request) error {
+		origin := req.Header.Get("Origin")
+		if origin == "" {
+			// Not a CORS request
+			return h(ctx, rw, req)
+		}
+		if cors.MatchOrigin(origin, "*") {
+			ctx = goa.WithLogContext(ctx, "origin", origin)
+			rw.Header().Set("Access-Control-Allow-Origin", origin)
+			rw.Header().Set("Access-Control-Max-Age", "600")
+			rw.Header().Set("Access-Control-Allow-Credentials", "true")
+			if acrm := req.Header.Get("Access-Control-Request-Method"); acrm != "" {
+				// We are handling a preflight request
+				rw.Header().Set("Access-Control-Allow-Methods", "GET, POST, PUT, DELETE")
+			}
+			return h(ctx, rw, req)
+		}
+
+		return h(ctx, rw, req)
+	}
 }
 
 // unmarshalCreateTeamPayload unmarshals the request body into the context request data Payload field.
@@ -578,6 +710,9 @@ type TeamOpeningConfigController interface {
 func MountTeamOpeningConfigController(service *goa.Service, ctrl TeamOpeningConfigController) {
 	initService(service)
 	var h goa.Handler
+	service.Mux.Handle("OPTIONS", "/nmg/teamOpeningConfig/", ctrl.MuxHandler("preflight", handleTeamOpeningConfigOrigin(cors.HandlePreflight()), nil))
+	service.Mux.Handle("OPTIONS", "/nmg/teamOpeningConfig/:id", ctrl.MuxHandler("preflight", handleTeamOpeningConfigOrigin(cors.HandlePreflight()), nil))
+	service.Mux.Handle("OPTIONS", "/nmg/teamOpeningConfig/list", ctrl.MuxHandler("preflight", handleTeamOpeningConfigOrigin(cors.HandlePreflight()), nil))
 
 	h = func(ctx context.Context, rw http.ResponseWriter, req *http.Request) error {
 		// Check if there was an error loading the request
@@ -597,6 +732,7 @@ func MountTeamOpeningConfigController(service *goa.Service, ctrl TeamOpeningConf
 		}
 		return ctrl.Create(rctx)
 	}
+	h = handleTeamOpeningConfigOrigin(h)
 	service.Mux.Handle("POST", "/nmg/teamOpeningConfig/", ctrl.MuxHandler("create", h, unmarshalCreateTeamOpeningConfigPayload))
 	service.LogInfo("mount", "ctrl", "TeamOpeningConfig", "action", "Create", "route", "POST /nmg/teamOpeningConfig/")
 
@@ -612,6 +748,7 @@ func MountTeamOpeningConfigController(service *goa.Service, ctrl TeamOpeningConf
 		}
 		return ctrl.Delete(rctx)
 	}
+	h = handleTeamOpeningConfigOrigin(h)
 	service.Mux.Handle("DELETE", "/nmg/teamOpeningConfig/:id", ctrl.MuxHandler("delete", h, nil))
 	service.LogInfo("mount", "ctrl", "TeamOpeningConfig", "action", "Delete", "route", "DELETE /nmg/teamOpeningConfig/:id")
 
@@ -627,6 +764,7 @@ func MountTeamOpeningConfigController(service *goa.Service, ctrl TeamOpeningConf
 		}
 		return ctrl.List(rctx)
 	}
+	h = handleTeamOpeningConfigOrigin(h)
 	service.Mux.Handle("GET", "/nmg/teamOpeningConfig/list", ctrl.MuxHandler("list", h, nil))
 	service.LogInfo("mount", "ctrl", "TeamOpeningConfig", "action", "List", "route", "GET /nmg/teamOpeningConfig/list")
 
@@ -642,6 +780,7 @@ func MountTeamOpeningConfigController(service *goa.Service, ctrl TeamOpeningConf
 		}
 		return ctrl.Show(rctx)
 	}
+	h = handleTeamOpeningConfigOrigin(h)
 	service.Mux.Handle("GET", "/nmg/teamOpeningConfig/:id", ctrl.MuxHandler("show", h, nil))
 	service.LogInfo("mount", "ctrl", "TeamOpeningConfig", "action", "Show", "route", "GET /nmg/teamOpeningConfig/:id")
 
@@ -663,8 +802,34 @@ func MountTeamOpeningConfigController(service *goa.Service, ctrl TeamOpeningConf
 		}
 		return ctrl.Update(rctx)
 	}
+	h = handleTeamOpeningConfigOrigin(h)
 	service.Mux.Handle("PUT", "/nmg/teamOpeningConfig/:id", ctrl.MuxHandler("update", h, unmarshalUpdateTeamOpeningConfigPayload))
 	service.LogInfo("mount", "ctrl", "TeamOpeningConfig", "action", "Update", "route", "PUT /nmg/teamOpeningConfig/:id")
+}
+
+// handleTeamOpeningConfigOrigin applies the CORS response headers corresponding to the origin.
+func handleTeamOpeningConfigOrigin(h goa.Handler) goa.Handler {
+
+	return func(ctx context.Context, rw http.ResponseWriter, req *http.Request) error {
+		origin := req.Header.Get("Origin")
+		if origin == "" {
+			// Not a CORS request
+			return h(ctx, rw, req)
+		}
+		if cors.MatchOrigin(origin, "*") {
+			ctx = goa.WithLogContext(ctx, "origin", origin)
+			rw.Header().Set("Access-Control-Allow-Origin", origin)
+			rw.Header().Set("Access-Control-Max-Age", "600")
+			rw.Header().Set("Access-Control-Allow-Credentials", "true")
+			if acrm := req.Header.Get("Access-Control-Request-Method"); acrm != "" {
+				// We are handling a preflight request
+				rw.Header().Set("Access-Control-Allow-Methods", "GET, POST, PUT, DELETE")
+			}
+			return h(ctx, rw, req)
+		}
+
+		return h(ctx, rw, req)
+	}
 }
 
 // unmarshalCreateTeamOpeningConfigPayload unmarshals the request body into the context request data Payload field.

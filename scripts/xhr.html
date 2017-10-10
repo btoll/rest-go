@@ -1,0 +1,38 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="utf-8">
+<title>xhr</title>
+<script>
+/*
+Instructions:
+    1. Start a new web server on a different port from the default :8000 of the GAE dev server.
+       (The difference with the port is enough to trigger cross-domain request errors.)
+
+    2. Simply load this script and observe the alert.  In the result of a failure, there will
+       be more information in the devtools console.
+*/
+
+document.addEventListener('DOMContentLoaded', () => {
+    const xhr = new XMLHttpRequest();
+
+    xhr.onreadystatechange = () => {
+        if (xhr.readyState === XMLHttpRequest.DONE) {
+            if (xhr.status === 200) {
+                alert('CORS is implemented on the server!');
+            } else {
+                alert('Request failed! Perhaps CORS is not implemented?');
+            }
+        }
+    };
+
+    xhr.open('GET', 'http://localhost:8080/nmg/team/list');
+    xhr.send();
+});
+</script>
+</head>
+
+<body>
+</body>
+</html>
+
