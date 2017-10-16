@@ -10,10 +10,8 @@ import (
 	"net/http"
 
 	"golang.org/x/net/context"
-
 	"google.golang.org/appengine"
 	"google.golang.org/appengine/file"
-	//	"google.golang.org/appengine/blobstore"
 	"google.golang.org/appengine/log"
 )
 
@@ -26,15 +24,13 @@ func serveError(ctx context.Context, w http.ResponseWriter, err error) {
 	log.Errorf(ctx, "%v", err)
 }
 
-var rootTemplate = template.Must(template.New("root").Parse(rootTemplateHTML))
-
-const rootTemplateHTML = `
+var rootTemplate = template.Must(template.New("root").Parse(`
 <html><body>
 <form action="{{.}}" method="POST" enctype="multipart/form-data">
 Upload File: <input type="file" name="file"><br>
 <input type="submit" name="submit" value="Submit">
 </form></body></html>
-`
+`))
 
 func handleRoot(w http.ResponseWriter, r *http.Request) {
 	ctx := appengine.NewContext(r)

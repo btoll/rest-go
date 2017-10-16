@@ -30,6 +30,8 @@ func (c *TeamController) Create(ctx *app.CreateTeamContext) error {
 	return ctx.OKTiny(&app.TeamMediaTiny{id})
 
 	// TeamController_Create: end_implement
+	res := &app.TeamMediaTiny{}
+	return ctx.OKTiny(res)
 }
 
 // Delete runs the delete action.
@@ -43,6 +45,7 @@ func (c *TeamController) Delete(ctx *app.DeleteTeamContext) error {
 	return ctx.NoContent()
 
 	// TeamController_Delete: end_implement
+	return nil
 }
 
 // List runs the list action.
@@ -58,6 +61,7 @@ func (c *TeamController) List(ctx *app.ListTeamContext) error {
 	return ctx.OK(b)
 
 	// TeamController_List: end_implement
+	return nil
 }
 
 // Show runs the show action.
@@ -73,6 +77,8 @@ func (c *TeamController) Show(ctx *app.ShowTeamContext) error {
 	return ctx.OK(model.(*app.TeamMedia))
 
 	// TeamController_Show: end_implement
+	res := &app.TeamMedia{}
+	return ctx.OK(res)
 }
 
 // Update runs the update action.
@@ -86,4 +92,5 @@ func (c *TeamController) Update(ctx *app.UpdateTeamContext) error {
 	return ctx.NoContent()
 
 	// TeamController_Update: end_implement
+	return nil
 }

@@ -36,6 +36,9 @@ func main() {
 	// Mount "TeamOpeningConfig" controller
 	c5 := NewTeamOpeningConfigController(service)
 	app.MountTeamOpeningConfigController(service, c5)
+	// Mount "Image" controller
+	c6 := NewImageController(service)
+	app.MountImageController(service, c6)
 
 	http.Handle("/", service.Mux)
 	appengine.Main()

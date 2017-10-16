@@ -27,6 +27,12 @@ func GameHref(id interface{}) string {
 	return fmt.Sprintf("/nmg/game/%v", paramid)
 }
 
+// ImageHref returns the resource href.
+func ImageHref(id interface{}) string {
+	paramid := strings.TrimLeftFunc(fmt.Sprintf("%v", id), func(r rune) bool { return r == '/' })
+	return fmt.Sprintf("/nmg/image/%v", paramid)
+}
+
 // SportHref returns the resource href.
 func SportHref(id interface{}) string {
 	paramid := strings.TrimLeftFunc(fmt.Sprintf("%v", id), func(r rune) bool { return r == '/' })

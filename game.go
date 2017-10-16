@@ -30,6 +30,8 @@ func (c *GameController) Create(ctx *app.CreateGameContext) error {
 	return ctx.OKTiny(&app.GameMediaTiny{id})
 
 	// GameController_Create: end_implement
+	res := &app.GameMediaTiny{}
+	return ctx.OKTiny(res)
 }
 
 // Delete runs the delete action.
@@ -43,6 +45,7 @@ func (c *GameController) Delete(ctx *app.DeleteGameContext) error {
 	return ctx.NoContent()
 
 	// GameController_Delete: end_implement
+	return nil
 }
 
 // List runs the list action.
@@ -58,6 +61,7 @@ func (c *GameController) List(ctx *app.ListGameContext) error {
 	return ctx.OK(b)
 
 	// GameController_List: end_implement
+	return nil
 }
 
 // Show runs the show action.
@@ -73,6 +77,8 @@ func (c *GameController) Show(ctx *app.ShowGameContext) error {
 	return ctx.OK(model.(*app.GameMedia))
 
 	// GameController_Show: end_implement
+	res := &app.GameMedia{}
+	return ctx.OK(res)
 }
 
 // Update runs the update action.
@@ -86,4 +92,5 @@ func (c *GameController) Update(ctx *app.UpdateGameContext) error {
 	return ctx.NoContent()
 
 	// GameController_Update: end_implement
+	return nil
 }

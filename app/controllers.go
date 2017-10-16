@@ -366,6 +366,78 @@ func unmarshalUpdateGamePayload(ctx context.Context, service *goa.Service, req *
 	return nil
 }
 
+// ImageController is the controller interface for the Image actions.
+type ImageController interface {
+	goa.Muxer
+	Show(*ShowImageContext) error
+	Upload(*UploadImageContext) error
+}
+
+// MountImageController "mounts" a Image resource controller on the given service.
+func MountImageController(service *goa.Service, ctrl ImageController) {
+	initService(service)
+	var h goa.Handler
+	service.Mux.Handle("OPTIONS", "/nmg/image/:id", ctrl.MuxHandler("preflight", handleImageOrigin(cors.HandlePreflight()), nil))
+
+	h = func(ctx context.Context, rw http.ResponseWriter, req *http.Request) error {
+		// Check if there was an error loading the request
+		if err := goa.ContextError(ctx); err != nil {
+			return err
+		}
+		// Build the context
+		rctx, err := NewShowImageContext(ctx, req, service)
+		if err != nil {
+			return err
+		}
+		return ctrl.Show(rctx)
+	}
+	h = handleImageOrigin(h)
+	service.Mux.Handle("GET", "/nmg/image/:id", ctrl.MuxHandler("show", h, nil))
+	service.LogInfo("mount", "ctrl", "Image", "action", "Show", "route", "GET /nmg/image/:id")
+
+	h = func(ctx context.Context, rw http.ResponseWriter, req *http.Request) error {
+		// Check if there was an error loading the request
+		if err := goa.ContextError(ctx); err != nil {
+			return err
+		}
+		// Build the context
+		rctx, err := NewUploadImageContext(ctx, req, service)
+		if err != nil {
+			return err
+		}
+		return ctrl.Upload(rctx)
+	}
+	h = handleImageOrigin(h)
+	service.Mux.Handle("PUT", "/nmg/image/:id", ctrl.MuxHandler("upload", h, nil))
+	service.LogInfo("mount", "ctrl", "Image", "action", "Upload", "route", "PUT /nmg/image/:id")
+}
+
+// handleImageOrigin applies the CORS response headers corresponding to the origin.
+func handleImageOrigin(h goa.Handler) goa.Handler {
+
+	return func(ctx context.Context, rw http.ResponseWriter, req *http.Request) error {
+		origin := req.Header.Get("Origin")
+		if origin == "" {
+			// Not a CORS request
+			return h(ctx, rw, req)
+		}
+		if cors.MatchOrigin(origin, "*") {
+			ctx = goa.WithLogContext(ctx, "origin", origin)
+			rw.Header().Set("Access-Control-Allow-Origin", origin)
+			rw.Header().Set("Access-Control-Max-Age", "600")
+			rw.Header().Set("Access-Control-Allow-Credentials", "true")
+			if acrm := req.Header.Get("Access-Control-Request-Method"); acrm != "" {
+				// We are handling a preflight request
+				rw.Header().Set("Access-Control-Allow-Methods", "GET, POST, PUT, DELETE")
+				rw.Header().Set("Access-Control-Allow-Headers", "Accept, Accept-Language, Content-Language, Content-Type")
+			}
+			return h(ctx, rw, req)
+		}
+
+		return h(ctx, rw, req)
+	}
+}
+
 // SportController is the controller interface for the Sport actions.
 type SportController interface {
 	goa.Muxer

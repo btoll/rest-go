@@ -30,6 +30,8 @@ func (c *EventController) Create(ctx *app.CreateEventContext) error {
 	return ctx.OKTiny(&app.EventMediaTiny{id})
 
 	// EventController_Create: end_implement
+	res := &app.EventMediaTiny{}
+	return ctx.OKTiny(res)
 }
 
 // Delete runs the delete action.
@@ -43,6 +45,7 @@ func (c *EventController) Delete(ctx *app.DeleteEventContext) error {
 	return ctx.NoContent()
 
 	// EventController_Delete: end_implement
+	return nil
 }
 
 // List runs the list action.
@@ -58,6 +61,7 @@ func (c *EventController) List(ctx *app.ListEventContext) error {
 	return ctx.OK(b)
 
 	// EventController_List: end_implement
+	return nil
 }
 
 // Show runs the show action.
@@ -73,6 +77,8 @@ func (c *EventController) Show(ctx *app.ShowEventContext) error {
 	return ctx.OK(model.(*app.EventMedia))
 
 	// EventController_Show: end_implement
+	res := &app.EventMedia{}
+	return ctx.OK(res)
 }
 
 // Update runs the update action.
@@ -86,4 +92,5 @@ func (c *EventController) Update(ctx *app.UpdateEventContext) error {
 	return ctx.NoContent()
 
 	// EventController_Update: end_implement
+	return nil
 }

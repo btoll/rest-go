@@ -75,45 +75,45 @@ definitions:
   EventPayload:
     description: Event Description.
     example:
-      endDtTm: 1976-12-29T12:27:59Z
-      eventId: Ad qui laborum aliquam vel nobis.
-      locationId: Voluptatem dolores sit ut quis necessitatibus non.
-      name: Est delectus.
-      sportId: Quis aut ut labore perferendis natus quidem.
-      startDtTm: 2007-08-16T16:19:15Z
-      subTitle: Maiores voluptatem voluptatem ad earum.
-      teamAdvanceMethod: Porro vel quia quaerat.
+      endDtTm: 1972-03-31T02:51:02Z
+      eventId: Ut labore perferendis.
+      locationId: Quidem iste sint maiores voluptatem voluptatem.
+      name: Earum quam porro vel quia quaerat maxime.
+      sportId: Mollitia et.
+      startDtTm: 2013-06-26T16:24:33Z
+      subTitle: Nobis id dignissimos quo iusto voluptatem.
+      teamAdvanceMethod: Est quo molestias.
     properties:
       endDtTm:
-        example: 1976-12-29T12:27:59Z
+        example: 1972-03-31T02:51:02Z
         format: date-time
         type: string
       eventId:
         description: Not guaranteed to be unique
-        example: Ad qui laborum aliquam vel nobis.
+        example: Ut labore perferendis.
         type: string
       locationId:
         description: Location.defaultLoc.id
-        example: Voluptatem dolores sit ut quis necessitatibus non.
+        example: Quidem iste sint maiores voluptatem voluptatem.
         type: string
       name:
         description: e.g., March Madness
-        example: Est delectus.
+        example: Earum quam porro vel quia quaerat maxime.
         type: string
       sportId:
         description: Sport ID
-        example: Quis aut ut labore perferendis natus quidem.
+        example: Mollitia et.
         type: string
       startDtTm:
-        example: 2007-08-16T16:19:15Z
+        example: 2013-06-26T16:24:33Z
         format: date-time
         type: string
       subTitle:
-        example: Maiores voluptatem voluptatem ad earum.
+        example: Nobis id dignissimos quo iusto voluptatem.
         type: string
       teamAdvanceMethod:
         description: EventAdvanceMethod.singleElimination || doubleElim || bestOf
-        example: Porro vel quia quaerat.
+        example: Est quo molestias.
         type: string
     required:
     - sportId
@@ -227,76 +227,76 @@ definitions:
   GamePayload:
     description: Game Description.
     example:
-      eventId: Dicta mollitia et nulla eos nobis id.
-      externalId: Quo iusto voluptatem eos est quo molestias.
-      favTeamId: Accusamus aut perferendis eos vel assumenda.
-      finishedAtDtTm: 1992-03-19T05:10:10Z
-      gameStatus: Minima officiis quas voluptatem.
-      location: Quos quaerat atque et est deleniti maiores.
-      locationId: Eum neque quibusdam.
-      loserProgressStatus: Quos pariatur explicabo ullam quam sed accusantium.
-      oddsForFav: 0.34067774
-      playDtTm: 1979-02-27T12:04:56Z
-      sportId: Ut suscipit iusto eos et ut.
-      title: Est a tempora.
-      underTeamId: Consequatur id.
-      winnerTeamId: Quidem ut ea unde excepturi minima voluptas.
+      eventId: Accusamus aut perferendis eos vel assumenda.
+      externalId: Dignissimos minima officiis quas.
+      favTeamId: Ad quos quaerat atque.
+      finishedAtDtTm: 1998-06-18T13:11:36Z
+      gameStatus: Deleniti maiores.
+      location: Eum neque quibusdam.
+      locationId: Quos pariatur explicabo ullam quam sed accusantium.
+      loserProgressStatus: Sed voluptas ut suscipit iusto.
+      oddsForFav: 0.08226665
+      playDtTm: 2009-06-06T23:23:33Z
+      sportId: Aut est a tempora.
+      title: Consequatur id.
+      underTeamId: Quidem ut ea unde excepturi minima voluptas.
+      winnerTeamId: Ratione molestias aut.
     properties:
       eventId:
         description: Event ID
-        example: Dicta mollitia et nulla eos nobis id.
+        example: Accusamus aut perferendis eos vel assumenda.
         type: string
       externalId:
         description: Any public id for this game, not unique
-        example: Quo iusto voluptatem eos est quo molestias.
+        example: Dignissimos minima officiis quas.
         type: string
       favTeamId:
         description: Favorite team id
-        example: Accusamus aut perferendis eos vel assumenda.
+        example: Ad quos quaerat atque.
         type: string
       finishedAtDtTm:
-        example: 1992-03-19T05:10:10Z
+        example: 1998-06-18T13:11:36Z
         format: date-time
         type: string
       gameStatus:
         description: TeamGameStatus.preGame || tradeable || gameOn || ended
-        example: Minima officiis quas voluptatem.
+        example: Deleniti maiores.
         type: string
       location:
         description: Name of location
-        example: Quos quaerat atque et est deleniti maiores.
+        example: Eum neque quibusdam.
         type: string
       locationId:
         description: True GPS location
-        example: Eum neque quibusdam.
+        example: Quos pariatur explicabo ullam quam sed accusantium.
         type: string
       loserProgressStatus:
         description: TeamGameStatus.eliminated
-        example: Quos pariatur explicabo ullam quam sed accusantium.
+        example: Sed voluptas ut suscipit iusto.
         type: string
       oddsForFav:
         description: "0"
-        example: 0.34067774
+        example: 0.08226665
         format: double
         type: number
       playDtTm:
-        example: 1979-02-27T12:04:56Z
+        example: 2009-06-06T23:23:33Z
         format: date-time
         type: string
       sportId:
         description: Sport ID
-        example: Ut suscipit iusto eos et ut.
+        example: Aut est a tempora.
         type: string
       title:
         description: Public free form name
-        example: Est a tempora.
+        example: Consequatur id.
         type: string
       underTeamId:
-        example: Consequatur id.
+        example: Quidem ut ea unde excepturi minima voluptas.
         type: string
       winnerTeamId:
         description: Empty until game completed
-        example: Quidem ut ea unde excepturi minima voluptas.
+        example: Ratione molestias aut.
         type: string
     required:
     - favTeamId
@@ -314,44 +314,86 @@ definitions:
     - loserProgressStatus
     title: GamePayload
     type: object
+  ImageMedia:
+    description: Image metadata (default view)
+    example:
+      filename: Ea aut dolore quis natus.
+      id: 1.9820795e+09
+      uploaded_at: 2009-01-13T07:07:05Z
+    properties:
+      filename:
+        description: Image filename
+        example: Ea aut dolore quis natus.
+        type: string
+      id:
+        description: Image ID
+        example: 1.9820795e+09
+        format: int64
+        type: integer
+      uploaded_at:
+        description: Upload timestamp
+        example: 2009-01-13T07:07:05Z
+        format: date-time
+        type: string
+    required:
+    - id
+    - filename
+    - uploaded_at
+    title: 'Mediatype identifier: application/nmgapi.imageentity; view=default'
+    type: object
+  ImageMediaCollection:
+    description: ImageMediaCollection is the media type for an array of ImageMedia
+      (default view)
+    example:
+    - filename: Ea aut dolore quis natus.
+      id: 1.9820795e+09
+      uploaded_at: 2009-01-13T07:07:05Z
+    - filename: Ea aut dolore quis natus.
+      id: 1.9820795e+09
+      uploaded_at: 2009-01-13T07:07:05Z
+    items:
+      $ref: '#/definitions/ImageMedia'
+    title: 'Mediatype identifier: application/nmgapi.imageentity; type=collection;
+      view=default'
+    type: array
   SportMedia:
     description: Sport response (default view)
     example:
-      active: true
-      backgroundImageName: Aut dolore quis natus aut magnam provident.
-      eventTerm: Qui aut non.
-      gameTerm: Sunt amet.
-      iconName: Totam fuga fugiat cupiditate autem occaecati omnis.
-      maxPreSplitPrice: 0.010741719
-      name: Autem quasi dolorum est dolor.
+      active: false
+      backgroundImageName: Aut non quo sunt amet dignissimos totam.
+      eventTerm: Fugiat cupiditate autem occaecati omnis quaerat alias.
+      gameTerm: Asperiores incidunt fugiat autem quasi.
+      iconName: Est dolor quis in cum atque.
+      maxPreSplitPrice: 0.5915493
+      name: Quia ut dolor veritatis alias a.
     properties:
       active:
         description: Is in season?
-        example: true
+        example: false
         type: boolean
       backgroundImageName:
         description: sport_icon
-        example: Aut dolore quis natus aut magnam provident.
+        example: Aut non quo sunt amet dignissimos totam.
         type: string
       eventTerm:
         description: Tournament
-        example: Qui aut non.
+        example: Fugiat cupiditate autem occaecati omnis quaerat alias.
         type: string
       gameTerm:
         description: Game
-        example: Sunt amet.
+        example: Asperiores incidunt fugiat autem quasi.
         type: string
       iconName:
         description: sport_icon
-        example: Totam fuga fugiat cupiditate autem occaecati omnis.
+        example: Est dolor quis in cum atque.
         type: string
       maxPreSplitPrice:
-        example: 0.010741719
+        example: 0.5915493
         format: double
         type: number
       name:
         description: Sport name
-        example: Autem quasi dolorum est dolor.
+        example: Quia ut dolor veritatis alias a.
         type: string
     required:
     - name
@@ -366,11 +408,11 @@ definitions:
   SportMediaTiny:
     description: Sport response (tiny view)
     example:
-      name: Autem quasi dolorum est dolor.
+      name: Quia ut dolor veritatis alias a.
     properties:
       name:
         description: Sport name
-        example: Autem quasi dolorum est dolor.
+        example: Quia ut dolor veritatis alias a.
         type: string
     required:
     - name
@@ -379,41 +421,41 @@ definitions:
   SportPayload:
     description: Sport Description.
     example:
-      active: true
-      backgroundImageName: Molestias aut.
-      eventTerm: Vitae consequatur corrupti tempora.
-      gameTerm: Est et veritatis non.
-      iconName: Id error non ipsa aut facilis.
-      maxPreSplitPrice: 0.25177217
-      name: Impedit ex qui ad suscipit in.
+      active: false
+      backgroundImageName: Consequatur corrupti tempora quam est et veritatis.
+      eventTerm: Esse id error non ipsa aut.
+      gameTerm: Rerum quo impedit.
+      iconName: Qui ad suscipit in sunt laborum.
+      maxPreSplitPrice: 0.9016145
+      name: Quo fuga fugiat quam.
     properties:
       active:
         description: Is in season?
-        example: true
+        example: false
         type: boolean
       backgroundImageName:
         description: sport_icon
-        example: Molestias aut.
+        example: Consequatur corrupti tempora quam est et veritatis.
         type: string
       eventTerm:
         description: Tournament
-        example: Vitae consequatur corrupti tempora.
+        example: Esse id error non ipsa aut.
         type: string
       gameTerm:
         description: Game
-        example: Est et veritatis non.
+        example: Rerum quo impedit.
         type: string
       iconName:
         description: sport_icon
-        example: Id error non ipsa aut facilis.
+        example: Qui ad suscipit in sunt laborum.
         type: string
       maxPreSplitPrice:
-        example: 0.25177217
+        example: 0.9016145
         format: double
         type: number
       name:
         description: Sport name
-        example: Impedit ex qui ad suscipit in.
+        example: Quo fuga fugiat quam.
         type: string
     required:
     - name
@@ -428,42 +470,41 @@ definitions:
   TeamMedia:
     description: Team sport response (default view)
     example:
-      currentWinRecord: In cum atque consequatur.
-      fullLogo: Eaque officiis esse quia ut.
-      homeTownId: Veritatis alias a repellat.
-      iconName: Id quidem atque saepe.
-      name: Necessitatibus esse nostrum laboriosam reprehenderit consequuntur reiciendis.
-      shortName: Id ut cum et.
-      sportId: Voluptatem assumenda sed quibusdam velit occaecati excepturi.
+      currentWinRecord: Sed id quidem atque saepe sed dolores.
+      fullLogo: Beatae minus necessitatibus esse nostrum laboriosam reprehenderit.
+      homeTownId: Reiciendis magnam id.
+      iconName: Cum et laborum voluptatem assumenda.
+      name: Debitis dolores qui velit autem.
+      shortName: Laborum magni deleniti molestias numquam rerum unde.
+      sportId: Qui laborum aliquam vel.
     properties:
       currentWinRecord:
         description: Team Win-Loss Record
-        example: In cum atque consequatur.
+        example: Sed id quidem atque saepe sed dolores.
         type: string
       fullLogo:
         description: Team Logo
-        example: Eaque officiis esse quia ut.
+        example: Beatae minus necessitatibus esse nostrum laboriosam reprehenderit.
         type: string
       homeTownId:
         description: Sport HomeTown ID
-        example: Veritatis alias a repellat.
+        example: Reiciendis magnam id.
         type: string
       iconName:
         description: Team Icon
-        example: Id quidem atque saepe.
+        example: Cum et laborum voluptatem assumenda.
         type: string
       name:
         description: Team name
-        example: Necessitatibus esse nostrum laboriosam reprehenderit consequuntur
-          reiciendis.
+        example: Debitis dolores qui velit autem.
         type: string
       shortName:
         description: Team Nickname
-        example: Id ut cum et.
+        example: Laborum magni deleniti molestias numquam rerum unde.
         type: string
       sportId:
         description: Sport ID
-        example: Voluptatem assumenda sed quibusdam velit occaecati excepturi.
+        example: Qui laborum aliquam vel.
         type: string
     required:
     - name
@@ -478,11 +519,11 @@ definitions:
   TeamMediaTiny:
     description: Team sport response (tiny view)
     example:
-      id: Dolores est beatae.
+      id: Quibusdam velit occaecati excepturi omnis debitis.
     properties:
       id:
         description: ID
-        example: Dolores est beatae.
+        example: Quibusdam velit occaecati excepturi omnis debitis.
         type: string
     required:
     - id
@@ -491,45 +532,45 @@ definitions:
   TeamOpeningConfigMedia:
     description: Team sport response (default view)
     example:
-      buyIncrementPrice: 0.47375858
-      buyIncrementQuan: 1.062042e+09
-      liquidationFee: 0.98755515
-      openingPrice: 0.45573568
-      openingShares: 1.3313519e+09
-      sellDecrementPrice: 0.2278038
-      sellDecrementQuan: 6.608938e+08
-      startTradeDtTm: 1992-01-18T19:06:24Z
+      buyIncrementPrice: 0.98110104
+      buyIncrementQuan: 2.0528434e+09
+      liquidationFee: 0.73428774
+      openingPrice: 0.14790796
+      openingShares: 3.95306e+08
+      sellDecrementPrice: 0.09612316
+      sellDecrementQuan: 1.471171e+09
+      startTradeDtTm: 2012-03-04T02:29:02Z
     properties:
       buyIncrementPrice:
-        example: 0.47375858
+        example: 0.98110104
         format: double
         type: number
       buyIncrementQuan:
-        example: 1.062042e+09
+        example: 2.0528434e+09
         format: int64
         type: integer
       liquidationFee:
-        example: 0.98755515
+        example: 0.73428774
         format: double
         type: number
       openingPrice:
-        example: 0.45573568
+        example: 0.14790796
         format: double
         type: number
       openingShares:
-        example: 1.3313519e+09
+        example: 3.95306e+08
         format: int64
         type: integer
       sellDecrementPrice:
-        example: 0.2278038
+        example: 0.09612316
         format: double
         type: number
       sellDecrementQuan:
-        example: 6.608938e+08
+        example: 1.471171e+09
         format: int64
         type: integer
       startTradeDtTm:
-        example: 1992-01-18T19:06:24Z
+        example: 2012-03-04T02:29:02Z
         format: date-time
         type: string
     required:
@@ -546,11 +587,11 @@ definitions:
   TeamOpeningConfigMediaTiny:
     description: Team sport response (tiny view)
     example:
-      id: Debitis dolores qui velit autem.
+      id: Dolores sit ut quis.
     properties:
       id:
         description: ID
-        example: Debitis dolores qui velit autem.
+        example: Dolores sit ut quis.
         type: string
     required:
     - id
@@ -559,45 +600,45 @@ definitions:
   TeamOpeningConfigPayload:
     description: Team Description.
     example:
-      buyIncrementPrice: 0.9707247
-      buyIncrementQuan: 1.4125928e+09
-      liquidationFee: 0.111536995
-      openingPrice: 0.32372826
-      openingShares: 1.359693e+09
-      sellDecrementPrice: 0.7580639
-      sellDecrementQuan: 5.3529686e+08
-      startTradeDtTm: 2009-06-03T11:59:53Z
+      buyIncrementPrice: 0.9633427
+      buyIncrementQuan: 4.98184e+08
+      liquidationFee: 0.22654602
+      openingPrice: 0.40729344
+      openingShares: 1.4441151e+09
+      sellDecrementPrice: 0.20817302
+      sellDecrementQuan: 2.0798708e+09
+      startTradeDtTm: 1999-04-04T02:20:05Z
     properties:
       buyIncrementPrice:
-        example: 0.9707247
+        example: 0.9633427
         format: double
         type: number
       buyIncrementQuan:
-        example: 1.4125928e+09
+        example: 4.98184e+08
         format: int64
         type: integer
       liquidationFee:
-        example: 0.111536995
+        example: 0.22654602
         format: double
         type: number
       openingPrice:
-        example: 0.32372826
+        example: 0.40729344
         format: double
         type: number
       openingShares:
-        example: 1.359693e+09
+        example: 1.4441151e+09
         format: int64
         type: integer
       sellDecrementPrice:
-        example: 0.7580639
+        example: 0.20817302
         format: double
         type: number
       sellDecrementQuan:
-        example: 5.3529686e+08
+        example: 2.0798708e+09
         format: int64
         type: integer
       startTradeDtTm:
-        example: 2009-06-03T11:59:53Z
+        example: 1999-04-04T02:20:05Z
         format: date-time
         type: string
     required:
@@ -614,41 +655,41 @@ definitions:
   TeamPayload:
     description: Team Description.
     example:
-      currentWinRecord: Laborum veniam explicabo quo fuga fugiat.
-      fullLogo: Veritatis explicabo ullam cupiditate.
-      homeTownId: Delectus repellendus enim.
-      iconName: Qui reiciendis dolorem accusamus perspiciatis.
-      name: Voluptas occaecati non.
-      shortName: Enim laborum.
-      sportId: Esse voluptatem.
+      currentWinRecord: Explicabo ullam.
+      fullLogo: Fugit delectus repellendus enim non qui.
+      homeTownId: Dolorem accusamus perspiciatis harum voluptas.
+      iconName: Non similique.
+      name: Laborum corporis esse voluptatem.
+      shortName: Est ut eum qui voluptatem voluptas illo.
+      sportId: Eligendi qui in temporibus incidunt consequuntur.
     properties:
       currentWinRecord:
         description: Team Win-Loss Record
-        example: Laborum veniam explicabo quo fuga fugiat.
+        example: Explicabo ullam.
         type: string
       fullLogo:
         description: Team Logo
-        example: Veritatis explicabo ullam cupiditate.
+        example: Fugit delectus repellendus enim non qui.
         type: string
       homeTownId:
         description: Sport HomeTown ID
-        example: Delectus repellendus enim.
+        example: Dolorem accusamus perspiciatis harum voluptas.
         type: string
       iconName:
         description: Team Icon
-        example: Qui reiciendis dolorem accusamus perspiciatis.
+        example: Non similique.
         type: string
       name:
         description: Team name
-        example: Voluptas occaecati non.
+        example: Laborum corporis esse voluptatem.
         type: string
       shortName:
         description: Team Nickname
-        example: Enim laborum.
+        example: Est ut eum qui voluptatem voluptas illo.
         type: string
       sportId:
         description: Sport ID
-        example: Esse voluptatem.
+        example: Eligendi qui in temporibus incidunt consequuntur.
         type: string
     required:
     - name
@@ -1021,6 +1062,71 @@ paths:
       summary: list Game
       tags:
       - Game
+  /image/{id}:
+    get:
+      description: Show an image's metadata
+      operationId: Image#show
+      parameters:
+      - description: Image ID
+        in: path
+        name: id
+        required: true
+        type: integer
+      produces:
+      - application/vnd.goa.error
+      - application/vnd.goa.error
+      - application/nmgapi.imageentity
+      responses:
+        "200":
+          description: OK
+          schema:
+            $ref: '#/definitions/ImageMedia'
+        "400":
+          description: Bad Request
+          schema:
+            $ref: '#/definitions/error'
+        "404":
+          description: Not Found
+        "500":
+          description: Internal Server Error
+          schema:
+            $ref: '#/definitions/error'
+      schemes:
+      - http
+      summary: show Image
+      tags:
+      - Image
+    put:
+      description: Upload multiple images in multipart request
+      operationId: Image#upload
+      parameters:
+      - description: event|sport|team
+        in: path
+        name: id
+        required: true
+        type: string
+      produces:
+      - application/vnd.goa.error
+      - application/vnd.goa.error
+      - application/nmgapi.imageentity; type=collection
+      responses:
+        "200":
+          description: OK
+          schema:
+            $ref: '#/definitions/ImageMediaCollection'
+        "400":
+          description: Bad Request
+          schema:
+            $ref: '#/definitions/error'
+        "500":
+          description: Internal Server Error
+          schema:
+            $ref: '#/definitions/error'
+      schemes:
+      - http
+      summary: upload Image
+      tags:
+      - Image
   /sport/:
     post:
       description: Create a new sport.
@@ -1502,6 +1608,8 @@ responses:
     description: Bad Request
   NoContent:
     description: No Content
+  NotFound:
+    description: Not Found
 schemes:
 - http
 swagger: "2.0"
