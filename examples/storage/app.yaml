@@ -1,0 +1,15 @@
+runtime: go
+api_version: go1.8
+service: default
+# Without the declaration below I get pathing errors.
+env: flex
+
+handlers:
+- url: /.*
+  script: _go_app
+
+#beta_settings:
+#  # Enable Google Cloud Endpoints API management.
+#  use_endpoints_api_management: true
+#  # Specify the Swagger API specification.
+#  endpoints_swagger_spec_file: swagger/swagger.yaml
