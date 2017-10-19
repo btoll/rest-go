@@ -1,11 +1,13 @@
 package main
 
 import (
+	"bytes"
 	"io"
-	"os"
 
+	"cloud.google.com/go/storage"
 	"github.com/btoll/rest-go/app"
 	"github.com/goadesign/goa"
+	"google.golang.org/appengine"
 )
 
 // ImageController implements the Image resource.
@@ -44,36 +46,49 @@ func (c *ImageController) Show(ctx *app.ShowImageContext) error {
 func (c *ImageController) Upload(ctx *app.UploadImageContext) error {
 	// ImageController_Upload: start_implement
 
+	/* ----------------------------------------------------------- */
+	gaeCtx := appengine.NewContext(ctx.Request)
+	//	bucketname, err := file.DefaultBucketName(gaeCtx)
+
+	client, err := storage.NewClient(gaeCtx)
+	if err != nil {
+		panic(err)
+	}
+	defer client.Close()
+
+	//	wc := client.Bucket(bucketname).Object("derp").NewWriter(gaeCtx)
+	wc := client.Bucket("foobar-179819.appspot.com").Object("derp").NewWriter(gaeCtx)
+	wc.ContentType = "text/plain"
+	/* ----------------------------------------------------------- */
+
 	reader, _ := ctx.MultipartReader()
 	pr, pw := io.Pipe()
 	defer pr.Close()
 
 	go func() {
-		// TODO: Don't want to allocate.
-		b := make([]byte, 4096)
+		buf := new(bytes.Buffer)
 
 		for {
 			part, err := reader.NextPart()
 
 			if err != io.EOF {
-				part.Read(b)
-				pw.Write(b)
+				// TODO: Don't want to allocate...
+				_, err := buf.ReadFrom(part)
+				if err != nil {
+					panic(err)
+				}
+
+				buf.WriteTo(pw)
 			} else {
 				pw.Close()
 				break
 			}
-
-			/*
-				if part.FormName() == "delete" {
-					buf := new(bytes.Buffer)
-					buf.ReadFrom(part)
-					log.Println("delete is: ", buf.String())
-				}
-			*/
 		}
 	}()
 
-	io.Copy(os.Stdout, pr)
+	//	io.Copy(io.MultiWriter(os.Stdout, os.Stderr, wc), pr)
+	io.Copy(wc, pr)
+	wc.Close()
 
 	// ImageController_Upload: end_implement
 	res := app.ImageMediaCollection{}
