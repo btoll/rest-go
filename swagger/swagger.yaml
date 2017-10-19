@@ -1062,16 +1062,53 @@ paths:
       summary: list Game
       tags:
       - Game
-  /image/{id}:
+  /image/{entity}:
     get:
-      description: Show an image's metadata
+      description: Get all images of all teams
+      operationId: Image#list
+      parameters:
+      - description: event|sport|team
+        in: path
+        name: entity
+        required: true
+        type: string
+      produces:
+      - application/vnd.goa.error
+      - application/vnd.goa.error
+      - application/nmgapi.imageentity; type=collection
+      responses:
+        "200":
+          description: OK
+          schema:
+            $ref: '#/definitions/ImageMediaCollection'
+        "400":
+          description: Bad Request
+          schema:
+            $ref: '#/definitions/error'
+        "500":
+          description: Internal Server Error
+          schema:
+            $ref: '#/definitions/error'
+      schemes:
+      - http
+      summary: list Image
+      tags:
+      - Image
+  /image/{entity}/{id}:
+    get:
+      description: Show all images for a particular team
       operationId: Image#show
       parameters:
-      - description: Image ID
+      - description: event|sport|team
+        in: path
+        name: entity
+        required: true
+        type: string
+      - description: Entity ID
         in: path
         name: id
         required: true
-        type: integer
+        type: string
       produces:
       - application/vnd.goa.error
       - application/vnd.goa.error
@@ -1101,6 +1138,11 @@ paths:
       operationId: Image#upload
       parameters:
       - description: event|sport|team
+        in: path
+        name: entity
+        required: true
+        type: string
+      - description: Entity ID
         in: path
         name: id
         required: true

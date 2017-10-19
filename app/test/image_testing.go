@@ -6,6 +6,7 @@
 // $ goagen
 // --design=github.com/btoll/rest-go/design
 // --out=$(GOPATH)/src/github.com/btoll/rest-go
+// --regen=true
 // --version=v1.3.0
 
 package test
@@ -24,11 +25,11 @@ import (
 	"net/url"
 )
 
-// ShowImageBadRequest runs the method Show of the given controller with the given parameters.
+// ListImageBadRequest runs the method List of the given controller with the given parameters.
 // It returns the response writer so it's possible to inspect the response headers and the media type struct written to the response.
 // If ctx is nil then context.Background() is used.
 // If service is nil then a default service is created.
-func ShowImageBadRequest(t goatest.TInterface, ctx context.Context, service *goa.Service, ctrl app.ImageController, id int) (http.ResponseWriter, error) {
+func ListImageBadRequest(t goatest.TInterface, ctx context.Context, service *goa.Service, ctrl app.ImageController, entity string) (http.ResponseWriter, error) {
 	// Setup service
 	var (
 		logBuf bytes.Buffer
@@ -49,13 +50,213 @@ func ShowImageBadRequest(t goatest.TInterface, ctx context.Context, service *goa
 	// Setup request context
 	rw := httptest.NewRecorder()
 	u := &url.URL{
-		Path: fmt.Sprintf("/nmg/image/%v", id),
+		Path: fmt.Sprintf("/nmg/image/%v", entity),
 	}
 	req, err := http.NewRequest("GET", u.String(), nil)
 	if err != nil {
 		panic("invalid test " + err.Error()) // bug
 	}
 	prms := url.Values{}
+	prms["entity"] = []string{fmt.Sprintf("%v", entity)}
+	if ctx == nil {
+		ctx = context.Background()
+	}
+	goaCtx := goa.NewContext(goa.WithAction(ctx, "ImageTest"), rw, req, prms)
+	listCtx, _err := app.NewListImageContext(goaCtx, req, service)
+	if _err != nil {
+		panic("invalid test data " + _err.Error()) // bug
+	}
+
+	// Perform action
+	_err = ctrl.List(listCtx)
+
+	// Validate response
+	if _err != nil {
+		t.Fatalf("controller returned %+v, logs:\n%s", _err, logBuf.String())
+	}
+	if rw.Code != 400 {
+		t.Errorf("invalid response status code: got %+v, expected 400", rw.Code)
+	}
+	var mt error
+	if resp != nil {
+		var ok bool
+		mt, ok = resp.(error)
+		if !ok {
+			t.Fatalf("invalid response media: got variable of type %T, value %+v, expected instance of error", resp, resp)
+		}
+	}
+
+	// Return results
+	return rw, mt
+}
+
+// ListImageInternalServerError runs the method List of the given controller with the given parameters.
+// It returns the response writer so it's possible to inspect the response headers and the media type struct written to the response.
+// If ctx is nil then context.Background() is used.
+// If service is nil then a default service is created.
+func ListImageInternalServerError(t goatest.TInterface, ctx context.Context, service *goa.Service, ctrl app.ImageController, entity string) (http.ResponseWriter, error) {
+	// Setup service
+	var (
+		logBuf bytes.Buffer
+		resp   interface{}
+
+		respSetter goatest.ResponseSetterFunc = func(r interface{}) { resp = r }
+	)
+	if service == nil {
+		service = goatest.Service(&logBuf, respSetter)
+	} else {
+		logger := log.New(&logBuf, "", log.Ltime)
+		service.WithLogger(goa.NewLogger(logger))
+		newEncoder := func(io.Writer) goa.Encoder { return respSetter }
+		service.Encoder = goa.NewHTTPEncoder() // Make sure the code ends up using this decoder
+		service.Encoder.Register(newEncoder, "*/*")
+	}
+
+	// Setup request context
+	rw := httptest.NewRecorder()
+	u := &url.URL{
+		Path: fmt.Sprintf("/nmg/image/%v", entity),
+	}
+	req, err := http.NewRequest("GET", u.String(), nil)
+	if err != nil {
+		panic("invalid test " + err.Error()) // bug
+	}
+	prms := url.Values{}
+	prms["entity"] = []string{fmt.Sprintf("%v", entity)}
+	if ctx == nil {
+		ctx = context.Background()
+	}
+	goaCtx := goa.NewContext(goa.WithAction(ctx, "ImageTest"), rw, req, prms)
+	listCtx, _err := app.NewListImageContext(goaCtx, req, service)
+	if _err != nil {
+		panic("invalid test data " + _err.Error()) // bug
+	}
+
+	// Perform action
+	_err = ctrl.List(listCtx)
+
+	// Validate response
+	if _err != nil {
+		t.Fatalf("controller returned %+v, logs:\n%s", _err, logBuf.String())
+	}
+	if rw.Code != 500 {
+		t.Errorf("invalid response status code: got %+v, expected 500", rw.Code)
+	}
+	var mt error
+	if resp != nil {
+		var ok bool
+		mt, ok = resp.(error)
+		if !ok {
+			t.Fatalf("invalid response media: got variable of type %T, value %+v, expected instance of error", resp, resp)
+		}
+	}
+
+	// Return results
+	return rw, mt
+}
+
+// ListImageOK runs the method List of the given controller with the given parameters.
+// It returns the response writer so it's possible to inspect the response headers and the media type struct written to the response.
+// If ctx is nil then context.Background() is used.
+// If service is nil then a default service is created.
+func ListImageOK(t goatest.TInterface, ctx context.Context, service *goa.Service, ctrl app.ImageController, entity string) (http.ResponseWriter, app.ImageMediaCollection) {
+	// Setup service
+	var (
+		logBuf bytes.Buffer
+		resp   interface{}
+
+		respSetter goatest.ResponseSetterFunc = func(r interface{}) { resp = r }
+	)
+	if service == nil {
+		service = goatest.Service(&logBuf, respSetter)
+	} else {
+		logger := log.New(&logBuf, "", log.Ltime)
+		service.WithLogger(goa.NewLogger(logger))
+		newEncoder := func(io.Writer) goa.Encoder { return respSetter }
+		service.Encoder = goa.NewHTTPEncoder() // Make sure the code ends up using this decoder
+		service.Encoder.Register(newEncoder, "*/*")
+	}
+
+	// Setup request context
+	rw := httptest.NewRecorder()
+	u := &url.URL{
+		Path: fmt.Sprintf("/nmg/image/%v", entity),
+	}
+	req, err := http.NewRequest("GET", u.String(), nil)
+	if err != nil {
+		panic("invalid test " + err.Error()) // bug
+	}
+	prms := url.Values{}
+	prms["entity"] = []string{fmt.Sprintf("%v", entity)}
+	if ctx == nil {
+		ctx = context.Background()
+	}
+	goaCtx := goa.NewContext(goa.WithAction(ctx, "ImageTest"), rw, req, prms)
+	listCtx, _err := app.NewListImageContext(goaCtx, req, service)
+	if _err != nil {
+		panic("invalid test data " + _err.Error()) // bug
+	}
+
+	// Perform action
+	_err = ctrl.List(listCtx)
+
+	// Validate response
+	if _err != nil {
+		t.Fatalf("controller returned %+v, logs:\n%s", _err, logBuf.String())
+	}
+	if rw.Code != 200 {
+		t.Errorf("invalid response status code: got %+v, expected 200", rw.Code)
+	}
+	var mt app.ImageMediaCollection
+	if resp != nil {
+		var ok bool
+		mt, ok = resp.(app.ImageMediaCollection)
+		if !ok {
+			t.Fatalf("invalid response media: got variable of type %T, value %+v, expected instance of app.ImageMediaCollection", resp, resp)
+		}
+		_err = mt.Validate()
+		if _err != nil {
+			t.Errorf("invalid response media type: %s", _err)
+		}
+	}
+
+	// Return results
+	return rw, mt
+}
+
+// ShowImageBadRequest runs the method Show of the given controller with the given parameters.
+// It returns the response writer so it's possible to inspect the response headers and the media type struct written to the response.
+// If ctx is nil then context.Background() is used.
+// If service is nil then a default service is created.
+func ShowImageBadRequest(t goatest.TInterface, ctx context.Context, service *goa.Service, ctrl app.ImageController, entity string, id string) (http.ResponseWriter, error) {
+	// Setup service
+	var (
+		logBuf bytes.Buffer
+		resp   interface{}
+
+		respSetter goatest.ResponseSetterFunc = func(r interface{}) { resp = r }
+	)
+	if service == nil {
+		service = goatest.Service(&logBuf, respSetter)
+	} else {
+		logger := log.New(&logBuf, "", log.Ltime)
+		service.WithLogger(goa.NewLogger(logger))
+		newEncoder := func(io.Writer) goa.Encoder { return respSetter }
+		service.Encoder = goa.NewHTTPEncoder() // Make sure the code ends up using this decoder
+		service.Encoder.Register(newEncoder, "*/*")
+	}
+
+	// Setup request context
+	rw := httptest.NewRecorder()
+	u := &url.URL{
+		Path: fmt.Sprintf("/nmg/image/%v/%v", entity, id),
+	}
+	req, err := http.NewRequest("GET", u.String(), nil)
+	if err != nil {
+		panic("invalid test " + err.Error()) // bug
+	}
+	prms := url.Values{}
+	prms["entity"] = []string{fmt.Sprintf("%v", entity)}
 	prms["id"] = []string{fmt.Sprintf("%v", id)}
 	if ctx == nil {
 		ctx = context.Background()
@@ -93,7 +294,7 @@ func ShowImageBadRequest(t goatest.TInterface, ctx context.Context, service *goa
 // It returns the response writer so it's possible to inspect the response headers and the media type struct written to the response.
 // If ctx is nil then context.Background() is used.
 // If service is nil then a default service is created.
-func ShowImageInternalServerError(t goatest.TInterface, ctx context.Context, service *goa.Service, ctrl app.ImageController, id int) (http.ResponseWriter, error) {
+func ShowImageInternalServerError(t goatest.TInterface, ctx context.Context, service *goa.Service, ctrl app.ImageController, entity string, id string) (http.ResponseWriter, error) {
 	// Setup service
 	var (
 		logBuf bytes.Buffer
@@ -114,13 +315,14 @@ func ShowImageInternalServerError(t goatest.TInterface, ctx context.Context, ser
 	// Setup request context
 	rw := httptest.NewRecorder()
 	u := &url.URL{
-		Path: fmt.Sprintf("/nmg/image/%v", id),
+		Path: fmt.Sprintf("/nmg/image/%v/%v", entity, id),
 	}
 	req, err := http.NewRequest("GET", u.String(), nil)
 	if err != nil {
 		panic("invalid test " + err.Error()) // bug
 	}
 	prms := url.Values{}
+	prms["entity"] = []string{fmt.Sprintf("%v", entity)}
 	prms["id"] = []string{fmt.Sprintf("%v", id)}
 	if ctx == nil {
 		ctx = context.Background()
@@ -158,7 +360,7 @@ func ShowImageInternalServerError(t goatest.TInterface, ctx context.Context, ser
 // It returns the response writer so it's possible to inspect the response headers.
 // If ctx is nil then context.Background() is used.
 // If service is nil then a default service is created.
-func ShowImageNotFound(t goatest.TInterface, ctx context.Context, service *goa.Service, ctrl app.ImageController, id int) http.ResponseWriter {
+func ShowImageNotFound(t goatest.TInterface, ctx context.Context, service *goa.Service, ctrl app.ImageController, entity string, id string) http.ResponseWriter {
 	// Setup service
 	var (
 		logBuf bytes.Buffer
@@ -179,13 +381,14 @@ func ShowImageNotFound(t goatest.TInterface, ctx context.Context, service *goa.S
 	// Setup request context
 	rw := httptest.NewRecorder()
 	u := &url.URL{
-		Path: fmt.Sprintf("/nmg/image/%v", id),
+		Path: fmt.Sprintf("/nmg/image/%v/%v", entity, id),
 	}
 	req, err := http.NewRequest("GET", u.String(), nil)
 	if err != nil {
 		panic("invalid test " + err.Error()) // bug
 	}
 	prms := url.Values{}
+	prms["entity"] = []string{fmt.Sprintf("%v", entity)}
 	prms["id"] = []string{fmt.Sprintf("%v", id)}
 	if ctx == nil {
 		ctx = context.Background()
@@ -215,7 +418,7 @@ func ShowImageNotFound(t goatest.TInterface, ctx context.Context, service *goa.S
 // It returns the response writer so it's possible to inspect the response headers and the media type struct written to the response.
 // If ctx is nil then context.Background() is used.
 // If service is nil then a default service is created.
-func ShowImageOK(t goatest.TInterface, ctx context.Context, service *goa.Service, ctrl app.ImageController, id int) (http.ResponseWriter, *app.ImageMedia) {
+func ShowImageOK(t goatest.TInterface, ctx context.Context, service *goa.Service, ctrl app.ImageController, entity string, id string) (http.ResponseWriter, *app.ImageMedia) {
 	// Setup service
 	var (
 		logBuf bytes.Buffer
@@ -236,13 +439,14 @@ func ShowImageOK(t goatest.TInterface, ctx context.Context, service *goa.Service
 	// Setup request context
 	rw := httptest.NewRecorder()
 	u := &url.URL{
-		Path: fmt.Sprintf("/nmg/image/%v", id),
+		Path: fmt.Sprintf("/nmg/image/%v/%v", entity, id),
 	}
 	req, err := http.NewRequest("GET", u.String(), nil)
 	if err != nil {
 		panic("invalid test " + err.Error()) // bug
 	}
 	prms := url.Values{}
+	prms["entity"] = []string{fmt.Sprintf("%v", entity)}
 	prms["id"] = []string{fmt.Sprintf("%v", id)}
 	if ctx == nil {
 		ctx = context.Background()
@@ -284,7 +488,7 @@ func ShowImageOK(t goatest.TInterface, ctx context.Context, service *goa.Service
 // It returns the response writer so it's possible to inspect the response headers and the media type struct written to the response.
 // If ctx is nil then context.Background() is used.
 // If service is nil then a default service is created.
-func UploadImageBadRequest(t goatest.TInterface, ctx context.Context, service *goa.Service, ctrl app.ImageController, id string) (http.ResponseWriter, error) {
+func UploadImageBadRequest(t goatest.TInterface, ctx context.Context, service *goa.Service, ctrl app.ImageController, entity string, id string) (http.ResponseWriter, error) {
 	// Setup service
 	var (
 		logBuf bytes.Buffer
@@ -305,13 +509,14 @@ func UploadImageBadRequest(t goatest.TInterface, ctx context.Context, service *g
 	// Setup request context
 	rw := httptest.NewRecorder()
 	u := &url.URL{
-		Path: fmt.Sprintf("/nmg/image/%v", id),
+		Path: fmt.Sprintf("/nmg/image/%v/%v", entity, id),
 	}
 	req, err := http.NewRequest("PUT", u.String(), nil)
 	if err != nil {
 		panic("invalid test " + err.Error()) // bug
 	}
 	prms := url.Values{}
+	prms["entity"] = []string{fmt.Sprintf("%v", entity)}
 	prms["id"] = []string{fmt.Sprintf("%v", id)}
 	if ctx == nil {
 		ctx = context.Background()
@@ -349,7 +554,7 @@ func UploadImageBadRequest(t goatest.TInterface, ctx context.Context, service *g
 // It returns the response writer so it's possible to inspect the response headers and the media type struct written to the response.
 // If ctx is nil then context.Background() is used.
 // If service is nil then a default service is created.
-func UploadImageInternalServerError(t goatest.TInterface, ctx context.Context, service *goa.Service, ctrl app.ImageController, id string) (http.ResponseWriter, error) {
+func UploadImageInternalServerError(t goatest.TInterface, ctx context.Context, service *goa.Service, ctrl app.ImageController, entity string, id string) (http.ResponseWriter, error) {
 	// Setup service
 	var (
 		logBuf bytes.Buffer
@@ -370,13 +575,14 @@ func UploadImageInternalServerError(t goatest.TInterface, ctx context.Context, s
 	// Setup request context
 	rw := httptest.NewRecorder()
 	u := &url.URL{
-		Path: fmt.Sprintf("/nmg/image/%v", id),
+		Path: fmt.Sprintf("/nmg/image/%v/%v", entity, id),
 	}
 	req, err := http.NewRequest("PUT", u.String(), nil)
 	if err != nil {
 		panic("invalid test " + err.Error()) // bug
 	}
 	prms := url.Values{}
+	prms["entity"] = []string{fmt.Sprintf("%v", entity)}
 	prms["id"] = []string{fmt.Sprintf("%v", id)}
 	if ctx == nil {
 		ctx = context.Background()
@@ -414,7 +620,7 @@ func UploadImageInternalServerError(t goatest.TInterface, ctx context.Context, s
 // It returns the response writer so it's possible to inspect the response headers and the media type struct written to the response.
 // If ctx is nil then context.Background() is used.
 // If service is nil then a default service is created.
-func UploadImageOK(t goatest.TInterface, ctx context.Context, service *goa.Service, ctrl app.ImageController, id string) (http.ResponseWriter, app.ImageMediaCollection) {
+func UploadImageOK(t goatest.TInterface, ctx context.Context, service *goa.Service, ctrl app.ImageController, entity string, id string) (http.ResponseWriter, app.ImageMediaCollection) {
 	// Setup service
 	var (
 		logBuf bytes.Buffer
@@ -435,13 +641,14 @@ func UploadImageOK(t goatest.TInterface, ctx context.Context, service *goa.Servi
 	// Setup request context
 	rw := httptest.NewRecorder()
 	u := &url.URL{
-		Path: fmt.Sprintf("/nmg/image/%v", id),
+		Path: fmt.Sprintf("/nmg/image/%v/%v", entity, id),
 	}
 	req, err := http.NewRequest("PUT", u.String(), nil)
 	if err != nil {
 		panic("invalid test " + err.Error()) // bug
 	}
 	prms := url.Values{}
+	prms["entity"] = []string{fmt.Sprintf("%v", entity)}
 	prms["id"] = []string{fmt.Sprintf("%v", id)}
 	if ctx == nil {
 		ctx = context.Background()

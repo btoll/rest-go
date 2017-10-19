@@ -6,6 +6,7 @@
 // $ goagen
 // --design=github.com/btoll/rest-go/design
 // --out=$(GOPATH)/src/github.com/btoll/rest-go
+// --regen=true
 // --version=v1.3.0
 
 package app
@@ -28,9 +29,10 @@ func GameHref(id interface{}) string {
 }
 
 // ImageHref returns the resource href.
-func ImageHref(id interface{}) string {
+func ImageHref(entity, id interface{}) string {
+	paramentity := strings.TrimLeftFunc(fmt.Sprintf("%v", entity), func(r rune) bool { return r == '/' })
 	paramid := strings.TrimLeftFunc(fmt.Sprintf("%v", id), func(r rune) bool { return r == '/' })
-	return fmt.Sprintf("/nmg/image/%v", paramid)
+	return fmt.Sprintf("/nmg/image/%v/%v", paramentity, paramid)
 }
 
 // SportHref returns the resource href.

@@ -6,6 +6,7 @@
 // $ goagen
 // --design=github.com/btoll/rest-go/design
 // --out=$(GOPATH)/src/github.com/btoll/rest-go
+// --regen=true
 // --version=v1.3.0
 
 package cli
@@ -98,16 +99,27 @@ type (
 		PrettyPrint bool
 	}
 
+	// ListImageCommand is the command line data structure for the list action of Image
+	ListImageCommand struct {
+		// event|sport|team
+		Entity      string
+		PrettyPrint bool
+	}
+
 	// ShowImageCommand is the command line data structure for the show action of Image
 	ShowImageCommand struct {
-		// Image ID
-		ID          int
+		// event|sport|team
+		Entity string
+		// Entity ID
+		ID          string
 		PrettyPrint bool
 	}
 
 	// UploadImageCommand is the command line data structure for the upload action of Image
 	UploadImageCommand struct {
 		// event|sport|team
+		Entity string
+		// Entity ID
 		ID          string
 		PrettyPrint bool
 	}
@@ -417,98 +429,107 @@ Payload example:
 	tmp12.RegisterFlags(sub, c)
 	sub.PersistentFlags().BoolVar(&tmp12.PrettyPrint, "pp", false, "Pretty print response body")
 	command.AddCommand(sub)
-	tmp13 := new(ListSportCommand)
+	tmp13 := new(ListImageCommand)
 	sub = &cobra.Command{
-		Use:   `sport ["/nmg/sport/list"]`,
-		Short: `Describes a sport.`,
+		Use:   `image ["/nmg/image/ENTITY"]`,
+		Short: ``,
 		RunE:  func(cmd *cobra.Command, args []string) error { return tmp13.Run(c, args) },
 	}
 	tmp13.RegisterFlags(sub, c)
 	sub.PersistentFlags().BoolVar(&tmp13.PrettyPrint, "pp", false, "Pretty print response body")
 	command.AddCommand(sub)
-	tmp14 := new(ListTeamCommand)
+	tmp14 := new(ListSportCommand)
 	sub = &cobra.Command{
-		Use:   `team ["/nmg/team/list"]`,
-		Short: `Describes a sport team.`,
+		Use:   `sport ["/nmg/sport/list"]`,
+		Short: `Describes a sport.`,
 		RunE:  func(cmd *cobra.Command, args []string) error { return tmp14.Run(c, args) },
 	}
 	tmp14.RegisterFlags(sub, c)
 	sub.PersistentFlags().BoolVar(&tmp14.PrettyPrint, "pp", false, "Pretty print response body")
 	command.AddCommand(sub)
-	tmp15 := new(ListTeamOpeningConfigCommand)
+	tmp15 := new(ListTeamCommand)
 	sub = &cobra.Command{
-		Use:   `team-opening-config ["/nmg/teamOpeningConfig/list"]`,
-		Short: `Describes a team opening config.`,
+		Use:   `team ["/nmg/team/list"]`,
+		Short: `Describes a sport team.`,
 		RunE:  func(cmd *cobra.Command, args []string) error { return tmp15.Run(c, args) },
 	}
 	tmp15.RegisterFlags(sub, c)
 	sub.PersistentFlags().BoolVar(&tmp15.PrettyPrint, "pp", false, "Pretty print response body")
+	command.AddCommand(sub)
+	tmp16 := new(ListTeamOpeningConfigCommand)
+	sub = &cobra.Command{
+		Use:   `team-opening-config ["/nmg/teamOpeningConfig/list"]`,
+		Short: `Describes a team opening config.`,
+		RunE:  func(cmd *cobra.Command, args []string) error { return tmp16.Run(c, args) },
+	}
+	tmp16.RegisterFlags(sub, c)
+	sub.PersistentFlags().BoolVar(&tmp16.PrettyPrint, "pp", false, "Pretty print response body")
 	command.AddCommand(sub)
 	app.AddCommand(command)
 	command = &cobra.Command{
 		Use:   "show",
 		Short: `show action`,
 	}
-	tmp16 := new(ShowEventCommand)
+	tmp17 := new(ShowEventCommand)
 	sub = &cobra.Command{
 		Use:   `event ["/nmg/event/ID"]`,
 		Short: `Describes a sport event.`,
-		RunE:  func(cmd *cobra.Command, args []string) error { return tmp16.Run(c, args) },
-	}
-	tmp16.RegisterFlags(sub, c)
-	sub.PersistentFlags().BoolVar(&tmp16.PrettyPrint, "pp", false, "Pretty print response body")
-	command.AddCommand(sub)
-	tmp17 := new(ShowGameCommand)
-	sub = &cobra.Command{
-		Use:   `game ["/nmg/game/ID"]`,
-		Short: `Describes a game.`,
 		RunE:  func(cmd *cobra.Command, args []string) error { return tmp17.Run(c, args) },
 	}
 	tmp17.RegisterFlags(sub, c)
 	sub.PersistentFlags().BoolVar(&tmp17.PrettyPrint, "pp", false, "Pretty print response body")
 	command.AddCommand(sub)
-	tmp18 := new(ShowImageCommand)
+	tmp18 := new(ShowGameCommand)
 	sub = &cobra.Command{
-		Use:   `image ["/nmg/image/ID"]`,
-		Short: ``,
+		Use:   `game ["/nmg/game/ID"]`,
+		Short: `Describes a game.`,
 		RunE:  func(cmd *cobra.Command, args []string) error { return tmp18.Run(c, args) },
 	}
 	tmp18.RegisterFlags(sub, c)
 	sub.PersistentFlags().BoolVar(&tmp18.PrettyPrint, "pp", false, "Pretty print response body")
 	command.AddCommand(sub)
-	tmp19 := new(ShowSportCommand)
+	tmp19 := new(ShowImageCommand)
 	sub = &cobra.Command{
-		Use:   `sport ["/nmg/sport/ID"]`,
-		Short: `Describes a sport.`,
+		Use:   `image ["/nmg/image/ENTITY/ID"]`,
+		Short: ``,
 		RunE:  func(cmd *cobra.Command, args []string) error { return tmp19.Run(c, args) },
 	}
 	tmp19.RegisterFlags(sub, c)
 	sub.PersistentFlags().BoolVar(&tmp19.PrettyPrint, "pp", false, "Pretty print response body")
 	command.AddCommand(sub)
-	tmp20 := new(ShowTeamCommand)
+	tmp20 := new(ShowSportCommand)
 	sub = &cobra.Command{
-		Use:   `team ["/nmg/team/ID"]`,
-		Short: `Describes a sport team.`,
+		Use:   `sport ["/nmg/sport/ID"]`,
+		Short: `Describes a sport.`,
 		RunE:  func(cmd *cobra.Command, args []string) error { return tmp20.Run(c, args) },
 	}
 	tmp20.RegisterFlags(sub, c)
 	sub.PersistentFlags().BoolVar(&tmp20.PrettyPrint, "pp", false, "Pretty print response body")
 	command.AddCommand(sub)
-	tmp21 := new(ShowTeamOpeningConfigCommand)
+	tmp21 := new(ShowTeamCommand)
 	sub = &cobra.Command{
-		Use:   `team-opening-config ["/nmg/teamOpeningConfig/ID"]`,
-		Short: `Describes a team opening config.`,
+		Use:   `team ["/nmg/team/ID"]`,
+		Short: `Describes a sport team.`,
 		RunE:  func(cmd *cobra.Command, args []string) error { return tmp21.Run(c, args) },
 	}
 	tmp21.RegisterFlags(sub, c)
 	sub.PersistentFlags().BoolVar(&tmp21.PrettyPrint, "pp", false, "Pretty print response body")
+	command.AddCommand(sub)
+	tmp22 := new(ShowTeamOpeningConfigCommand)
+	sub = &cobra.Command{
+		Use:   `team-opening-config ["/nmg/teamOpeningConfig/ID"]`,
+		Short: `Describes a team opening config.`,
+		RunE:  func(cmd *cobra.Command, args []string) error { return tmp22.Run(c, args) },
+	}
+	tmp22.RegisterFlags(sub, c)
+	sub.PersistentFlags().BoolVar(&tmp22.PrettyPrint, "pp", false, "Pretty print response body")
 	command.AddCommand(sub)
 	app.AddCommand(command)
 	command = &cobra.Command{
 		Use:   "update",
 		Short: `update action`,
 	}
-	tmp22 := new(UpdateEventCommand)
+	tmp23 := new(UpdateEventCommand)
 	sub = &cobra.Command{
 		Use:   `event ["/nmg/event/ID"]`,
 		Short: `Describes a sport event.`,
@@ -526,12 +547,12 @@ Payload example:
    "subTitle": "Nobis id dignissimos quo iusto voluptatem.",
    "teamAdvanceMethod": "Est quo molestias."
 }`,
-		RunE: func(cmd *cobra.Command, args []string) error { return tmp22.Run(c, args) },
+		RunE: func(cmd *cobra.Command, args []string) error { return tmp23.Run(c, args) },
 	}
-	tmp22.RegisterFlags(sub, c)
-	sub.PersistentFlags().BoolVar(&tmp22.PrettyPrint, "pp", false, "Pretty print response body")
+	tmp23.RegisterFlags(sub, c)
+	sub.PersistentFlags().BoolVar(&tmp23.PrettyPrint, "pp", false, "Pretty print response body")
 	command.AddCommand(sub)
-	tmp23 := new(UpdateGameCommand)
+	tmp24 := new(UpdateGameCommand)
 	sub = &cobra.Command{
 		Use:   `game ["/nmg/game/ID"]`,
 		Short: `Describes a game.`,
@@ -555,12 +576,12 @@ Payload example:
    "underTeamId": "Quidem ut ea unde excepturi minima voluptas.",
    "winnerTeamId": "Ratione molestias aut."
 }`,
-		RunE: func(cmd *cobra.Command, args []string) error { return tmp23.Run(c, args) },
+		RunE: func(cmd *cobra.Command, args []string) error { return tmp24.Run(c, args) },
 	}
-	tmp23.RegisterFlags(sub, c)
-	sub.PersistentFlags().BoolVar(&tmp23.PrettyPrint, "pp", false, "Pretty print response body")
+	tmp24.RegisterFlags(sub, c)
+	sub.PersistentFlags().BoolVar(&tmp24.PrettyPrint, "pp", false, "Pretty print response body")
 	command.AddCommand(sub)
-	tmp24 := new(UpdateSportCommand)
+	tmp25 := new(UpdateSportCommand)
 	sub = &cobra.Command{
 		Use:   `sport ["/nmg/sport/ID"]`,
 		Short: `Describes a sport.`,
@@ -577,12 +598,12 @@ Payload example:
    "maxPreSplitPrice": 0.9016145054823965,
    "name": "Quo fuga fugiat quam."
 }`,
-		RunE: func(cmd *cobra.Command, args []string) error { return tmp24.Run(c, args) },
+		RunE: func(cmd *cobra.Command, args []string) error { return tmp25.Run(c, args) },
 	}
-	tmp24.RegisterFlags(sub, c)
-	sub.PersistentFlags().BoolVar(&tmp24.PrettyPrint, "pp", false, "Pretty print response body")
+	tmp25.RegisterFlags(sub, c)
+	sub.PersistentFlags().BoolVar(&tmp25.PrettyPrint, "pp", false, "Pretty print response body")
 	command.AddCommand(sub)
-	tmp25 := new(UpdateTeamCommand)
+	tmp26 := new(UpdateTeamCommand)
 	sub = &cobra.Command{
 		Use:   `team ["/nmg/team/ID"]`,
 		Short: `Describes a sport team.`,
@@ -599,12 +620,12 @@ Payload example:
    "shortName": "Est ut eum qui voluptatem voluptas illo.",
    "sportId": "Eligendi qui in temporibus incidunt consequuntur."
 }`,
-		RunE: func(cmd *cobra.Command, args []string) error { return tmp25.Run(c, args) },
+		RunE: func(cmd *cobra.Command, args []string) error { return tmp26.Run(c, args) },
 	}
-	tmp25.RegisterFlags(sub, c)
-	sub.PersistentFlags().BoolVar(&tmp25.PrettyPrint, "pp", false, "Pretty print response body")
+	tmp26.RegisterFlags(sub, c)
+	sub.PersistentFlags().BoolVar(&tmp26.PrettyPrint, "pp", false, "Pretty print response body")
 	command.AddCommand(sub)
-	tmp26 := new(UpdateTeamOpeningConfigCommand)
+	tmp27 := new(UpdateTeamOpeningConfigCommand)
 	sub = &cobra.Command{
 		Use:   `team-opening-config ["/nmg/teamOpeningConfig/ID"]`,
 		Short: `Describes a team opening config.`,
@@ -622,24 +643,24 @@ Payload example:
    "sellDecrementQuan": 2079870892,
    "startTradeDtTm": "1999-04-04T02:20:05Z"
 }`,
-		RunE: func(cmd *cobra.Command, args []string) error { return tmp26.Run(c, args) },
+		RunE: func(cmd *cobra.Command, args []string) error { return tmp27.Run(c, args) },
 	}
-	tmp26.RegisterFlags(sub, c)
-	sub.PersistentFlags().BoolVar(&tmp26.PrettyPrint, "pp", false, "Pretty print response body")
+	tmp27.RegisterFlags(sub, c)
+	sub.PersistentFlags().BoolVar(&tmp27.PrettyPrint, "pp", false, "Pretty print response body")
 	command.AddCommand(sub)
 	app.AddCommand(command)
 	command = &cobra.Command{
 		Use:   "upload",
 		Short: `Upload multiple images in multipart request`,
 	}
-	tmp27 := new(UploadImageCommand)
+	tmp28 := new(UploadImageCommand)
 	sub = &cobra.Command{
-		Use:   `image ["/nmg/image/ID"]`,
+		Use:   `image ["/nmg/image/ENTITY/ID"]`,
 		Short: ``,
-		RunE:  func(cmd *cobra.Command, args []string) error { return tmp27.Run(c, args) },
+		RunE:  func(cmd *cobra.Command, args []string) error { return tmp28.Run(c, args) },
 	}
-	tmp27.RegisterFlags(sub, c)
-	sub.PersistentFlags().BoolVar(&tmp27.PrettyPrint, "pp", false, "Pretty print response body")
+	tmp28.RegisterFlags(sub, c)
+	sub.PersistentFlags().BoolVar(&tmp28.PrettyPrint, "pp", false, "Pretty print response body")
 	command.AddCommand(sub)
 	app.AddCommand(command)
 }
@@ -1085,13 +1106,39 @@ func (cmd *UpdateGameCommand) RegisterFlags(cc *cobra.Command, c *client.Client)
 	cc.Flags().StringVar(&cmd.ID, "id", id, `Game ID`)
 }
 
+// Run makes the HTTP request corresponding to the ListImageCommand command.
+func (cmd *ListImageCommand) Run(c *client.Client, args []string) error {
+	var path string
+	if len(args) > 0 {
+		path = args[0]
+	} else {
+		path = fmt.Sprintf("/nmg/image/%v", url.QueryEscape(cmd.Entity))
+	}
+	logger := goa.NewLogger(log.New(os.Stderr, "", log.LstdFlags))
+	ctx := goa.WithLogger(context.Background(), logger)
+	resp, err := c.ListImage(ctx, path)
+	if err != nil {
+		goa.LogError(ctx, "failed", "err", err)
+		return err
+	}
+
+	goaclient.HandleResponse(c.Client, resp, cmd.PrettyPrint)
+	return nil
+}
+
+// RegisterFlags registers the command flags with the command line.
+func (cmd *ListImageCommand) RegisterFlags(cc *cobra.Command, c *client.Client) {
+	var entity string
+	cc.Flags().StringVar(&cmd.Entity, "entity", entity, `event|sport|team`)
+}
+
 // Run makes the HTTP request corresponding to the ShowImageCommand command.
 func (cmd *ShowImageCommand) Run(c *client.Client, args []string) error {
 	var path string
 	if len(args) > 0 {
 		path = args[0]
 	} else {
-		path = fmt.Sprintf("/nmg/image/%v", cmd.ID)
+		path = fmt.Sprintf("/nmg/image/%v/%v", url.QueryEscape(cmd.Entity), url.QueryEscape(cmd.ID))
 	}
 	logger := goa.NewLogger(log.New(os.Stderr, "", log.LstdFlags))
 	ctx := goa.WithLogger(context.Background(), logger)
@@ -1107,8 +1154,10 @@ func (cmd *ShowImageCommand) Run(c *client.Client, args []string) error {
 
 // RegisterFlags registers the command flags with the command line.
 func (cmd *ShowImageCommand) RegisterFlags(cc *cobra.Command, c *client.Client) {
-	var id int
-	cc.Flags().IntVar(&cmd.ID, "id", id, `Image ID`)
+	var entity string
+	cc.Flags().StringVar(&cmd.Entity, "entity", entity, `event|sport|team`)
+	var id string
+	cc.Flags().StringVar(&cmd.ID, "id", id, `Entity ID`)
 }
 
 // Run makes the HTTP request corresponding to the UploadImageCommand command.
@@ -1117,7 +1166,7 @@ func (cmd *UploadImageCommand) Run(c *client.Client, args []string) error {
 	if len(args) > 0 {
 		path = args[0]
 	} else {
-		path = fmt.Sprintf("/nmg/image/%v", url.QueryEscape(cmd.ID))
+		path = fmt.Sprintf("/nmg/image/%v/%v", url.QueryEscape(cmd.Entity), url.QueryEscape(cmd.ID))
 	}
 	logger := goa.NewLogger(log.New(os.Stderr, "", log.LstdFlags))
 	ctx := goa.WithLogger(context.Background(), logger)
@@ -1133,8 +1182,10 @@ func (cmd *UploadImageCommand) Run(c *client.Client, args []string) error {
 
 // RegisterFlags registers the command flags with the command line.
 func (cmd *UploadImageCommand) RegisterFlags(cc *cobra.Command, c *client.Client) {
+	var entity string
+	cc.Flags().StringVar(&cmd.Entity, "entity", entity, `event|sport|team`)
 	var id string
-	cc.Flags().StringVar(&cmd.ID, "id", id, `event|sport|team`)
+	cc.Flags().StringVar(&cmd.ID, "id", id, `Entity ID`)
 }
 
 // Run makes the HTTP request corresponding to the CreateSportCommand command.

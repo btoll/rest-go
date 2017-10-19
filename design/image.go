@@ -8,25 +8,40 @@ import (
 var _ = Resource("Image", func() {
 	BasePath("/image")
 
-	Action("upload", func() {
-		Routing(PUT("/:id"))
-		Description("Upload multiple images in multipart request")
+	Action("show", func() {
+		Routing(GET("/:entity/:id"))
+		Description("Show all images for a particular team")
 		Params(func() {
-			Param("id", String, "event|sport|team")
+			Param("entity", String, "event|sport|team")
+			Param("id", String, "Entity ID")
 		})
+		Response(OK, ImageMedia)
+		Response(NotFound)
+		Response(BadRequest, ErrorMedia)
+		Response(InternalServerError, ErrorMedia)
+	})
+
+	Action("list", func() {
+		//        Routing(GET("/list/:entity"))
+		Routing(GET("/:entity"))
+		Params(func() {
+			Param("entity", String, "event|sport|team")
+		})
+		Description("Get all images of all teams")
+		//		Response(OK, "application/json")
 		Response(OK, CollectionOf(ImageMedia))
 		Response(BadRequest, ErrorMedia)
 		Response(InternalServerError, ErrorMedia)
 	})
 
-	Action("show", func() {
-		Routing(GET("/:id"))
-		Description("Show an image's metadata")
+	Action("upload", func() {
+		Routing(PUT("/:entity/:id"))
+		Description("Upload multiple images in multipart request")
 		Params(func() {
-			Param("id", Integer, "Image ID")
+			Param("entity", String, "event|sport|team")
+			Param("id", String, "Entity ID")
 		})
-		Response(OK, ImageMedia)
-		Response(NotFound)
+		Response(OK, CollectionOf(ImageMedia))
 		Response(BadRequest, ErrorMedia)
 		Response(InternalServerError, ErrorMedia)
 	})

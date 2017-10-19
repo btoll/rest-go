@@ -6,6 +6,7 @@
 // $ goagen
 // --design=github.com/btoll/rest-go/design
 // --out=$(GOPATH)/src/github.com/btoll/rest-go
+// --regen=true
 // --version=v1.3.0
 
 package app
@@ -14,7 +15,6 @@ import (
 	"context"
 	"github.com/goadesign/goa"
 	"net/http"
-	"strconv"
 )
 
 // CreateEventContext provides the Event create action context.
@@ -475,12 +475,59 @@ func (ctx *UpdateGameContext) InternalServerError(r error) error {
 	return ctx.ResponseData.Service.Send(ctx.Context, 500, r)
 }
 
+// ListImageContext provides the Image list action context.
+type ListImageContext struct {
+	context.Context
+	*goa.ResponseData
+	*goa.RequestData
+	Entity string
+}
+
+// NewListImageContext parses the incoming request URL and body, performs validations and creates the
+// context used by the Image controller list action.
+func NewListImageContext(ctx context.Context, r *http.Request, service *goa.Service) (*ListImageContext, error) {
+	var err error
+	resp := goa.ContextResponse(ctx)
+	resp.Service = service
+	req := goa.ContextRequest(ctx)
+	req.Request = r
+	rctx := ListImageContext{Context: ctx, ResponseData: resp, RequestData: req}
+	paramEntity := req.Params["entity"]
+	if len(paramEntity) > 0 {
+		rawEntity := paramEntity[0]
+		rctx.Entity = rawEntity
+	}
+	return &rctx, err
+}
+
+// OK sends a HTTP response with status code 200.
+func (ctx *ListImageContext) OK(r ImageMediaCollection) error {
+	ctx.ResponseData.Header().Set("Content-Type", "application/nmgapi.imageentity; type=collection")
+	if r == nil {
+		r = ImageMediaCollection{}
+	}
+	return ctx.ResponseData.Service.Send(ctx.Context, 200, r)
+}
+
+// BadRequest sends a HTTP response with status code 400.
+func (ctx *ListImageContext) BadRequest(r error) error {
+	ctx.ResponseData.Header().Set("Content-Type", "application/vnd.goa.error")
+	return ctx.ResponseData.Service.Send(ctx.Context, 400, r)
+}
+
+// InternalServerError sends a HTTP response with status code 500.
+func (ctx *ListImageContext) InternalServerError(r error) error {
+	ctx.ResponseData.Header().Set("Content-Type", "application/vnd.goa.error")
+	return ctx.ResponseData.Service.Send(ctx.Context, 500, r)
+}
+
 // ShowImageContext provides the Image show action context.
 type ShowImageContext struct {
 	context.Context
 	*goa.ResponseData
 	*goa.RequestData
-	ID int
+	Entity string
+	ID     string
 }
 
 // NewShowImageContext parses the incoming request URL and body, performs validations and creates the
@@ -492,14 +539,15 @@ func NewShowImageContext(ctx context.Context, r *http.Request, service *goa.Serv
 	req := goa.ContextRequest(ctx)
 	req.Request = r
 	rctx := ShowImageContext{Context: ctx, ResponseData: resp, RequestData: req}
+	paramEntity := req.Params["entity"]
+	if len(paramEntity) > 0 {
+		rawEntity := paramEntity[0]
+		rctx.Entity = rawEntity
+	}
 	paramID := req.Params["id"]
 	if len(paramID) > 0 {
 		rawID := paramID[0]
-		if id, err2 := strconv.Atoi(rawID); err2 == nil {
-			rctx.ID = id
-		} else {
-			err = goa.MergeErrors(err, goa.InvalidParamTypeError("id", rawID, "integer"))
-		}
+		rctx.ID = rawID
 	}
 	return &rctx, err
 }
@@ -533,7 +581,8 @@ type UploadImageContext struct {
 	context.Context
 	*goa.ResponseData
 	*goa.RequestData
-	ID string
+	Entity string
+	ID     string
 }
 
 // NewUploadImageContext parses the incoming request URL and body, performs validations and creates the
@@ -545,6 +594,11 @@ func NewUploadImageContext(ctx context.Context, r *http.Request, service *goa.Se
 	req := goa.ContextRequest(ctx)
 	req.Request = r
 	rctx := UploadImageContext{Context: ctx, ResponseData: resp, RequestData: req}
+	paramEntity := req.Params["entity"]
+	if len(paramEntity) > 0 {
+		rawEntity := paramEntity[0]
+		rctx.Entity = rawEntity
+	}
 	paramID := req.Params["id"]
 	if len(paramID) > 0 {
 		rawID := paramID[0]
