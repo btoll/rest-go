@@ -1,6 +1,7 @@
 package main
 
 import (
+	"fmt"
 	"io"
 
 	"cloud.google.com/go/storage"
@@ -48,7 +49,13 @@ func (c *ImageController) Upload(ctx *app.UploadImageContext) error {
 		part, err := reader.NextPart()
 
 		if err != io.EOF {
-			writer := client.Bucket(bucketname).Object(ctx.Entity + "/" + ctx.ID + "/" + part.FileName()).NewWriter(gaeCtx)
+			storageobject := client.Bucket(bucketname).Object(fmt.Sprintf("%s/%s/%s", ctx.Entity, ctx.ID, part.FileName()))
+			writer := storageobject.NewWriter(gaeCtx)
+			writer.ContentType = "image/*"
+
+			//writer.Metadata = map[string]string{
+			//    "x-googl-acl": "authenticated-read, public-read",
+			//}
 
 			_, err = io.Copy(writer, part)
 			if err != nil {
@@ -57,6 +64,11 @@ func (c *ImageController) Upload(ctx *app.UploadImageContext) error {
 
 			err = writer.Close()
 			if err != nil {
+				return goa.ErrBadRequest(err, "endpoint", "upload")
+			}
+
+			acl := storageobject.ACL()
+			if err = acl.Set(gaeCtx, storage.AllUsers /*storage.AllAuthenticatedUsers*/, storage.RoleReader); err != nil {
 				return goa.ErrBadRequest(err, "endpoint", "upload")
 			}
 		} else {
