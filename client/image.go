@@ -18,67 +18,6 @@ import (
 	"net/url"
 )
 
-// ListImagePath computes a request path to the list action of Image.
-func ListImagePath(entity string) string {
-	param0 := entity
-
-	return fmt.Sprintf("/nmg/image/%s", param0)
-}
-
-// Get all images of all teams
-func (c *Client) ListImage(ctx context.Context, path string) (*http.Response, error) {
-	req, err := c.NewListImageRequest(ctx, path)
-	if err != nil {
-		return nil, err
-	}
-	return c.Client.Do(ctx, req)
-}
-
-// NewListImageRequest create the request corresponding to the list action endpoint of the Image resource.
-func (c *Client) NewListImageRequest(ctx context.Context, path string) (*http.Request, error) {
-	scheme := c.Scheme
-	if scheme == "" {
-		scheme = "http"
-	}
-	u := url.URL{Host: c.Host, Scheme: scheme, Path: path}
-	req, err := http.NewRequest("GET", u.String(), nil)
-	if err != nil {
-		return nil, err
-	}
-	return req, nil
-}
-
-// ShowImagePath computes a request path to the show action of Image.
-func ShowImagePath(entity string, id string) string {
-	param0 := entity
-	param1 := id
-
-	return fmt.Sprintf("/nmg/image/%s/%s", param0, param1)
-}
-
-// Show all images for a particular team
-func (c *Client) ShowImage(ctx context.Context, path string) (*http.Response, error) {
-	req, err := c.NewShowImageRequest(ctx, path)
-	if err != nil {
-		return nil, err
-	}
-	return c.Client.Do(ctx, req)
-}
-
-// NewShowImageRequest create the request corresponding to the show action endpoint of the Image resource.
-func (c *Client) NewShowImageRequest(ctx context.Context, path string) (*http.Request, error) {
-	scheme := c.Scheme
-	if scheme == "" {
-		scheme = "http"
-	}
-	u := url.URL{Host: c.Host, Scheme: scheme, Path: path}
-	req, err := http.NewRequest("GET", u.String(), nil)
-	if err != nil {
-		return nil, err
-	}
-	return req, nil
-}
-
 // UploadImagePath computes a request path to the upload action of Image.
 func UploadImagePath(entity string, id string) string {
 	param0 := entity
@@ -103,7 +42,7 @@ func (c *Client) NewUploadImageRequest(ctx context.Context, path string) (*http.
 		scheme = "http"
 	}
 	u := url.URL{Host: c.Host, Scheme: scheme, Path: path}
-	req, err := http.NewRequest("PUT", u.String(), nil)
+	req, err := http.NewRequest("POST", u.String(), nil)
 	if err != nil {
 		return nil, err
 	}

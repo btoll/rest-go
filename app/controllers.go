@@ -370,8 +370,6 @@ func unmarshalUpdateGamePayload(ctx context.Context, service *goa.Service, req *
 // ImageController is the controller interface for the Image actions.
 type ImageController interface {
 	goa.Muxer
-	List(*ListImageContext) error
-	Show(*ShowImageContext) error
 	Upload(*UploadImageContext) error
 }
 
@@ -379,40 +377,7 @@ type ImageController interface {
 func MountImageController(service *goa.Service, ctrl ImageController) {
 	initService(service)
 	var h goa.Handler
-	service.Mux.Handle("OPTIONS", "/nmg/image/:entity", ctrl.MuxHandler("preflight", handleImageOrigin(cors.HandlePreflight()), nil))
 	service.Mux.Handle("OPTIONS", "/nmg/image/:entity/:id", ctrl.MuxHandler("preflight", handleImageOrigin(cors.HandlePreflight()), nil))
-
-	h = func(ctx context.Context, rw http.ResponseWriter, req *http.Request) error {
-		// Check if there was an error loading the request
-		if err := goa.ContextError(ctx); err != nil {
-			return err
-		}
-		// Build the context
-		rctx, err := NewListImageContext(ctx, req, service)
-		if err != nil {
-			return err
-		}
-		return ctrl.List(rctx)
-	}
-	h = handleImageOrigin(h)
-	service.Mux.Handle("GET", "/nmg/image/:entity", ctrl.MuxHandler("list", h, nil))
-	service.LogInfo("mount", "ctrl", "Image", "action", "List", "route", "GET /nmg/image/:entity")
-
-	h = func(ctx context.Context, rw http.ResponseWriter, req *http.Request) error {
-		// Check if there was an error loading the request
-		if err := goa.ContextError(ctx); err != nil {
-			return err
-		}
-		// Build the context
-		rctx, err := NewShowImageContext(ctx, req, service)
-		if err != nil {
-			return err
-		}
-		return ctrl.Show(rctx)
-	}
-	h = handleImageOrigin(h)
-	service.Mux.Handle("GET", "/nmg/image/:entity/:id", ctrl.MuxHandler("show", h, nil))
-	service.LogInfo("mount", "ctrl", "Image", "action", "Show", "route", "GET /nmg/image/:entity/:id")
 
 	h = func(ctx context.Context, rw http.ResponseWriter, req *http.Request) error {
 		// Check if there was an error loading the request
@@ -427,8 +392,8 @@ func MountImageController(service *goa.Service, ctrl ImageController) {
 		return ctrl.Upload(rctx)
 	}
 	h = handleImageOrigin(h)
-	service.Mux.Handle("PUT", "/nmg/image/:entity/:id", ctrl.MuxHandler("upload", h, nil))
-	service.LogInfo("mount", "ctrl", "Image", "action", "Upload", "route", "PUT /nmg/image/:entity/:id")
+	service.Mux.Handle("POST", "/nmg/image/:entity/:id", ctrl.MuxHandler("upload", h, nil))
+	service.LogInfo("mount", "ctrl", "Image", "action", "Upload", "route", "POST /nmg/image/:entity/:id")
 }
 
 // handleImageOrigin applies the CORS response headers corresponding to the origin.

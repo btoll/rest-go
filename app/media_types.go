@@ -158,45 +158,6 @@ func (mt *GameMediaTiny) Validate() (err error) {
 	return
 }
 
-// Image metadata (default view)
-//
-// Identifier: application/nmgapi.imageentity; view=default
-type ImageMedia struct {
-	// Image filename
-	Filename string `form:"filename" json:"filename" xml:"filename"`
-	// Image ID
-	ID int `form:"id" json:"id" xml:"id"`
-	// Upload timestamp
-	UploadedAt time.Time `form:"uploaded_at" json:"uploaded_at" xml:"uploaded_at"`
-}
-
-// Validate validates the ImageMedia media type instance.
-func (mt *ImageMedia) Validate() (err error) {
-
-	if mt.Filename == "" {
-		err = goa.MergeErrors(err, goa.MissingAttributeError(`response`, "filename"))
-	}
-
-	return
-}
-
-// ImageMediaCollection is the media type for an array of ImageMedia (default view)
-//
-// Identifier: application/nmgapi.imageentity; type=collection; view=default
-type ImageMediaCollection []*ImageMedia
-
-// Validate validates the ImageMediaCollection media type instance.
-func (mt ImageMediaCollection) Validate() (err error) {
-	for _, e := range mt {
-		if e != nil {
-			if err2 := e.Validate(); err2 != nil {
-				err = goa.MergeErrors(err, err2)
-			}
-		}
-	}
-	return
-}
-
 // Sport response (default view)
 //
 // Identifier: application/nmgapi.sportentity; view=default

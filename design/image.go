@@ -5,48 +5,54 @@ import (
 	. "github.com/goadesign/goa/design/apidsl"
 )
 
+// We may not need `list` and `show` endpoints, but it's trivial to define them.
+
 var _ = Resource("Image", func() {
 	BasePath("/image")
 
-	Action("show", func() {
-		Routing(GET("/:entity/:id"))
-		Description("Show all images for a particular team")
-		Params(func() {
-			Param("entity", String, "event|sport|team")
-			Param("id", String, "Entity ID")
+	/*
+		Action("list", func() {
+			//        Routing(GET("/list/:entity"))
+			Routing(GET("/:entity"))
+			Params(func() {
+				Param("entity", String, "event|sport|team")
+			})
+			Description("Get all images of all teams")
+			Response(OK, CollectionOf(ImageMedia))
+			Response(BadRequest, ErrorMedia)
+			Response(InternalServerError, ErrorMedia)
 		})
-		Response(OK, ImageMedia)
-		Response(NotFound)
-		Response(BadRequest, ErrorMedia)
-		Response(InternalServerError, ErrorMedia)
-	})
+	*/
 
-	Action("list", func() {
-		//        Routing(GET("/list/:entity"))
-		Routing(GET("/:entity"))
-		Params(func() {
-			Param("entity", String, "event|sport|team")
+	/*
+		Action("show", func() {
+			Routing(GET("/:entity/:id"))
+			Description("Show all images for a particular team")
+			Params(func() {
+				Param("entity", String, "event|sport|team")
+				Param("id", String, "Entity ID")
+			})
+			Response(OK, ImageMedia)
+			Response(NotFound)
+			Response(BadRequest, ErrorMedia)
+			Response(InternalServerError, ErrorMedia)
 		})
-		Description("Get all images of all teams")
-		//		Response(OK, "application/json")
-		Response(OK, CollectionOf(ImageMedia))
-		Response(BadRequest, ErrorMedia)
-		Response(InternalServerError, ErrorMedia)
-	})
+	*/
 
 	Action("upload", func() {
-		Routing(PUT("/:entity/:id"))
+		Routing(POST("/:entity/:id"))
 		Description("Upload multiple images in multipart request")
 		Params(func() {
 			Param("entity", String, "event|sport|team")
 			Param("id", String, "Entity ID")
 		})
-		Response(OK, CollectionOf(ImageMedia))
+		Response(OK)
 		Response(BadRequest, ErrorMedia)
 		Response(InternalServerError, ErrorMedia)
 	})
 })
 
+/*
 var ImageMedia = MediaType("application/nmgapi.imageentity", func() {
 	Description("Image metadata")
 	TypeName("ImageMedia")
@@ -64,3 +70,4 @@ var ImageMedia = MediaType("application/nmgapi.imageentity", func() {
 		Attribute("uploaded_at")
 	})
 })
+*/
