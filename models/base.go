@@ -6,7 +6,6 @@ import (
 	"strconv"
 
 	"github.com/dgaedcke/nmg_shared/constants"
-	"github.com/goadesign/goa"
 	"google.golang.org/appengine/datastore"
 )
 
@@ -89,12 +88,12 @@ func Create(kind string, c context.Context) (string, error) {
 	// Get unique string ID, will be different by model.
 	err := model.AllocateID(ctx)
 	if err != nil {
-		return "", goa.ErrInternal(err, "endpoint", "create")
+		return "", err
 	}
 
 	err = model.SetModel(ctx)
 	if err != nil {
-		return "", goa.ErrInternal(err, "endpoint", "create")
+		return "", err
 	}
 
 	return ctx.ID, nil
@@ -105,7 +104,7 @@ func Read(kind string, c context.Context) (interface{}, error) {
 	instance := model.GetModelInstance()
 
 	if err := datastore.Get(ctx.GaeCtx, GetKey(ctx), instance); err != nil {
-		return nil, goa.ErrBadRequest(err, "endpoint", "show")
+		return nil, err
 	}
 
 	return instance, nil
@@ -116,7 +115,7 @@ func Update(kind string, c context.Context) error {
 
 	err := model.SetModel(ctx)
 	if err != nil {
-		return goa.ErrInternal(err, "endpoint", "update")
+		return err
 	}
 
 	return nil
@@ -127,7 +126,7 @@ func Delete(kind string, c context.Context) error {
 
 	err := datastore.Delete(ctx.GaeCtx, GetKey(ctx))
 	if err != nil {
-		return goa.ErrInternal(err, "endpoint", "delete")
+		return err
 	}
 
 	return nil
@@ -138,7 +137,7 @@ func List(kind string, c context.Context) ([]byte, error) {
 
 	keys, coll, err := model.GetModelCollection(ctx)
 	if err != nil {
-		return nil, goa.ErrInternal(err, "endpoint", "list")
+		return nil, err
 	}
 
 	store := &ModelStore{
@@ -152,7 +151,7 @@ func List(kind string, c context.Context) ([]byte, error) {
 
 	b, err := json.Marshal(store)
 	if err != nil {
-		return nil, goa.ErrInternal(err, "endpoint", "list")
+		return nil, err
 	}
 
 	return b, nil

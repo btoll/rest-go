@@ -29,19 +29,19 @@ func (c *ImageController) Upload(ctx *app.UploadImageContext) error {
 
 	client, err := storage.NewClient(gaeCtx)
 	if err != nil {
-		panic(err)
+		return goa.ErrBadRequest(err, "endpoint", "upload")
 	}
 	defer client.Close()
 
 	bucketname, err := file.DefaultBucketName(gaeCtx)
 	if err != nil {
-		panic(err)
+		return goa.ErrBadRequest(err, "endpoint", "upload")
 	}
 	/* ----------------------------------------------------------- */
 
 	reader, err := ctx.MultipartReader()
 	if err != nil {
-		panic(err)
+		return goa.ErrBadRequest(err, "endpoint", "upload")
 	}
 
 	for {
@@ -52,18 +52,18 @@ func (c *ImageController) Upload(ctx *app.UploadImageContext) error {
 
 			_, err = io.Copy(writer, part)
 			if err != nil {
-				panic(err)
+				return goa.ErrBadRequest(err, "endpoint", "upload")
 			}
 
 			err = writer.Close()
 			if err != nil {
-				panic(err)
+				return goa.ErrBadRequest(err, "endpoint", "upload")
 			}
 		} else {
 			break
 		}
 	}
 
-	// ImageController_Upload: end_implement
 	return nil
+	// ImageController_Upload: end_implement
 }

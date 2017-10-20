@@ -19,8 +19,6 @@ var _ = Resource("TeamOpeningConfig", func() {
 			Status(200)
 			Media(TeamOpeningConfigMedia, "tiny")
 		})
-		Response(BadRequest, ErrorMedia)
-		Response(InternalServerError, ErrorMedia)
 	})
 
 	Action("show", func() {
@@ -32,8 +30,6 @@ var _ = Resource("TeamOpeningConfig", func() {
 		})
 		Description("Get a sports team by event key.")
 		Response(OK, TeamOpeningConfigMedia)
-		Response(BadRequest, ErrorMedia)
-		Response(InternalServerError, ErrorMedia)
 	})
 
 	Action("update", func() {
@@ -49,8 +45,6 @@ var _ = Resource("TeamOpeningConfig", func() {
 			Status(200)
 		})
 		Response(NoContent)
-		Response(BadRequest, ErrorMedia)
-		Response(InternalServerError, ErrorMedia)
 	})
 
 	Action("delete", func() {
@@ -65,16 +59,12 @@ var _ = Resource("TeamOpeningConfig", func() {
 			Status(200)
 		})
 		Response(NoContent)
-		Response(BadRequest, ErrorMedia)
-		Response(InternalServerError, ErrorMedia)
 	})
 
 	Action("list", func() {
 		Routing(GET("/list"))
 		Description("Get all teams openings")
 		Response(OK, "application/json")
-		Response(BadRequest, ErrorMedia)
-		Response(InternalServerError, ErrorMedia)
 	})
 })
 

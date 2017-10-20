@@ -24,14 +24,12 @@ func (c *GameController) Create(ctx *app.CreateGameContext) error {
 	id, err := models.Create(constants.DB_GAME, ctx)
 
 	if err != nil {
-		return ctx.InternalServerError(err)
+		return goa.ErrInternal(err, "endpoint", "create")
 	}
 
 	return ctx.OKTiny(&app.GameMediaTiny{id})
 
 	// GameController_Create: end_implement
-	res := &app.GameMediaTiny{}
-	return ctx.OKTiny(res)
 }
 
 // Delete runs the delete action.
@@ -39,13 +37,12 @@ func (c *GameController) Delete(ctx *app.DeleteGameContext) error {
 	// GameController_Delete: start_implement
 
 	if err := models.Delete(constants.DB_GAME, ctx); err != nil {
-		return ctx.InternalServerError(err)
+		return goa.ErrInternal(err, "endpoint", "delete")
 	}
 
 	return ctx.NoContent()
 
 	// GameController_Delete: end_implement
-	return nil
 }
 
 // List runs the list action.
@@ -55,13 +52,12 @@ func (c *GameController) List(ctx *app.ListGameContext) error {
 	b, err := models.List(constants.DB_GAME, ctx)
 
 	if err != nil {
-		return ctx.InternalServerError(err)
+		return goa.ErrInternal(err, "endpoint", "list")
 	}
 
 	return ctx.OK(b)
 
 	// GameController_List: end_implement
-	return nil
 }
 
 // Show runs the show action.
@@ -71,14 +67,12 @@ func (c *GameController) Show(ctx *app.ShowGameContext) error {
 	model, err := models.Read(constants.DB_GAME, ctx)
 
 	if err != nil {
-		return ctx.BadRequest(err)
+		return goa.ErrBadRequest(err, "endpoint", "show")
 	}
 
 	return ctx.OK(model.(*app.GameMedia))
 
 	// GameController_Show: end_implement
-	res := &app.GameMedia{}
-	return ctx.OK(res)
 }
 
 // Update runs the update action.
@@ -86,11 +80,10 @@ func (c *GameController) Update(ctx *app.UpdateGameContext) error {
 	// GameController_Update: start_implement
 
 	if err := models.Update(constants.DB_GAME, ctx); err != nil {
-		return ctx.InternalServerError(err)
+		return goa.ErrInternal(err, "endpoint", "update")
 	}
 
 	return ctx.NoContent()
 
 	// GameController_Update: end_implement
-	return nil
 }

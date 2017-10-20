@@ -19,8 +19,6 @@ var _ = Resource("Image", func() {
 			})
 			Description("Get all images of all teams")
 			Response(OK, CollectionOf(ImageMedia))
-			Response(BadRequest, ErrorMedia)
-			Response(InternalServerError, ErrorMedia)
 		})
 	*/
 
@@ -34,8 +32,6 @@ var _ = Resource("Image", func() {
 			})
 			Response(OK, ImageMedia)
 			Response(NotFound)
-			Response(BadRequest, ErrorMedia)
-			Response(InternalServerError, ErrorMedia)
 		})
 	*/
 
@@ -47,8 +43,6 @@ var _ = Resource("Image", func() {
 			Param("id", String, "Entity ID")
 		})
 		Response(OK)
-		Response(BadRequest, ErrorMedia)
-		Response(InternalServerError, ErrorMedia)
 	})
 })
 

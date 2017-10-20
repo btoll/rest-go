@@ -6,7 +6,6 @@
 // $ goagen
 // --design=github.com/btoll/rest-go/design
 // --out=$(GOPATH)/src/github.com/btoll/rest-go
-// --regen=true
 // --version=v1.3.0
 
 package client
@@ -379,13 +378,6 @@ func (c *Client) DecodeTeamOpeningConfigMedia(resp *http.Response) (*TeamOpening
 // DecodeTeamOpeningConfigMediaTiny decodes the TeamOpeningConfigMediaTiny instance encoded in resp body.
 func (c *Client) DecodeTeamOpeningConfigMediaTiny(resp *http.Response) (*TeamOpeningConfigMediaTiny, error) {
 	var decoded TeamOpeningConfigMediaTiny
-	err := c.Decoder.Decode(&decoded, resp.Body, resp.Header.Get("Content-Type"))
-	return &decoded, err
-}
-
-// DecodeErrorResponse decodes the ErrorResponse instance encoded in resp body.
-func (c *Client) DecodeErrorResponse(resp *http.Response) (*goa.ErrorResponse, error) {
-	var decoded goa.ErrorResponse
 	err := c.Decoder.Decode(&decoded, resp.Body, resp.Header.Get("Content-Type"))
 	return &decoded, err
 }

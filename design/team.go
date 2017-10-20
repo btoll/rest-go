@@ -19,8 +19,6 @@ var _ = Resource("Team", func() {
 			Status(200)
 			Media(TeamMedia, "tiny")
 		})
-		Response(BadRequest, ErrorMedia)
-		Response(InternalServerError, ErrorMedia)
 	})
 
 	Action("show", func() {
@@ -30,8 +28,6 @@ var _ = Resource("Team", func() {
 		})
 		Description("Get a sports team by id.")
 		Response(OK, TeamMedia)
-		Response(BadRequest, ErrorMedia)
-		Response(InternalServerError, ErrorMedia)
 	})
 
 	Action("update", func() {
@@ -45,8 +41,6 @@ var _ = Resource("Team", func() {
 			Status(200)
 		})
 		Response(NoContent)
-		Response(BadRequest, ErrorMedia)
-		Response(InternalServerError, ErrorMedia)
 	})
 
 	Action("delete", func() {
@@ -59,16 +53,12 @@ var _ = Resource("Team", func() {
 			Status(200)
 		})
 		Response(NoContent)
-		Response(BadRequest, ErrorMedia)
-		Response(InternalServerError, ErrorMedia)
 	})
 
 	Action("list", func() {
 		Routing(GET("/list"))
 		Description("Get all teams")
 		Response(OK, "application/json")
-		Response(BadRequest, ErrorMedia)
-		Response(InternalServerError, ErrorMedia)
 	})
 })
 

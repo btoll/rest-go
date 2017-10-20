@@ -19,8 +19,6 @@ var _ = Resource("Event", func() {
 			Status(200)
 			Media(EventMedia, "tiny")
 		})
-		Response(BadRequest, ErrorMedia)
-		Response(InternalServerError, ErrorMedia)
 	})
 
 	Action("show", func() {
@@ -30,8 +28,6 @@ var _ = Resource("Event", func() {
 		})
 		Description("Get a sports event by id.")
 		Response(OK, EventMedia)
-		Response(BadRequest, ErrorMedia)
-		Response(InternalServerError, ErrorMedia)
 	})
 
 	Action("update", func() {
@@ -45,8 +41,6 @@ var _ = Resource("Event", func() {
 			Status(200)
 		})
 		Response(NoContent)
-		Response(BadRequest, ErrorMedia)
-		Response(InternalServerError, ErrorMedia)
 	})
 
 	Action("delete", func() {
@@ -59,16 +53,12 @@ var _ = Resource("Event", func() {
 			Status(200)
 		})
 		Response(NoContent)
-		Response(BadRequest, ErrorMedia)
-		Response(InternalServerError, ErrorMedia)
 	})
 
 	Action("list", func() {
 		Routing(GET("/list"))
 		Description("Get all events")
 		Response(OK, "application/json")
-		Response(InternalServerError, ErrorMedia)
-		Response(BadRequest)
 	})
 })
 

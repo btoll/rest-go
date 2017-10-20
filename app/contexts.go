@@ -6,7 +6,6 @@
 // $ goagen
 // --design=github.com/btoll/rest-go/design
 // --out=$(GOPATH)/src/github.com/btoll/rest-go
-// --regen=true
 // --version=v1.3.0
 
 package app
@@ -41,18 +40,6 @@ func NewCreateEventContext(ctx context.Context, r *http.Request, service *goa.Se
 func (ctx *CreateEventContext) OKTiny(r *EventMediaTiny) error {
 	ctx.ResponseData.Header().Set("Content-Type", "application/json")
 	return ctx.ResponseData.Service.Send(ctx.Context, 200, r)
-}
-
-// BadRequest sends a HTTP response with status code 400.
-func (ctx *CreateEventContext) BadRequest(r error) error {
-	ctx.ResponseData.Header().Set("Content-Type", "application/vnd.goa.error")
-	return ctx.ResponseData.Service.Send(ctx.Context, 400, r)
-}
-
-// InternalServerError sends a HTTP response with status code 500.
-func (ctx *CreateEventContext) InternalServerError(r error) error {
-	ctx.ResponseData.Header().Set("Content-Type", "application/vnd.goa.error")
-	return ctx.ResponseData.Service.Send(ctx.Context, 500, r)
 }
 
 // DeleteEventContext provides the Event delete action context.
@@ -94,18 +81,6 @@ func (ctx *DeleteEventContext) NoContent() error {
 	return nil
 }
 
-// BadRequest sends a HTTP response with status code 400.
-func (ctx *DeleteEventContext) BadRequest(r error) error {
-	ctx.ResponseData.Header().Set("Content-Type", "application/vnd.goa.error")
-	return ctx.ResponseData.Service.Send(ctx.Context, 400, r)
-}
-
-// InternalServerError sends a HTTP response with status code 500.
-func (ctx *DeleteEventContext) InternalServerError(r error) error {
-	ctx.ResponseData.Header().Set("Content-Type", "application/vnd.goa.error")
-	return ctx.ResponseData.Service.Send(ctx.Context, 500, r)
-}
-
 // ListEventContext provides the Event list action context.
 type ListEventContext struct {
 	context.Context
@@ -131,18 +106,6 @@ func (ctx *ListEventContext) OK(resp []byte) error {
 	ctx.ResponseData.WriteHeader(200)
 	_, err := ctx.ResponseData.Write(resp)
 	return err
-}
-
-// BadRequest sends a HTTP response with status code 400.
-func (ctx *ListEventContext) BadRequest() error {
-	ctx.ResponseData.WriteHeader(400)
-	return nil
-}
-
-// InternalServerError sends a HTTP response with status code 500.
-func (ctx *ListEventContext) InternalServerError(r error) error {
-	ctx.ResponseData.Header().Set("Content-Type", "application/vnd.goa.error")
-	return ctx.ResponseData.Service.Send(ctx.Context, 500, r)
 }
 
 // ShowEventContext provides the Event show action context.
@@ -180,18 +143,6 @@ func (ctx *ShowEventContext) OK(r *EventMedia) error {
 func (ctx *ShowEventContext) OKTiny(r *EventMediaTiny) error {
 	ctx.ResponseData.Header().Set("Content-Type", "application/json")
 	return ctx.ResponseData.Service.Send(ctx.Context, 200, r)
-}
-
-// BadRequest sends a HTTP response with status code 400.
-func (ctx *ShowEventContext) BadRequest(r error) error {
-	ctx.ResponseData.Header().Set("Content-Type", "application/vnd.goa.error")
-	return ctx.ResponseData.Service.Send(ctx.Context, 400, r)
-}
-
-// InternalServerError sends a HTTP response with status code 500.
-func (ctx *ShowEventContext) InternalServerError(r error) error {
-	ctx.ResponseData.Header().Set("Content-Type", "application/vnd.goa.error")
-	return ctx.ResponseData.Service.Send(ctx.Context, 500, r)
 }
 
 // UpdateEventContext provides the Event update action context.
@@ -234,18 +185,6 @@ func (ctx *UpdateEventContext) NoContent() error {
 	return nil
 }
 
-// BadRequest sends a HTTP response with status code 400.
-func (ctx *UpdateEventContext) BadRequest(r error) error {
-	ctx.ResponseData.Header().Set("Content-Type", "application/vnd.goa.error")
-	return ctx.ResponseData.Service.Send(ctx.Context, 400, r)
-}
-
-// InternalServerError sends a HTTP response with status code 500.
-func (ctx *UpdateEventContext) InternalServerError(r error) error {
-	ctx.ResponseData.Header().Set("Content-Type", "application/vnd.goa.error")
-	return ctx.ResponseData.Service.Send(ctx.Context, 500, r)
-}
-
 // CreateGameContext provides the Game create action context.
 type CreateGameContext struct {
 	context.Context
@@ -270,18 +209,6 @@ func NewCreateGameContext(ctx context.Context, r *http.Request, service *goa.Ser
 func (ctx *CreateGameContext) OKTiny(r *GameMediaTiny) error {
 	ctx.ResponseData.Header().Set("Content-Type", "application/json")
 	return ctx.ResponseData.Service.Send(ctx.Context, 200, r)
-}
-
-// BadRequest sends a HTTP response with status code 400.
-func (ctx *CreateGameContext) BadRequest(r error) error {
-	ctx.ResponseData.Header().Set("Content-Type", "application/vnd.goa.error")
-	return ctx.ResponseData.Service.Send(ctx.Context, 400, r)
-}
-
-// InternalServerError sends a HTTP response with status code 500.
-func (ctx *CreateGameContext) InternalServerError(r error) error {
-	ctx.ResponseData.Header().Set("Content-Type", "application/vnd.goa.error")
-	return ctx.ResponseData.Service.Send(ctx.Context, 500, r)
 }
 
 // DeleteGameContext provides the Game delete action context.
@@ -323,18 +250,6 @@ func (ctx *DeleteGameContext) NoContent() error {
 	return nil
 }
 
-// BadRequest sends a HTTP response with status code 400.
-func (ctx *DeleteGameContext) BadRequest(r error) error {
-	ctx.ResponseData.Header().Set("Content-Type", "application/vnd.goa.error")
-	return ctx.ResponseData.Service.Send(ctx.Context, 400, r)
-}
-
-// InternalServerError sends a HTTP response with status code 500.
-func (ctx *DeleteGameContext) InternalServerError(r error) error {
-	ctx.ResponseData.Header().Set("Content-Type", "application/vnd.goa.error")
-	return ctx.ResponseData.Service.Send(ctx.Context, 500, r)
-}
-
 // ListGameContext provides the Game list action context.
 type ListGameContext struct {
 	context.Context
@@ -360,18 +275,6 @@ func (ctx *ListGameContext) OK(resp []byte) error {
 	ctx.ResponseData.WriteHeader(200)
 	_, err := ctx.ResponseData.Write(resp)
 	return err
-}
-
-// BadRequest sends a HTTP response with status code 400.
-func (ctx *ListGameContext) BadRequest(r error) error {
-	ctx.ResponseData.Header().Set("Content-Type", "application/vnd.goa.error")
-	return ctx.ResponseData.Service.Send(ctx.Context, 400, r)
-}
-
-// InternalServerError sends a HTTP response with status code 500.
-func (ctx *ListGameContext) InternalServerError(r error) error {
-	ctx.ResponseData.Header().Set("Content-Type", "application/vnd.goa.error")
-	return ctx.ResponseData.Service.Send(ctx.Context, 500, r)
 }
 
 // ShowGameContext provides the Game show action context.
@@ -409,18 +312,6 @@ func (ctx *ShowGameContext) OK(r *GameMedia) error {
 func (ctx *ShowGameContext) OKTiny(r *GameMediaTiny) error {
 	ctx.ResponseData.Header().Set("Content-Type", "application/json")
 	return ctx.ResponseData.Service.Send(ctx.Context, 200, r)
-}
-
-// BadRequest sends a HTTP response with status code 400.
-func (ctx *ShowGameContext) BadRequest(r error) error {
-	ctx.ResponseData.Header().Set("Content-Type", "application/vnd.goa.error")
-	return ctx.ResponseData.Service.Send(ctx.Context, 400, r)
-}
-
-// InternalServerError sends a HTTP response with status code 500.
-func (ctx *ShowGameContext) InternalServerError(r error) error {
-	ctx.ResponseData.Header().Set("Content-Type", "application/vnd.goa.error")
-	return ctx.ResponseData.Service.Send(ctx.Context, 500, r)
 }
 
 // UpdateGameContext provides the Game update action context.
@@ -463,18 +354,6 @@ func (ctx *UpdateGameContext) NoContent() error {
 	return nil
 }
 
-// BadRequest sends a HTTP response with status code 400.
-func (ctx *UpdateGameContext) BadRequest(r error) error {
-	ctx.ResponseData.Header().Set("Content-Type", "application/vnd.goa.error")
-	return ctx.ResponseData.Service.Send(ctx.Context, 400, r)
-}
-
-// InternalServerError sends a HTTP response with status code 500.
-func (ctx *UpdateGameContext) InternalServerError(r error) error {
-	ctx.ResponseData.Header().Set("Content-Type", "application/vnd.goa.error")
-	return ctx.ResponseData.Service.Send(ctx.Context, 500, r)
-}
-
 // UploadImageContext provides the Image upload action context.
 type UploadImageContext struct {
 	context.Context
@@ -514,18 +393,6 @@ func (ctx *UploadImageContext) OK(resp []byte) error {
 	return err
 }
 
-// BadRequest sends a HTTP response with status code 400.
-func (ctx *UploadImageContext) BadRequest(r error) error {
-	ctx.ResponseData.Header().Set("Content-Type", "application/vnd.goa.error")
-	return ctx.ResponseData.Service.Send(ctx.Context, 400, r)
-}
-
-// InternalServerError sends a HTTP response with status code 500.
-func (ctx *UploadImageContext) InternalServerError(r error) error {
-	ctx.ResponseData.Header().Set("Content-Type", "application/vnd.goa.error")
-	return ctx.ResponseData.Service.Send(ctx.Context, 500, r)
-}
-
 // CreateSportContext provides the Sport create action context.
 type CreateSportContext struct {
 	context.Context
@@ -550,18 +417,6 @@ func NewCreateSportContext(ctx context.Context, r *http.Request, service *goa.Se
 func (ctx *CreateSportContext) OKTiny(r *SportMediaTiny) error {
 	ctx.ResponseData.Header().Set("Content-Type", "application/json")
 	return ctx.ResponseData.Service.Send(ctx.Context, 200, r)
-}
-
-// BadRequest sends a HTTP response with status code 400.
-func (ctx *CreateSportContext) BadRequest(r error) error {
-	ctx.ResponseData.Header().Set("Content-Type", "application/vnd.goa.error")
-	return ctx.ResponseData.Service.Send(ctx.Context, 400, r)
-}
-
-// InternalServerError sends a HTTP response with status code 500.
-func (ctx *CreateSportContext) InternalServerError(r error) error {
-	ctx.ResponseData.Header().Set("Content-Type", "application/vnd.goa.error")
-	return ctx.ResponseData.Service.Send(ctx.Context, 500, r)
 }
 
 // DeleteSportContext provides the Sport delete action context.
@@ -603,18 +458,6 @@ func (ctx *DeleteSportContext) NoContent() error {
 	return nil
 }
 
-// BadRequest sends a HTTP response with status code 400.
-func (ctx *DeleteSportContext) BadRequest(r error) error {
-	ctx.ResponseData.Header().Set("Content-Type", "application/vnd.goa.error")
-	return ctx.ResponseData.Service.Send(ctx.Context, 400, r)
-}
-
-// InternalServerError sends a HTTP response with status code 500.
-func (ctx *DeleteSportContext) InternalServerError(r error) error {
-	ctx.ResponseData.Header().Set("Content-Type", "application/vnd.goa.error")
-	return ctx.ResponseData.Service.Send(ctx.Context, 500, r)
-}
-
 // ListSportContext provides the Sport list action context.
 type ListSportContext struct {
 	context.Context
@@ -640,18 +483,6 @@ func (ctx *ListSportContext) OK(resp []byte) error {
 	ctx.ResponseData.WriteHeader(200)
 	_, err := ctx.ResponseData.Write(resp)
 	return err
-}
-
-// BadRequest sends a HTTP response with status code 400.
-func (ctx *ListSportContext) BadRequest(r error) error {
-	ctx.ResponseData.Header().Set("Content-Type", "application/vnd.goa.error")
-	return ctx.ResponseData.Service.Send(ctx.Context, 400, r)
-}
-
-// InternalServerError sends a HTTP response with status code 500.
-func (ctx *ListSportContext) InternalServerError(r error) error {
-	ctx.ResponseData.Header().Set("Content-Type", "application/vnd.goa.error")
-	return ctx.ResponseData.Service.Send(ctx.Context, 500, r)
 }
 
 // ShowSportContext provides the Sport show action context.
@@ -689,18 +520,6 @@ func (ctx *ShowSportContext) OK(r *SportMedia) error {
 func (ctx *ShowSportContext) OKTiny(r *SportMediaTiny) error {
 	ctx.ResponseData.Header().Set("Content-Type", "application/json")
 	return ctx.ResponseData.Service.Send(ctx.Context, 200, r)
-}
-
-// BadRequest sends a HTTP response with status code 400.
-func (ctx *ShowSportContext) BadRequest(r error) error {
-	ctx.ResponseData.Header().Set("Content-Type", "application/vnd.goa.error")
-	return ctx.ResponseData.Service.Send(ctx.Context, 400, r)
-}
-
-// InternalServerError sends a HTTP response with status code 500.
-func (ctx *ShowSportContext) InternalServerError(r error) error {
-	ctx.ResponseData.Header().Set("Content-Type", "application/vnd.goa.error")
-	return ctx.ResponseData.Service.Send(ctx.Context, 500, r)
 }
 
 // UpdateSportContext provides the Sport update action context.
@@ -743,18 +562,6 @@ func (ctx *UpdateSportContext) NoContent() error {
 	return nil
 }
 
-// BadRequest sends a HTTP response with status code 400.
-func (ctx *UpdateSportContext) BadRequest(r error) error {
-	ctx.ResponseData.Header().Set("Content-Type", "application/vnd.goa.error")
-	return ctx.ResponseData.Service.Send(ctx.Context, 400, r)
-}
-
-// InternalServerError sends a HTTP response with status code 500.
-func (ctx *UpdateSportContext) InternalServerError(r error) error {
-	ctx.ResponseData.Header().Set("Content-Type", "application/vnd.goa.error")
-	return ctx.ResponseData.Service.Send(ctx.Context, 500, r)
-}
-
 // CreateTeamContext provides the Team create action context.
 type CreateTeamContext struct {
 	context.Context
@@ -779,18 +586,6 @@ func NewCreateTeamContext(ctx context.Context, r *http.Request, service *goa.Ser
 func (ctx *CreateTeamContext) OKTiny(r *TeamMediaTiny) error {
 	ctx.ResponseData.Header().Set("Content-Type", "application/json")
 	return ctx.ResponseData.Service.Send(ctx.Context, 200, r)
-}
-
-// BadRequest sends a HTTP response with status code 400.
-func (ctx *CreateTeamContext) BadRequest(r error) error {
-	ctx.ResponseData.Header().Set("Content-Type", "application/vnd.goa.error")
-	return ctx.ResponseData.Service.Send(ctx.Context, 400, r)
-}
-
-// InternalServerError sends a HTTP response with status code 500.
-func (ctx *CreateTeamContext) InternalServerError(r error) error {
-	ctx.ResponseData.Header().Set("Content-Type", "application/vnd.goa.error")
-	return ctx.ResponseData.Service.Send(ctx.Context, 500, r)
 }
 
 // DeleteTeamContext provides the Team delete action context.
@@ -832,18 +627,6 @@ func (ctx *DeleteTeamContext) NoContent() error {
 	return nil
 }
 
-// BadRequest sends a HTTP response with status code 400.
-func (ctx *DeleteTeamContext) BadRequest(r error) error {
-	ctx.ResponseData.Header().Set("Content-Type", "application/vnd.goa.error")
-	return ctx.ResponseData.Service.Send(ctx.Context, 400, r)
-}
-
-// InternalServerError sends a HTTP response with status code 500.
-func (ctx *DeleteTeamContext) InternalServerError(r error) error {
-	ctx.ResponseData.Header().Set("Content-Type", "application/vnd.goa.error")
-	return ctx.ResponseData.Service.Send(ctx.Context, 500, r)
-}
-
 // ListTeamContext provides the Team list action context.
 type ListTeamContext struct {
 	context.Context
@@ -869,18 +652,6 @@ func (ctx *ListTeamContext) OK(resp []byte) error {
 	ctx.ResponseData.WriteHeader(200)
 	_, err := ctx.ResponseData.Write(resp)
 	return err
-}
-
-// BadRequest sends a HTTP response with status code 400.
-func (ctx *ListTeamContext) BadRequest(r error) error {
-	ctx.ResponseData.Header().Set("Content-Type", "application/vnd.goa.error")
-	return ctx.ResponseData.Service.Send(ctx.Context, 400, r)
-}
-
-// InternalServerError sends a HTTP response with status code 500.
-func (ctx *ListTeamContext) InternalServerError(r error) error {
-	ctx.ResponseData.Header().Set("Content-Type", "application/vnd.goa.error")
-	return ctx.ResponseData.Service.Send(ctx.Context, 500, r)
 }
 
 // ShowTeamContext provides the Team show action context.
@@ -918,18 +689,6 @@ func (ctx *ShowTeamContext) OK(r *TeamMedia) error {
 func (ctx *ShowTeamContext) OKTiny(r *TeamMediaTiny) error {
 	ctx.ResponseData.Header().Set("Content-Type", "application/json")
 	return ctx.ResponseData.Service.Send(ctx.Context, 200, r)
-}
-
-// BadRequest sends a HTTP response with status code 400.
-func (ctx *ShowTeamContext) BadRequest(r error) error {
-	ctx.ResponseData.Header().Set("Content-Type", "application/vnd.goa.error")
-	return ctx.ResponseData.Service.Send(ctx.Context, 400, r)
-}
-
-// InternalServerError sends a HTTP response with status code 500.
-func (ctx *ShowTeamContext) InternalServerError(r error) error {
-	ctx.ResponseData.Header().Set("Content-Type", "application/vnd.goa.error")
-	return ctx.ResponseData.Service.Send(ctx.Context, 500, r)
 }
 
 // UpdateTeamContext provides the Team update action context.
@@ -972,18 +731,6 @@ func (ctx *UpdateTeamContext) NoContent() error {
 	return nil
 }
 
-// BadRequest sends a HTTP response with status code 400.
-func (ctx *UpdateTeamContext) BadRequest(r error) error {
-	ctx.ResponseData.Header().Set("Content-Type", "application/vnd.goa.error")
-	return ctx.ResponseData.Service.Send(ctx.Context, 400, r)
-}
-
-// InternalServerError sends a HTTP response with status code 500.
-func (ctx *UpdateTeamContext) InternalServerError(r error) error {
-	ctx.ResponseData.Header().Set("Content-Type", "application/vnd.goa.error")
-	return ctx.ResponseData.Service.Send(ctx.Context, 500, r)
-}
-
 // CreateTeamOpeningConfigContext provides the TeamOpeningConfig create action context.
 type CreateTeamOpeningConfigContext struct {
 	context.Context
@@ -1008,18 +755,6 @@ func NewCreateTeamOpeningConfigContext(ctx context.Context, r *http.Request, ser
 func (ctx *CreateTeamOpeningConfigContext) OKTiny(r *TeamOpeningConfigMediaTiny) error {
 	ctx.ResponseData.Header().Set("Content-Type", "application/json")
 	return ctx.ResponseData.Service.Send(ctx.Context, 200, r)
-}
-
-// BadRequest sends a HTTP response with status code 400.
-func (ctx *CreateTeamOpeningConfigContext) BadRequest(r error) error {
-	ctx.ResponseData.Header().Set("Content-Type", "application/vnd.goa.error")
-	return ctx.ResponseData.Service.Send(ctx.Context, 400, r)
-}
-
-// InternalServerError sends a HTTP response with status code 500.
-func (ctx *CreateTeamOpeningConfigContext) InternalServerError(r error) error {
-	ctx.ResponseData.Header().Set("Content-Type", "application/vnd.goa.error")
-	return ctx.ResponseData.Service.Send(ctx.Context, 500, r)
 }
 
 // DeleteTeamOpeningConfigContext provides the TeamOpeningConfig delete action context.
@@ -1061,18 +796,6 @@ func (ctx *DeleteTeamOpeningConfigContext) NoContent() error {
 	return nil
 }
 
-// BadRequest sends a HTTP response with status code 400.
-func (ctx *DeleteTeamOpeningConfigContext) BadRequest(r error) error {
-	ctx.ResponseData.Header().Set("Content-Type", "application/vnd.goa.error")
-	return ctx.ResponseData.Service.Send(ctx.Context, 400, r)
-}
-
-// InternalServerError sends a HTTP response with status code 500.
-func (ctx *DeleteTeamOpeningConfigContext) InternalServerError(r error) error {
-	ctx.ResponseData.Header().Set("Content-Type", "application/vnd.goa.error")
-	return ctx.ResponseData.Service.Send(ctx.Context, 500, r)
-}
-
 // ListTeamOpeningConfigContext provides the TeamOpeningConfig list action context.
 type ListTeamOpeningConfigContext struct {
 	context.Context
@@ -1098,18 +821,6 @@ func (ctx *ListTeamOpeningConfigContext) OK(resp []byte) error {
 	ctx.ResponseData.WriteHeader(200)
 	_, err := ctx.ResponseData.Write(resp)
 	return err
-}
-
-// BadRequest sends a HTTP response with status code 400.
-func (ctx *ListTeamOpeningConfigContext) BadRequest(r error) error {
-	ctx.ResponseData.Header().Set("Content-Type", "application/vnd.goa.error")
-	return ctx.ResponseData.Service.Send(ctx.Context, 400, r)
-}
-
-// InternalServerError sends a HTTP response with status code 500.
-func (ctx *ListTeamOpeningConfigContext) InternalServerError(r error) error {
-	ctx.ResponseData.Header().Set("Content-Type", "application/vnd.goa.error")
-	return ctx.ResponseData.Service.Send(ctx.Context, 500, r)
 }
 
 // ShowTeamOpeningConfigContext provides the TeamOpeningConfig show action context.
@@ -1147,18 +858,6 @@ func (ctx *ShowTeamOpeningConfigContext) OK(r *TeamOpeningConfigMedia) error {
 func (ctx *ShowTeamOpeningConfigContext) OKTiny(r *TeamOpeningConfigMediaTiny) error {
 	ctx.ResponseData.Header().Set("Content-Type", "application/json")
 	return ctx.ResponseData.Service.Send(ctx.Context, 200, r)
-}
-
-// BadRequest sends a HTTP response with status code 400.
-func (ctx *ShowTeamOpeningConfigContext) BadRequest(r error) error {
-	ctx.ResponseData.Header().Set("Content-Type", "application/vnd.goa.error")
-	return ctx.ResponseData.Service.Send(ctx.Context, 400, r)
-}
-
-// InternalServerError sends a HTTP response with status code 500.
-func (ctx *ShowTeamOpeningConfigContext) InternalServerError(r error) error {
-	ctx.ResponseData.Header().Set("Content-Type", "application/vnd.goa.error")
-	return ctx.ResponseData.Service.Send(ctx.Context, 500, r)
 }
 
 // UpdateTeamOpeningConfigContext provides the TeamOpeningConfig update action context.
@@ -1199,16 +898,4 @@ func (ctx *UpdateTeamOpeningConfigContext) OK(resp []byte) error {
 func (ctx *UpdateTeamOpeningConfigContext) NoContent() error {
 	ctx.ResponseData.WriteHeader(204)
 	return nil
-}
-
-// BadRequest sends a HTTP response with status code 400.
-func (ctx *UpdateTeamOpeningConfigContext) BadRequest(r error) error {
-	ctx.ResponseData.Header().Set("Content-Type", "application/vnd.goa.error")
-	return ctx.ResponseData.Service.Send(ctx.Context, 400, r)
-}
-
-// InternalServerError sends a HTTP response with status code 500.
-func (ctx *UpdateTeamOpeningConfigContext) InternalServerError(r error) error {
-	ctx.ResponseData.Header().Set("Content-Type", "application/vnd.goa.error")
-	return ctx.ResponseData.Service.Send(ctx.Context, 500, r)
 }

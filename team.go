@@ -24,14 +24,12 @@ func (c *TeamController) Create(ctx *app.CreateTeamContext) error {
 	id, err := models.Create(constants.DB_TEAM, ctx)
 
 	if err != nil {
-		return ctx.InternalServerError(err)
+		return goa.ErrInternal(err, "endpoint", "create")
 	}
 
 	return ctx.OKTiny(&app.TeamMediaTiny{id})
 
 	// TeamController_Create: end_implement
-	res := &app.TeamMediaTiny{}
-	return ctx.OKTiny(res)
 }
 
 // Delete runs the delete action.
@@ -39,13 +37,12 @@ func (c *TeamController) Delete(ctx *app.DeleteTeamContext) error {
 	// TeamController_Delete: start_implement
 
 	if err := models.Delete(constants.DB_TEAM, ctx); err != nil {
-		return ctx.InternalServerError(err)
+		return goa.ErrInternal(err, "endpoint", "delete")
 	}
 
 	return ctx.NoContent()
 
 	// TeamController_Delete: end_implement
-	return nil
 }
 
 // List runs the list action.
@@ -55,13 +52,12 @@ func (c *TeamController) List(ctx *app.ListTeamContext) error {
 	b, err := models.List(constants.DB_TEAM, ctx)
 
 	if err != nil {
-		return ctx.InternalServerError(err)
+		return goa.ErrInternal(err, "endpoint", "list")
 	}
 
 	return ctx.OK(b)
 
 	// TeamController_List: end_implement
-	return nil
 }
 
 // Show runs the show action.
@@ -71,14 +67,12 @@ func (c *TeamController) Show(ctx *app.ShowTeamContext) error {
 	model, err := models.Read(constants.DB_TEAM, ctx)
 
 	if err != nil {
-		return ctx.BadRequest(err)
+		return goa.ErrBadRequest(err, "endpoint", "show")
 	}
 
 	return ctx.OK(model.(*app.TeamMedia))
 
 	// TeamController_Show: end_implement
-	res := &app.TeamMedia{}
-	return ctx.OK(res)
 }
 
 // Update runs the update action.
@@ -86,11 +80,10 @@ func (c *TeamController) Update(ctx *app.UpdateTeamContext) error {
 	// TeamController_Update: start_implement
 
 	if err := models.Update(constants.DB_TEAM, ctx); err != nil {
-		return ctx.InternalServerError(err)
+		return goa.ErrInternal(err, "endpoint", "update")
 	}
 
 	return ctx.NoContent()
 
 	// TeamController_Update: end_implement
-	return nil
 }
