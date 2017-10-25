@@ -32,6 +32,61 @@ func initService(service *goa.Service) {
 	service.Decoder.Register(goa.NewJSONDecoder, "*/*")
 }
 
+// EnumController is the controller interface for the Enum actions.
+type EnumController interface {
+	goa.Muxer
+	List(*ListEnumContext) error
+}
+
+// MountEnumController "mounts" a Enum resource controller on the given service.
+func MountEnumController(service *goa.Service, ctrl EnumController) {
+	initService(service)
+	var h goa.Handler
+	service.Mux.Handle("OPTIONS", "/nmg/enum/", ctrl.MuxHandler("preflight", handleEnumOrigin(cors.HandlePreflight()), nil))
+
+	h = func(ctx context.Context, rw http.ResponseWriter, req *http.Request) error {
+		// Check if there was an error loading the request
+		if err := goa.ContextError(ctx); err != nil {
+			return err
+		}
+		// Build the context
+		rctx, err := NewListEnumContext(ctx, req, service)
+		if err != nil {
+			return err
+		}
+		return ctrl.List(rctx)
+	}
+	h = handleEnumOrigin(h)
+	service.Mux.Handle("GET", "/nmg/enum/", ctrl.MuxHandler("list", h, nil))
+	service.LogInfo("mount", "ctrl", "Enum", "action", "List", "route", "GET /nmg/enum/")
+}
+
+// handleEnumOrigin applies the CORS response headers corresponding to the origin.
+func handleEnumOrigin(h goa.Handler) goa.Handler {
+
+	return func(ctx context.Context, rw http.ResponseWriter, req *http.Request) error {
+		origin := req.Header.Get("Origin")
+		if origin == "" {
+			// Not a CORS request
+			return h(ctx, rw, req)
+		}
+		if cors.MatchOrigin(origin, "*") {
+			ctx = goa.WithLogContext(ctx, "origin", origin)
+			rw.Header().Set("Access-Control-Allow-Origin", origin)
+			rw.Header().Set("Access-Control-Max-Age", "600")
+			rw.Header().Set("Access-Control-Allow-Credentials", "true")
+			if acrm := req.Header.Get("Access-Control-Request-Method"); acrm != "" {
+				// We are handling a preflight request
+				rw.Header().Set("Access-Control-Allow-Methods", "GET, POST, PUT, DELETE")
+				rw.Header().Set("Access-Control-Allow-Headers", "Accept, Accept-Language, Content-Language, Content-Type")
+			}
+			return h(ctx, rw, req)
+		}
+
+		return h(ctx, rw, req)
+	}
+}
+
 // EventController is the controller interface for the Event actions.
 type EventController interface {
 	goa.Muxer

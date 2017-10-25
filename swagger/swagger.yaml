@@ -673,6 +673,18 @@ info:
   title: New Millennium Games API
   version: ""
 paths:
+  /enum/:
+    get:
+      description: Get a map of all enums
+      operationId: Enum#list
+      responses:
+        "200":
+          description: OK
+      schemes:
+      - http
+      summary: list Enum
+      tags:
+      - Enum
   /event/:
     post:
       description: Create a new sports event.

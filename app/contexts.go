@@ -16,6 +16,33 @@ import (
 	"net/http"
 )
 
+// ListEnumContext provides the Enum list action context.
+type ListEnumContext struct {
+	context.Context
+	*goa.ResponseData
+	*goa.RequestData
+}
+
+// NewListEnumContext parses the incoming request URL and body, performs validations and creates the
+// context used by the Enum controller list action.
+func NewListEnumContext(ctx context.Context, r *http.Request, service *goa.Service) (*ListEnumContext, error) {
+	var err error
+	resp := goa.ContextResponse(ctx)
+	resp.Service = service
+	req := goa.ContextRequest(ctx)
+	req.Request = r
+	rctx := ListEnumContext{Context: ctx, ResponseData: resp, RequestData: req}
+	return &rctx, err
+}
+
+// OK sends a HTTP response with status code 200.
+func (ctx *ListEnumContext) OK(resp []byte) error {
+	ctx.ResponseData.Header().Set("Content-Type", "application/json")
+	ctx.ResponseData.WriteHeader(200)
+	_, err := ctx.ResponseData.Write(resp)
+	return err
+}
+
 // CreateEventContext provides the Event create action context.
 type CreateEventContext struct {
 	context.Context

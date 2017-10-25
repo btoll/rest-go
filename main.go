@@ -39,6 +39,9 @@ func main() {
 	// Mount "Image" controller
 	c6 := NewImageController(service)
 	app.MountImageController(service, c6)
+	// Mount "Enum" controller
+	c7 := NewEnumController(service)
+	app.MountEnumController(service, c7)
 
 	http.Handle("/", service.Mux)
 	appengine.Main()
