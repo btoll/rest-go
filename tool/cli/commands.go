@@ -402,7 +402,7 @@ Payload example:
 	tmp11 := new(ListEnumCommand)
 	sub = &cobra.Command{
 		Use:   `enum ["/nmg/enum/"]`,
-		Short: ``,
+		Short: `Get a map of all enums`,
 		RunE:  func(cmd *cobra.Command, args []string) error { return tmp11.Run(c, args) },
 	}
 	tmp11.RegisterFlags(sub, c)
