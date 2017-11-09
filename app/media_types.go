@@ -217,14 +217,8 @@ func (mt *SportMediaTiny) Validate() (err error) {
 //
 // Identifier: application/nmgapi.teamentity; view=default
 type TeamMedia struct {
-	// Team Win-Loss Record
-	CurrentWinRecord string `datastore:"currentWinRecord,noindex" json:"currentWinRecord,omitempty"`
-	// Team Logo
-	FullLogo string `datastore:"fullLogo,noindex" json:"fullLogo,omitempty"`
 	// Sport HomeTown ID
 	HomeTownID string `datastore:"homeTownId,noindex" json:"homeTownId,omitempty"`
-	// Team Icon
-	IconName string `datastore:"iconName,noindex" json:"iconName,omitempty"`
 	// Team name
 	Name string `datastore:"name,noindex" json:"name,omitempty"`
 	// Team Nickname
@@ -246,15 +240,6 @@ func (mt *TeamMedia) Validate() (err error) {
 	}
 	if mt.ShortName == "" {
 		err = goa.MergeErrors(err, goa.MissingAttributeError(`response`, "shortName"))
-	}
-	if mt.CurrentWinRecord == "" {
-		err = goa.MergeErrors(err, goa.MissingAttributeError(`response`, "currentWinRecord"))
-	}
-	if mt.IconName == "" {
-		err = goa.MergeErrors(err, goa.MissingAttributeError(`response`, "iconName"))
-	}
-	if mt.FullLogo == "" {
-		err = goa.MergeErrors(err, goa.MissingAttributeError(`response`, "fullLogo"))
 	}
 	return
 }

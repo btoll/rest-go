@@ -234,14 +234,14 @@ func RegisterCommands(app *cobra.Command, c *client.Client) {
 Payload example:
 
 {
-   "endDtTm": "1976-12-29T12:27:59Z",
-   "eventId": "Ad qui laborum aliquam vel nobis.",
-   "locationId": "Voluptatem dolores sit ut quis necessitatibus non.",
-   "name": "Est delectus.",
-   "sportId": "Quis aut ut labore perferendis natus quidem.",
-   "startDtTm": "2007-08-16T16:19:15Z",
-   "subTitle": "Maiores voluptatem voluptatem ad earum.",
-   "teamAdvanceMethod": "Porro vel quia quaerat."
+   "endDtTm": "2001-01-15T17:07:05Z",
+   "eventId": "Voluptatem assumenda sed quibusdam velit occaecati excepturi.",
+   "locationId": "Debitis aut debitis.",
+   "name": "Qui velit.",
+   "sportId": "Suscipit laborum magni deleniti molestias.",
+   "startDtTm": "1992-01-18T19:06:24Z",
+   "subTitle": "Unde ad qui laborum aliquam.",
+   "teamAdvanceMethod": "Nobis maxime voluptatem."
 }`,
 		RunE: func(cmd *cobra.Command, args []string) error { return tmp1.Run(c, args) },
 	}
@@ -257,20 +257,20 @@ Payload example:
 Payload example:
 
 {
-   "eventId": "Dicta mollitia et nulla eos nobis id.",
-   "externalId": "Quo iusto voluptatem eos est quo molestias.",
-   "favTeamId": "Accusamus aut perferendis eos vel assumenda.",
-   "finishedAtDtTm": "1992-03-19T05:10:10Z",
-   "gameStatus": "Minima officiis quas voluptatem.",
-   "location": "Quos quaerat atque et est deleniti maiores.",
-   "locationId": "Eum neque quibusdam.",
-   "loserProgressStatus": "Quos pariatur explicabo ullam quam sed accusantium.",
-   "oddsForFav": 0.34067773420665565,
-   "playDtTm": "1979-02-27T12:04:56Z",
-   "sportId": "Ut suscipit iusto eos et ut.",
-   "title": "Est a tempora.",
-   "underTeamId": "Consequatur id.",
-   "winnerTeamId": "Quidem ut ea unde excepturi minima voluptas."
+   "eventId": "Sit ut quis necessitatibus non.",
+   "externalId": "Est delectus.",
+   "favTeamId": "Quis aut ut labore perferendis natus quidem.",
+   "finishedAtDtTm": "2007-08-16T16:19:15Z",
+   "gameStatus": "Maiores voluptatem voluptatem ad earum.",
+   "location": "Porro vel quia quaerat.",
+   "locationId": "Dicta mollitia et nulla eos nobis id.",
+   "loserProgressStatus": "Quo iusto voluptatem eos est quo molestias.",
+   "oddsForFav": 0.3001600116806725,
+   "playDtTm": "1995-09-17T01:55:05Z",
+   "sportId": "Perferendis eos vel assumenda non.",
+   "title": "Minima officiis quas voluptatem.",
+   "underTeamId": "Quos quaerat atque et est deleniti maiores.",
+   "winnerTeamId": "Eum neque quibusdam."
 }`,
 		RunE: func(cmd *cobra.Command, args []string) error { return tmp2.Run(c, args) },
 	}
@@ -287,12 +287,12 @@ Payload example:
 
 {
    "active": true,
-   "backgroundImageName": "Molestias aut.",
-   "eventTerm": "Vitae consequatur corrupti tempora.",
-   "gameTerm": "Est et veritatis non.",
-   "iconName": "Id error non ipsa aut facilis.",
-   "maxPreSplitPrice": 0.2517721518449465,
-   "name": "Impedit ex qui ad suscipit in."
+   "backgroundImageName": "Pariatur explicabo ullam quam sed accusantium veritatis.",
+   "eventTerm": "Voluptas ut suscipit.",
+   "gameTerm": "Eos et.",
+   "iconName": "Aut est a tempora.",
+   "maxPreSplitPrice": 0.8080694818248108,
+   "name": "Id magni quidem ut ea."
 }`,
 		RunE: func(cmd *cobra.Command, args []string) error { return tmp3.Run(c, args) },
 	}
@@ -308,13 +308,10 @@ Payload example:
 Payload example:
 
 {
-   "currentWinRecord": "Laborum veniam explicabo quo fuga fugiat.",
-   "fullLogo": "Veritatis explicabo ullam cupiditate.",
-   "homeTownId": "Delectus repellendus enim.",
-   "iconName": "Qui reiciendis dolorem accusamus perspiciatis.",
-   "name": "Voluptas occaecati non.",
-   "shortName": "Enim laborum.",
-   "sportId": "Esse voluptatem."
+   "homeTownId": "Excepturi minima voluptas.",
+   "name": "Ratione molestias aut.",
+   "shortName": "Vitae consequatur corrupti tempora.",
+   "sportId": "Est et veritatis non."
 }`,
 		RunE: func(cmd *cobra.Command, args []string) error { return tmp4.Run(c, args) },
 	}
@@ -330,14 +327,14 @@ Payload example:
 Payload example:
 
 {
-   "buyIncrementPrice": 0.9707247018054228,
-   "buyIncrementQuan": 1412592824,
-   "liquidationFee": 0.11153699527666147,
-   "openingPrice": 0.3237282502855761,
-   "openingShares": 1359693070,
-   "sellDecrementPrice": 0.7580639258149352,
-   "sellDecrementQuan": 535296878,
-   "startTradeDtTm": "2009-06-03T11:59:53Z"
+   "buyIncrementPrice": 0.8504025706124875,
+   "buyIncrementQuan": 219196095,
+   "liquidationFee": 0.10611290445428535,
+   "openingPrice": 0.8886069530209401,
+   "openingShares": 16374965,
+   "sellDecrementPrice": 0.7558523118542931,
+   "sellDecrementQuan": 410329756,
+   "startTradeDtTm": "1981-09-01T12:08:40Z"
 }`,
 		RunE: func(cmd *cobra.Command, args []string) error { return tmp5.Run(c, args) },
 	}
@@ -517,14 +514,14 @@ Payload example:
 Payload example:
 
 {
-   "endDtTm": "1976-12-29T12:27:59Z",
-   "eventId": "Ad qui laborum aliquam vel nobis.",
-   "locationId": "Voluptatem dolores sit ut quis necessitatibus non.",
-   "name": "Est delectus.",
-   "sportId": "Quis aut ut labore perferendis natus quidem.",
-   "startDtTm": "2007-08-16T16:19:15Z",
-   "subTitle": "Maiores voluptatem voluptatem ad earum.",
-   "teamAdvanceMethod": "Porro vel quia quaerat."
+   "endDtTm": "2001-01-15T17:07:05Z",
+   "eventId": "Voluptatem assumenda sed quibusdam velit occaecati excepturi.",
+   "locationId": "Debitis aut debitis.",
+   "name": "Qui velit.",
+   "sportId": "Suscipit laborum magni deleniti molestias.",
+   "startDtTm": "1992-01-18T19:06:24Z",
+   "subTitle": "Unde ad qui laborum aliquam.",
+   "teamAdvanceMethod": "Nobis maxime voluptatem."
 }`,
 		RunE: func(cmd *cobra.Command, args []string) error { return tmp22.Run(c, args) },
 	}
@@ -540,20 +537,20 @@ Payload example:
 Payload example:
 
 {
-   "eventId": "Dicta mollitia et nulla eos nobis id.",
-   "externalId": "Quo iusto voluptatem eos est quo molestias.",
-   "favTeamId": "Accusamus aut perferendis eos vel assumenda.",
-   "finishedAtDtTm": "1992-03-19T05:10:10Z",
-   "gameStatus": "Minima officiis quas voluptatem.",
-   "location": "Quos quaerat atque et est deleniti maiores.",
-   "locationId": "Eum neque quibusdam.",
-   "loserProgressStatus": "Quos pariatur explicabo ullam quam sed accusantium.",
-   "oddsForFav": 0.34067773420665565,
-   "playDtTm": "1979-02-27T12:04:56Z",
-   "sportId": "Ut suscipit iusto eos et ut.",
-   "title": "Est a tempora.",
-   "underTeamId": "Consequatur id.",
-   "winnerTeamId": "Quidem ut ea unde excepturi minima voluptas."
+   "eventId": "Sit ut quis necessitatibus non.",
+   "externalId": "Est delectus.",
+   "favTeamId": "Quis aut ut labore perferendis natus quidem.",
+   "finishedAtDtTm": "2007-08-16T16:19:15Z",
+   "gameStatus": "Maiores voluptatem voluptatem ad earum.",
+   "location": "Porro vel quia quaerat.",
+   "locationId": "Dicta mollitia et nulla eos nobis id.",
+   "loserProgressStatus": "Quo iusto voluptatem eos est quo molestias.",
+   "oddsForFav": 0.3001600116806725,
+   "playDtTm": "1995-09-17T01:55:05Z",
+   "sportId": "Perferendis eos vel assumenda non.",
+   "title": "Minima officiis quas voluptatem.",
+   "underTeamId": "Quos quaerat atque et est deleniti maiores.",
+   "winnerTeamId": "Eum neque quibusdam."
 }`,
 		RunE: func(cmd *cobra.Command, args []string) error { return tmp23.Run(c, args) },
 	}
@@ -570,12 +567,12 @@ Payload example:
 
 {
    "active": true,
-   "backgroundImageName": "Molestias aut.",
-   "eventTerm": "Vitae consequatur corrupti tempora.",
-   "gameTerm": "Est et veritatis non.",
-   "iconName": "Id error non ipsa aut facilis.",
-   "maxPreSplitPrice": 0.2517721518449465,
-   "name": "Impedit ex qui ad suscipit in."
+   "backgroundImageName": "Pariatur explicabo ullam quam sed accusantium veritatis.",
+   "eventTerm": "Voluptas ut suscipit.",
+   "gameTerm": "Eos et.",
+   "iconName": "Aut est a tempora.",
+   "maxPreSplitPrice": 0.8080694818248108,
+   "name": "Id magni quidem ut ea."
 }`,
 		RunE: func(cmd *cobra.Command, args []string) error { return tmp24.Run(c, args) },
 	}
@@ -591,13 +588,10 @@ Payload example:
 Payload example:
 
 {
-   "currentWinRecord": "Laborum veniam explicabo quo fuga fugiat.",
-   "fullLogo": "Veritatis explicabo ullam cupiditate.",
-   "homeTownId": "Delectus repellendus enim.",
-   "iconName": "Qui reiciendis dolorem accusamus perspiciatis.",
-   "name": "Voluptas occaecati non.",
-   "shortName": "Enim laborum.",
-   "sportId": "Esse voluptatem."
+   "homeTownId": "Excepturi minima voluptas.",
+   "name": "Ratione molestias aut.",
+   "shortName": "Vitae consequatur corrupti tempora.",
+   "sportId": "Est et veritatis non."
 }`,
 		RunE: func(cmd *cobra.Command, args []string) error { return tmp25.Run(c, args) },
 	}
@@ -613,14 +607,14 @@ Payload example:
 Payload example:
 
 {
-   "buyIncrementPrice": 0.9707247018054228,
-   "buyIncrementQuan": 1412592824,
-   "liquidationFee": 0.11153699527666147,
-   "openingPrice": 0.3237282502855761,
-   "openingShares": 1359693070,
-   "sellDecrementPrice": 0.7580639258149352,
-   "sellDecrementQuan": 535296878,
-   "startTradeDtTm": "2009-06-03T11:59:53Z"
+   "buyIncrementPrice": 0.8504025706124875,
+   "buyIncrementQuan": 219196095,
+   "liquidationFee": 0.10611290445428535,
+   "openingPrice": 0.8886069530209401,
+   "openingShares": 16374965,
+   "sellDecrementPrice": 0.7558523118542931,
+   "sellDecrementQuan": 410329756,
+   "startTradeDtTm": "1981-09-01T12:08:40Z"
 }`,
 		RunE: func(cmd *cobra.Command, args []string) error { return tmp26.Run(c, args) },
 	}

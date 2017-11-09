@@ -519,14 +519,8 @@ func (ut *TeamOpeningConfigPayload) Validate() (err error) {
 
 // Team Description.
 type teamPayload struct {
-	// Team Win-Loss Record
-	CurrentWinRecord *string `datastore:"currentWinRecord,noindex" json:"currentWinRecord,omitempty"`
-	// Team Logo
-	FullLogo *string `datastore:"fullLogo,noindex" json:"fullLogo,omitempty"`
 	// Sport HomeTown ID
 	HomeTownID *string `datastore:"homeTownId,noindex" json:"homeTownId,omitempty"`
-	// Team Icon
-	IconName *string `datastore:"iconName,noindex" json:"iconName,omitempty"`
 	// Team name
 	Name *string `datastore:"name,noindex" json:"name,omitempty"`
 	// Team Nickname
@@ -549,32 +543,14 @@ func (ut *teamPayload) Validate() (err error) {
 	if ut.ShortName == nil {
 		err = goa.MergeErrors(err, goa.MissingAttributeError(`request`, "shortName"))
 	}
-	if ut.CurrentWinRecord == nil {
-		err = goa.MergeErrors(err, goa.MissingAttributeError(`request`, "currentWinRecord"))
-	}
-	if ut.IconName == nil {
-		err = goa.MergeErrors(err, goa.MissingAttributeError(`request`, "iconName"))
-	}
-	if ut.FullLogo == nil {
-		err = goa.MergeErrors(err, goa.MissingAttributeError(`request`, "fullLogo"))
-	}
 	return
 }
 
 // Publicize creates TeamPayload from teamPayload
 func (ut *teamPayload) Publicize() *TeamPayload {
 	var pub TeamPayload
-	if ut.CurrentWinRecord != nil {
-		pub.CurrentWinRecord = *ut.CurrentWinRecord
-	}
-	if ut.FullLogo != nil {
-		pub.FullLogo = *ut.FullLogo
-	}
 	if ut.HomeTownID != nil {
 		pub.HomeTownID = *ut.HomeTownID
-	}
-	if ut.IconName != nil {
-		pub.IconName = *ut.IconName
 	}
 	if ut.Name != nil {
 		pub.Name = *ut.Name
@@ -590,14 +566,8 @@ func (ut *teamPayload) Publicize() *TeamPayload {
 
 // Team Description.
 type TeamPayload struct {
-	// Team Win-Loss Record
-	CurrentWinRecord string `datastore:"currentWinRecord,noindex" json:"currentWinRecord,omitempty"`
-	// Team Logo
-	FullLogo string `datastore:"fullLogo,noindex" json:"fullLogo,omitempty"`
 	// Sport HomeTown ID
 	HomeTownID string `datastore:"homeTownId,noindex" json:"homeTownId,omitempty"`
-	// Team Icon
-	IconName string `datastore:"iconName,noindex" json:"iconName,omitempty"`
 	// Team name
 	Name string `datastore:"name,noindex" json:"name,omitempty"`
 	// Team Nickname
@@ -619,15 +589,6 @@ func (ut *TeamPayload) Validate() (err error) {
 	}
 	if ut.ShortName == "" {
 		err = goa.MergeErrors(err, goa.MissingAttributeError(`type`, "shortName"))
-	}
-	if ut.CurrentWinRecord == "" {
-		err = goa.MergeErrors(err, goa.MissingAttributeError(`type`, "currentWinRecord"))
-	}
-	if ut.IconName == "" {
-		err = goa.MergeErrors(err, goa.MissingAttributeError(`type`, "iconName"))
-	}
-	if ut.FullLogo == "" {
-		err = goa.MergeErrors(err, goa.MissingAttributeError(`type`, "fullLogo"))
 	}
 	return
 }

@@ -81,20 +81,8 @@ var TeamPayload = Type("TeamPayload", func() {
 		Metadata("struct:tag:datastore", "shortName,noindex")
 		Metadata("struct:tag:json", "shortName,omitempty")
 	})
-	Attribute("currentWinRecord", String, "Team Win-Loss Record", func() {
-		Metadata("struct:tag:datastore", "currentWinRecord,noindex")
-		Metadata("struct:tag:json", "currentWinRecord,omitempty")
-	}) //"WON 8-LOST 3"
-	Attribute("iconName", String, "Team Icon", func() {
-		Metadata("struct:tag:datastore", "iconName,noindex")
-		Metadata("struct:tag:json", "iconName,omitempty")
-	})
-	Attribute("fullLogo", String, "Team Logo", func() {
-		Metadata("struct:tag:datastore", "fullLogo,noindex")
-		Metadata("struct:tag:json", "fullLogo,omitempty")
-	})
 
-	Required("name", "sportId", "homeTownId", "shortName", "currentWinRecord", "iconName", "fullLogo")
+	Required("name", "sportId", "homeTownId", "shortName")
 })
 
 var TeamMedia = MediaType("application/nmgapi.teamentity", func() {
@@ -109,11 +97,8 @@ var TeamMedia = MediaType("application/nmgapi.teamentity", func() {
 		Attribute("sportId")
 		Attribute("homeTownId")
 		Attribute("shortName")
-		Attribute("currentWinRecord")
-		Attribute("iconName")
-		Attribute("fullLogo")
 
-		Required("id", "name", "sportId", "homeTownId", "shortName", "currentWinRecord", "iconName", "fullLogo")
+		Required("id", "name", "sportId", "homeTownId", "shortName")
 	})
 
 	View("default", func() {
@@ -121,9 +106,6 @@ var TeamMedia = MediaType("application/nmgapi.teamentity", func() {
 		Attribute("sportId")
 		Attribute("homeTownId")
 		Attribute("shortName")
-		Attribute("currentWinRecord")
-		Attribute("iconName")
-		Attribute("fullLogo")
 	})
 
 	View("tiny", func() {
