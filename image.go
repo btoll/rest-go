@@ -6,7 +6,9 @@ import (
 	"encoding/json"
 	"fmt"
 	"image"
+	"image/gif"
 	"image/jpeg"
+	"image/png"
 	"io"
 	"log"
 	"strings"
@@ -49,6 +51,31 @@ func (c *ImageController) Upload(ctx *app.UploadImageContext) error {
 	if err != nil {
 		return goa.ErrBadRequest(err, "endpoint", "upload")
 	}
+
+	bucket := client.Bucket(bucketname)
+
+	// Let's define some lambdas. Since they're closures they will have side effects,
+	// but this won't have any negative consequences since there's no concurrency.
+	var writer *storage.Writer
+	var storageobject *storage.ObjectHandle
+	createEssentials := func(s string) {
+		storageobject = bucket.Object(fmt.Sprintf("%s/%s/%s", ctx.Entity, ctx.ID, s))
+		writer = storageobject.NewWriter(gaeCtx)
+		writer.ContentType = "image/*"
+	}
+
+	copyAndClose := func(src io.Reader) error {
+		_, err = io.Copy(writer, src)
+		if err != nil {
+			return err
+		}
+		// Closing the writer will initiate the request to GAE.
+		return writer.Close()
+	}
+
+	setAcl := func() error {
+		return storageobject.ACL().Set(gaeCtx, storage.AllUsers /*storage.AllAuthenticatedUsers*/, storage.RoleReader)
+	}
 	/* ----------------------------------------------------------- */
 
 	// Requests can be sent from different sources. If sent from a browser, it will contain
@@ -63,26 +90,13 @@ func (c *ImageController) Upload(ctx *app.UploadImageContext) error {
 			part, err := reader.NextPart()
 
 			if err != io.EOF {
-				storageobject := client.Bucket(bucketname).Object(fmt.Sprintf("%s/%s/%s", ctx.Entity, ctx.ID, part.FileName()))
-				writer := storageobject.NewWriter(gaeCtx)
-				writer.ContentType = "image/*"
-
-				//writer.Metadata = map[string]string{
-				//    "x-googl-acl": "authenticated-read, public-read",
-				//}
-
-				_, err = io.Copy(writer, part)
+				createEssentials(part.FileName())
+				err = copyAndClose(part)
 				if err != nil {
 					return goa.ErrBadRequest(err, "endpoint", "upload")
 				}
-
-				err = writer.Close()
+				err = setAcl()
 				if err != nil {
-					return goa.ErrBadRequest(err, "endpoint", "upload")
-				}
-
-				acl := storageobject.ACL()
-				if err = acl.Set(gaeCtx, storage.AllUsers /*storage.AllAuthenticatedUsers*/, storage.RoleReader); err != nil {
 					return goa.ErrBadRequest(err, "endpoint", "upload")
 				}
 			} else {
@@ -112,18 +126,6 @@ func (c *ImageController) Upload(ctx *app.UploadImageContext) error {
 				log.Fatal(err)
 			}
 
-			storageobject := client.Bucket(bucketname).Object(fmt.Sprintf("%s/%s/%s", ctx.Entity, ctx.ID, m.Filename))
-			writer := storageobject.NewWriter(gaeCtx)
-			writer.ContentType = "image/*"
-
-			// Extract the image type from the data uri scheme.
-			//
-			//      {data:image/jpeg;base64,}...
-			//      {data:image/png;base64,}...
-			//      ...etc...
-			//
-			imageType := m.Contents[5:strings.Index(m.Contents, ";base64,")]
-
 			// Extract the actual base64-encoded string from the data uri scheme.
 			//
 			//      data:image/jpeg;base64,{...}
@@ -133,36 +135,54 @@ func (c *ImageController) Upload(ctx *app.UploadImageContext) error {
 			base64data := m.Contents[strings.IndexByte(m.Contents, ',')+1:]
 
 			buf := new(bytes.Buffer)
+			reader := base64.NewDecoder(base64.StdEncoding, strings.NewReader(base64data))
 
+			// Extract the image type from the data uri scheme.
+			//
+			//      {data:image/jpeg;base64,}...
+			//      {data:image/png;base64,}...
+			//      ...etc...
+			//
+			imageType := m.Contents[5:strings.Index(m.Contents, ";base64,")]
+
+			// TODO: DRY?
 			switch imageType {
-			//			case "image/gif":
-			//				image, err := gif.Decode(m.Contents)
-
+			case "image/gif":
+				img, err := gif.DecodeAll(reader)
+				if err != nil {
+					return goa.ErrBadRequest(err, "endpoint", "upload")
+				}
+				err = gif.EncodeAll(buf, img)
+				if err != nil {
+					return goa.ErrBadRequest(err, "endpoint", "upload")
+				}
 			case "image/jpeg":
-				reader := base64.NewDecoder(base64.StdEncoding, strings.NewReader(base64data))
 				img, _, err := image.Decode(reader)
 				if err != nil {
-					fmt.Println(err)
+					return goa.ErrBadRequest(err, "endpoint", "upload")
 				}
-
-				jpeg.Encode(buf, img, nil)
-
-				//			case "image/png":
-				//				image, err := png.Decode(m.Contents)
+				err = jpeg.Encode(buf, img, nil)
+				if err != nil {
+					return goa.ErrBadRequest(err, "endpoint", "upload")
+				}
+			case "image/png":
+				img, err := png.Decode(reader)
+				if err != nil {
+					return goa.ErrBadRequest(err, "endpoint", "upload")
+				}
+				png.Encode(buf, img)
+				if err != nil {
+					return goa.ErrBadRequest(err, "endpoint", "upload")
+				}
 			}
 
-			_, err = io.Copy(writer, bytes.NewReader(buf.Bytes()))
+			createEssentials(m.Filename)
+			err = copyAndClose(bytes.NewReader(buf.Bytes()))
 			if err != nil {
 				return goa.ErrBadRequest(err, "endpoint", "upload")
 			}
-
-			err = writer.Close()
+			err = setAcl()
 			if err != nil {
-				return goa.ErrBadRequest(err, "endpoint", "upload")
-			}
-
-			acl := storageobject.ACL()
-			if err = acl.Set(gaeCtx, storage.AllUsers /*storage.AllAuthenticatedUsers*/, storage.RoleReader); err != nil {
 				return goa.ErrBadRequest(err, "endpoint", "upload")
 			}
 		}
