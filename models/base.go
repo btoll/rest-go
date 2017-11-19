@@ -2,8 +2,6 @@ package models
 
 import (
 	"context"
-	"encoding/json"
-	"fmt"
 	"strconv"
 
 	"github.com/dgaedcke/nmg_shared/constants"
@@ -33,11 +31,6 @@ type Context struct {
 	ID      string
 }
 
-type ModelStore struct {
-	Keys   []string    `json:"keys"`
-	Models interface{} `json:"models"`
-}
-
 func initModel(kind string, c context.Context) (Model, *Context) {
 	model := modelFactory(kind)
 	return model, model.GetCtx(c)
@@ -65,13 +58,10 @@ func modelFactory(name string) Model {
 func AllocateSequentialID(ctx *Context) error {
 	// Returns an int64. We only need one ID returned.
 	low, _, err := datastore.AllocateIDs(ctx.GaeCtx, ctx.Kind, nil, 1)
-
 	if err != nil {
 		return err
 	}
-
 	ctx.ID = strconv.FormatInt(low, 10)
-
 	return nil
 }
 
@@ -85,79 +75,50 @@ func GetKey(ctx *Context) *datastore.Key {
 
 func Create(kind string, c context.Context) (string, error) {
 	model, ctx := initModel(kind, c)
-
 	// Get unique string ID, will be different by model.
 	err := model.AllocateID(ctx)
 	if err != nil {
 		return "", err
 	}
-
 	err = model.SetModel(ctx)
 	if err != nil {
 		return "", err
 	}
-
 	return ctx.ID, nil
 }
 
 func Read(kind string, c context.Context) (interface{}, error) {
 	model, ctx := initModel(kind, c)
 	instance := model.GetModelInstance()
-
 	if err := datastore.Get(ctx.GaeCtx, GetKey(ctx), instance); err != nil {
 		return nil, err
 	}
-
 	return instance, nil
 }
 
 func Update(kind string, c context.Context) error {
 	model, ctx := initModel(kind, c)
-
 	err := model.SetModel(ctx)
 	if err != nil {
 		return err
 	}
-
 	return nil
 }
 
 func Delete(kind string, c context.Context) error {
 	_, ctx := initModel(kind, c)
-
 	err := datastore.Delete(ctx.GaeCtx, GetKey(ctx))
 	if err != nil {
 		return err
 	}
-
 	return nil
 }
 
-func List(kind string, c context.Context) ([]byte, error) {
+func List(kind string, c context.Context) (interface{}, error) {
 	model, ctx := initModel(kind, c)
-
-	keys, coll, err := model.GetModelCollection(ctx)
+	_, coll, err := model.GetModelCollection(ctx)
 	if err != nil {
 		return nil, err
 	}
-
-	fmt.Println()
-	fmt.Println("coll", coll)
-	fmt.Println()
-
-	store := &ModelStore{
-		Keys:   make([]string, len(keys)),
-		Models: coll,
-	}
-
-	for i, key := range keys {
-		store.Keys[i] = key.StringID()
-	}
-
-	b, err := json.Marshal(store)
-	if err != nil {
-		return nil, err
-	}
-
-	return b, nil
+	return coll, nil
 }

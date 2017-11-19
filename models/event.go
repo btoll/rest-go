@@ -59,7 +59,7 @@ func (m *EventModel) GetModelInstance() interface{} {
 }
 
 func (m *EventModel) GetModelCollection(ctx *Context) ([]*datastore.Key, interface{}, error) {
-	c := []app.EventMedia{}
+	c := app.EventMediaCollection{}
 	keys, err := datastore.NewQuery(ctx.Kind).GetAll(ctx.GaeCtx, &c)
 
 	if err != nil {

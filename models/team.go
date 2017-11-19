@@ -60,7 +60,7 @@ func (m *TeamModel) GetModelInstance() interface{} {
 }
 
 func (m *TeamModel) GetModelCollection(ctx *Context) ([]*datastore.Key, interface{}, error) {
-	c := []app.TeamMedia{}
+	c := app.TeamMediaCollection{}
 	keys, err := datastore.NewQuery(ctx.Kind).GetAll(ctx.GaeCtx, &c)
 
 	if err != nil {

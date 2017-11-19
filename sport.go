@@ -49,13 +49,13 @@ func (c *SportController) Delete(ctx *app.DeleteSportContext) error {
 func (c *SportController) List(ctx *app.ListSportContext) error {
 	// SportController_List: start_implement
 
-	b, err := models.List(constants.DB_SPORT, ctx)
+	coll, err := models.List(constants.DB_SPORT, ctx)
 
 	if err != nil {
 		return goa.ErrInternal(err, "endpoint", "list")
 	}
 
-	return ctx.OK(b)
+	return ctx.OK(coll.(app.SportMediaCollection))
 
 	// SportController_List: end_implement
 }

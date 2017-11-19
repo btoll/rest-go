@@ -89,6 +89,54 @@ func (c *Client) DecodeEventMediaTiny(resp *http.Response) (*EventMediaTiny, err
 	return &decoded, err
 }
 
+// EventMediaCollection is the media type for an array of EventMedia (default view)
+//
+// Identifier: application/nmgapi.evententity; type=collection; view=default
+type EventMediaCollection []*EventMedia
+
+// Validate validates the EventMediaCollection media type instance.
+func (mt EventMediaCollection) Validate() (err error) {
+	for _, e := range mt {
+		if e != nil {
+			if err2 := e.Validate(); err2 != nil {
+				err = goa.MergeErrors(err, err2)
+			}
+		}
+	}
+	return
+}
+
+// EventMediaCollection is the media type for an array of EventMedia (tiny view)
+//
+// Identifier: application/nmgapi.evententity; type=collection; view=tiny
+type EventMediaTinyCollection []*EventMediaTiny
+
+// Validate validates the EventMediaTinyCollection media type instance.
+func (mt EventMediaTinyCollection) Validate() (err error) {
+	for _, e := range mt {
+		if e != nil {
+			if err2 := e.Validate(); err2 != nil {
+				err = goa.MergeErrors(err, err2)
+			}
+		}
+	}
+	return
+}
+
+// DecodeEventMediaCollection decodes the EventMediaCollection instance encoded in resp body.
+func (c *Client) DecodeEventMediaCollection(resp *http.Response) (EventMediaCollection, error) {
+	var decoded EventMediaCollection
+	err := c.Decoder.Decode(&decoded, resp.Body, resp.Header.Get("Content-Type"))
+	return decoded, err
+}
+
+// DecodeEventMediaTinyCollection decodes the EventMediaTinyCollection instance encoded in resp body.
+func (c *Client) DecodeEventMediaTinyCollection(resp *http.Response) (EventMediaTinyCollection, error) {
+	var decoded EventMediaTinyCollection
+	err := c.Decoder.Decode(&decoded, resp.Body, resp.Header.Get("Content-Type"))
+	return decoded, err
+}
+
 // Game response (default view)
 //
 // Identifier: application/nmgapi.gameentity; view=default
@@ -155,6 +203,54 @@ func (c *Client) DecodeGameMediaTiny(resp *http.Response) (*GameMediaTiny, error
 	return &decoded, err
 }
 
+// GameMediaCollection is the media type for an array of GameMedia (default view)
+//
+// Identifier: application/nmgapi.gameentity; type=collection; view=default
+type GameMediaCollection []*GameMedia
+
+// Validate validates the GameMediaCollection media type instance.
+func (mt GameMediaCollection) Validate() (err error) {
+	for _, e := range mt {
+		if e != nil {
+			if err2 := e.Validate(); err2 != nil {
+				err = goa.MergeErrors(err, err2)
+			}
+		}
+	}
+	return
+}
+
+// GameMediaCollection is the media type for an array of GameMedia (tiny view)
+//
+// Identifier: application/nmgapi.gameentity; type=collection; view=tiny
+type GameMediaTinyCollection []*GameMediaTiny
+
+// Validate validates the GameMediaTinyCollection media type instance.
+func (mt GameMediaTinyCollection) Validate() (err error) {
+	for _, e := range mt {
+		if e != nil {
+			if err2 := e.Validate(); err2 != nil {
+				err = goa.MergeErrors(err, err2)
+			}
+		}
+	}
+	return
+}
+
+// DecodeGameMediaCollection decodes the GameMediaCollection instance encoded in resp body.
+func (c *Client) DecodeGameMediaCollection(resp *http.Response) (GameMediaCollection, error) {
+	var decoded GameMediaCollection
+	err := c.Decoder.Decode(&decoded, resp.Body, resp.Header.Get("Content-Type"))
+	return decoded, err
+}
+
+// DecodeGameMediaTinyCollection decodes the GameMediaTinyCollection instance encoded in resp body.
+func (c *Client) DecodeGameMediaTinyCollection(resp *http.Response) (GameMediaTinyCollection, error) {
+	var decoded GameMediaTinyCollection
+	err := c.Decoder.Decode(&decoded, resp.Body, resp.Header.Get("Content-Type"))
+	return decoded, err
+}
+
 // Sport response (default view)
 //
 // Identifier: application/nmgapi.sportentity; view=default
@@ -213,6 +309,54 @@ func (c *Client) DecodeSportMediaTiny(resp *http.Response) (*SportMediaTiny, err
 	var decoded SportMediaTiny
 	err := c.Decoder.Decode(&decoded, resp.Body, resp.Header.Get("Content-Type"))
 	return &decoded, err
+}
+
+// SportMediaCollection is the media type for an array of SportMedia (default view)
+//
+// Identifier: application/nmgapi.sportentity; type=collection; view=default
+type SportMediaCollection []*SportMedia
+
+// Validate validates the SportMediaCollection media type instance.
+func (mt SportMediaCollection) Validate() (err error) {
+	for _, e := range mt {
+		if e != nil {
+			if err2 := e.Validate(); err2 != nil {
+				err = goa.MergeErrors(err, err2)
+			}
+		}
+	}
+	return
+}
+
+// SportMediaCollection is the media type for an array of SportMedia (tiny view)
+//
+// Identifier: application/nmgapi.sportentity; type=collection; view=tiny
+type SportMediaTinyCollection []*SportMediaTiny
+
+// Validate validates the SportMediaTinyCollection media type instance.
+func (mt SportMediaTinyCollection) Validate() (err error) {
+	for _, e := range mt {
+		if e != nil {
+			if err2 := e.Validate(); err2 != nil {
+				err = goa.MergeErrors(err, err2)
+			}
+		}
+	}
+	return
+}
+
+// DecodeSportMediaCollection decodes the SportMediaCollection instance encoded in resp body.
+func (c *Client) DecodeSportMediaCollection(resp *http.Response) (SportMediaCollection, error) {
+	var decoded SportMediaCollection
+	err := c.Decoder.Decode(&decoded, resp.Body, resp.Header.Get("Content-Type"))
+	return decoded, err
+}
+
+// DecodeSportMediaTinyCollection decodes the SportMediaTinyCollection instance encoded in resp body.
+func (c *Client) DecodeSportMediaTinyCollection(resp *http.Response) (SportMediaTinyCollection, error) {
+	var decoded SportMediaTinyCollection
+	err := c.Decoder.Decode(&decoded, resp.Body, resp.Header.Get("Content-Type"))
+	return decoded, err
 }
 
 // Team sport response (default view)
@@ -285,6 +429,54 @@ func (c *Client) DecodeTeamMediaTiny(resp *http.Response) (*TeamMediaTiny, error
 	return &decoded, err
 }
 
+// TeamMediaCollection is the media type for an array of TeamMedia (default view)
+//
+// Identifier: application/nmgapi.teamentity; type=collection; view=default
+type TeamMediaCollection []*TeamMedia
+
+// Validate validates the TeamMediaCollection media type instance.
+func (mt TeamMediaCollection) Validate() (err error) {
+	for _, e := range mt {
+		if e != nil {
+			if err2 := e.Validate(); err2 != nil {
+				err = goa.MergeErrors(err, err2)
+			}
+		}
+	}
+	return
+}
+
+// TeamMediaCollection is the media type for an array of TeamMedia (tiny view)
+//
+// Identifier: application/nmgapi.teamentity; type=collection; view=tiny
+type TeamMediaTinyCollection []*TeamMediaTiny
+
+// Validate validates the TeamMediaTinyCollection media type instance.
+func (mt TeamMediaTinyCollection) Validate() (err error) {
+	for _, e := range mt {
+		if e != nil {
+			if err2 := e.Validate(); err2 != nil {
+				err = goa.MergeErrors(err, err2)
+			}
+		}
+	}
+	return
+}
+
+// DecodeTeamMediaCollection decodes the TeamMediaCollection instance encoded in resp body.
+func (c *Client) DecodeTeamMediaCollection(resp *http.Response) (TeamMediaCollection, error) {
+	var decoded TeamMediaCollection
+	err := c.Decoder.Decode(&decoded, resp.Body, resp.Header.Get("Content-Type"))
+	return decoded, err
+}
+
+// DecodeTeamMediaTinyCollection decodes the TeamMediaTinyCollection instance encoded in resp body.
+func (c *Client) DecodeTeamMediaTinyCollection(resp *http.Response) (TeamMediaTinyCollection, error) {
+	var decoded TeamMediaTinyCollection
+	err := c.Decoder.Decode(&decoded, resp.Body, resp.Header.Get("Content-Type"))
+	return decoded, err
+}
+
 // Team sport response (default view)
 //
 // Identifier: application/nmgapi.teamopeningconfigentity; view=default
@@ -338,4 +530,52 @@ func (c *Client) DecodeTeamOpeningConfigMediaTiny(resp *http.Response) (*TeamOpe
 	var decoded TeamOpeningConfigMediaTiny
 	err := c.Decoder.Decode(&decoded, resp.Body, resp.Header.Get("Content-Type"))
 	return &decoded, err
+}
+
+// TeamOpeningConfigMediaCollection is the media type for an array of TeamOpeningConfigMedia (default view)
+//
+// Identifier: application/nmgapi.teamopeningconfigentity; type=collection; view=default
+type TeamOpeningConfigMediaCollection []*TeamOpeningConfigMedia
+
+// Validate validates the TeamOpeningConfigMediaCollection media type instance.
+func (mt TeamOpeningConfigMediaCollection) Validate() (err error) {
+	for _, e := range mt {
+		if e != nil {
+			if err2 := e.Validate(); err2 != nil {
+				err = goa.MergeErrors(err, err2)
+			}
+		}
+	}
+	return
+}
+
+// TeamOpeningConfigMediaCollection is the media type for an array of TeamOpeningConfigMedia (tiny view)
+//
+// Identifier: application/nmgapi.teamopeningconfigentity; type=collection; view=tiny
+type TeamOpeningConfigMediaTinyCollection []*TeamOpeningConfigMediaTiny
+
+// Validate validates the TeamOpeningConfigMediaTinyCollection media type instance.
+func (mt TeamOpeningConfigMediaTinyCollection) Validate() (err error) {
+	for _, e := range mt {
+		if e != nil {
+			if err2 := e.Validate(); err2 != nil {
+				err = goa.MergeErrors(err, err2)
+			}
+		}
+	}
+	return
+}
+
+// DecodeTeamOpeningConfigMediaCollection decodes the TeamOpeningConfigMediaCollection instance encoded in resp body.
+func (c *Client) DecodeTeamOpeningConfigMediaCollection(resp *http.Response) (TeamOpeningConfigMediaCollection, error) {
+	var decoded TeamOpeningConfigMediaCollection
+	err := c.Decoder.Decode(&decoded, resp.Body, resp.Header.Get("Content-Type"))
+	return decoded, err
+}
+
+// DecodeTeamOpeningConfigMediaTinyCollection decodes the TeamOpeningConfigMediaTinyCollection instance encoded in resp body.
+func (c *Client) DecodeTeamOpeningConfigMediaTinyCollection(resp *http.Response) (TeamOpeningConfigMediaTinyCollection, error) {
+	var decoded TeamOpeningConfigMediaTinyCollection
+	err := c.Decoder.Decode(&decoded, resp.Body, resp.Header.Get("Content-Type"))
+	return decoded, err
 }

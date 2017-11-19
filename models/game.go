@@ -59,7 +59,7 @@ func (m *GameModel) GetModelInstance() interface{} {
 }
 
 func (m *GameModel) GetModelCollection(ctx *Context) ([]*datastore.Key, interface{}, error) {
-	c := []app.GameMedia{}
+	c := app.GameMediaCollection{}
 	keys, err := datastore.NewQuery(ctx.Kind).GetAll(ctx.GaeCtx, &c)
 
 	if err != nil {

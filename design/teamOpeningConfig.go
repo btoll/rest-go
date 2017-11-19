@@ -58,7 +58,7 @@ var _ = Resource("TeamOpeningConfig", func() {
 	Action("list", func() {
 		Routing(GET("/list"))
 		Description("Get all teams openings")
-		Response(OK, "application/json")
+		Response(OK, CollectionOf(TeamOpeningConfigMedia))
 	})
 })
 

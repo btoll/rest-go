@@ -58,7 +58,7 @@ var _ = Resource("Game", func() {
 	Action("list", func() {
 		Routing(GET("/list"))
 		Description("Get all games")
-		Response(OK, "application/json")
+		Response(OK, CollectionOf(GameMedia))
 	})
 })
 

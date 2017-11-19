@@ -49,13 +49,13 @@ func (c *GameController) Delete(ctx *app.DeleteGameContext) error {
 func (c *GameController) List(ctx *app.ListGameContext) error {
 	// GameController_List: start_implement
 
-	b, err := models.List(constants.DB_GAME, ctx)
+	coll, err := models.List(constants.DB_GAME, ctx)
 
 	if err != nil {
 		return goa.ErrInternal(err, "endpoint", "list")
 	}
 
-	return ctx.OK(b)
+	return ctx.OK(coll.(app.GameMediaCollection))
 
 	// GameController_List: end_implement
 }

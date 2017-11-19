@@ -49,13 +49,13 @@ func (c *EventController) Delete(ctx *app.DeleteEventContext) error {
 func (c *EventController) List(ctx *app.ListEventContext) error {
 	// EventController_List: start_implement
 
-	b, err := models.List(constants.DB_EVENT, ctx)
+	coll, err := models.List(constants.DB_EVENT, ctx)
 
 	if err != nil {
 		return goa.ErrInternal(err, "endpoint", "list")
 	}
 
-	return ctx.OK(b)
+	return ctx.OK(coll.(app.EventMediaCollection))
 
 	// EventController_List: end_implement
 }

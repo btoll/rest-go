@@ -49,13 +49,13 @@ func (c *TeamOpeningConfigController) Delete(ctx *app.DeleteTeamOpeningConfigCon
 func (c *TeamOpeningConfigController) List(ctx *app.ListTeamOpeningConfigContext) error {
 	// TeamOpeningConfigController_List: start_implement
 
-	b, err := models.List(constants.DB_TEAM_OPENING_CONFIG, ctx)
+	coll, err := models.List(constants.DB_TEAM_OPENING_CONFIG, ctx)
 
 	if err != nil {
 		return goa.ErrInternal(err, "endpoint", "list")
 	}
 
-	return ctx.OK(b)
+	return ctx.OK(coll.(app.TeamOpeningConfigMediaCollection))
 
 	// TeamOpeningConfigController_List: end_implement
 }

@@ -60,7 +60,7 @@ func (m *SportModel) GetModelInstance() interface{} {
 }
 
 func (m *SportModel) GetModelCollection(ctx *Context) ([]*datastore.Key, interface{}, error) {
-	c := []app.SportMedia{}
+	c := app.SportMediaCollection{}
 	keys, err := datastore.NewQuery(ctx.Kind).GetAll(ctx.GaeCtx, &c)
 
 	if err != nil {

@@ -49,13 +49,13 @@ func (c *TeamController) Delete(ctx *app.DeleteTeamContext) error {
 func (c *TeamController) List(ctx *app.ListTeamContext) error {
 	// TeamController_List: start_implement
 
-	b, err := models.List(constants.DB_TEAM, ctx)
+	coll, err := models.List(constants.DB_TEAM, ctx)
 
 	if err != nil {
 		return goa.ErrInternal(err, "endpoint", "list")
 	}
 
-	return ctx.OK(b)
+	return ctx.OK(coll.(app.TeamMediaCollection))
 
 	// TeamController_List: end_implement
 }

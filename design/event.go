@@ -58,7 +58,7 @@ var _ = Resource("Event", func() {
 	Action("list", func() {
 		Routing(GET("/list"))
 		Description("Get all events")
-		Response(OK, "application/json")
+		Response(OK, CollectionOf(EventMedia))
 	})
 })
 

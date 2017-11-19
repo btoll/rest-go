@@ -74,6 +74,40 @@ func (mt *EventMediaTiny) Validate() (err error) {
 	return
 }
 
+// EventMediaCollection is the media type for an array of EventMedia (default view)
+//
+// Identifier: application/nmgapi.evententity; type=collection; view=default
+type EventMediaCollection []*EventMedia
+
+// Validate validates the EventMediaCollection media type instance.
+func (mt EventMediaCollection) Validate() (err error) {
+	for _, e := range mt {
+		if e != nil {
+			if err2 := e.Validate(); err2 != nil {
+				err = goa.MergeErrors(err, err2)
+			}
+		}
+	}
+	return
+}
+
+// EventMediaCollection is the media type for an array of EventMedia (tiny view)
+//
+// Identifier: application/nmgapi.evententity; type=collection; view=tiny
+type EventMediaTinyCollection []*EventMediaTiny
+
+// Validate validates the EventMediaTinyCollection media type instance.
+func (mt EventMediaTinyCollection) Validate() (err error) {
+	for _, e := range mt {
+		if e != nil {
+			if err2 := e.Validate(); err2 != nil {
+				err = goa.MergeErrors(err, err2)
+			}
+		}
+	}
+	return
+}
+
 // Game response (default view)
 //
 // Identifier: application/nmgapi.gameentity; view=default
@@ -126,6 +160,40 @@ func (mt *GameMediaTiny) Validate() (err error) {
 	return
 }
 
+// GameMediaCollection is the media type for an array of GameMedia (default view)
+//
+// Identifier: application/nmgapi.gameentity; type=collection; view=default
+type GameMediaCollection []*GameMedia
+
+// Validate validates the GameMediaCollection media type instance.
+func (mt GameMediaCollection) Validate() (err error) {
+	for _, e := range mt {
+		if e != nil {
+			if err2 := e.Validate(); err2 != nil {
+				err = goa.MergeErrors(err, err2)
+			}
+		}
+	}
+	return
+}
+
+// GameMediaCollection is the media type for an array of GameMedia (tiny view)
+//
+// Identifier: application/nmgapi.gameentity; type=collection; view=tiny
+type GameMediaTinyCollection []*GameMediaTiny
+
+// Validate validates the GameMediaTinyCollection media type instance.
+func (mt GameMediaTinyCollection) Validate() (err error) {
+	for _, e := range mt {
+		if e != nil {
+			if err2 := e.Validate(); err2 != nil {
+				err = goa.MergeErrors(err, err2)
+			}
+		}
+	}
+	return
+}
+
 // Sport response (default view)
 //
 // Identifier: application/nmgapi.sportentity; view=default
@@ -168,6 +236,40 @@ type SportMediaTiny struct {
 func (mt *SportMediaTiny) Validate() (err error) {
 	if mt.Name == "" {
 		err = goa.MergeErrors(err, goa.MissingAttributeError(`response`, "name"))
+	}
+	return
+}
+
+// SportMediaCollection is the media type for an array of SportMedia (default view)
+//
+// Identifier: application/nmgapi.sportentity; type=collection; view=default
+type SportMediaCollection []*SportMedia
+
+// Validate validates the SportMediaCollection media type instance.
+func (mt SportMediaCollection) Validate() (err error) {
+	for _, e := range mt {
+		if e != nil {
+			if err2 := e.Validate(); err2 != nil {
+				err = goa.MergeErrors(err, err2)
+			}
+		}
+	}
+	return
+}
+
+// SportMediaCollection is the media type for an array of SportMedia (tiny view)
+//
+// Identifier: application/nmgapi.sportentity; type=collection; view=tiny
+type SportMediaTinyCollection []*SportMediaTiny
+
+// Validate validates the SportMediaTinyCollection media type instance.
+func (mt SportMediaTinyCollection) Validate() (err error) {
+	for _, e := range mt {
+		if e != nil {
+			if err2 := e.Validate(); err2 != nil {
+				err = goa.MergeErrors(err, err2)
+			}
+		}
 	}
 	return
 }
@@ -228,6 +330,40 @@ func (mt *TeamMediaTiny) Validate() (err error) {
 	return
 }
 
+// TeamMediaCollection is the media type for an array of TeamMedia (default view)
+//
+// Identifier: application/nmgapi.teamentity; type=collection; view=default
+type TeamMediaCollection []*TeamMedia
+
+// Validate validates the TeamMediaCollection media type instance.
+func (mt TeamMediaCollection) Validate() (err error) {
+	for _, e := range mt {
+		if e != nil {
+			if err2 := e.Validate(); err2 != nil {
+				err = goa.MergeErrors(err, err2)
+			}
+		}
+	}
+	return
+}
+
+// TeamMediaCollection is the media type for an array of TeamMedia (tiny view)
+//
+// Identifier: application/nmgapi.teamentity; type=collection; view=tiny
+type TeamMediaTinyCollection []*TeamMediaTiny
+
+// Validate validates the TeamMediaTinyCollection media type instance.
+func (mt TeamMediaTinyCollection) Validate() (err error) {
+	for _, e := range mt {
+		if e != nil {
+			if err2 := e.Validate(); err2 != nil {
+				err = goa.MergeErrors(err, err2)
+			}
+		}
+	}
+	return
+}
+
 // Team sport response (default view)
 //
 // Identifier: application/nmgapi.teamopeningconfigentity; view=default
@@ -265,6 +401,40 @@ type TeamOpeningConfigMediaTiny struct {
 func (mt *TeamOpeningConfigMediaTiny) Validate() (err error) {
 	if mt.ID == "" {
 		err = goa.MergeErrors(err, goa.MissingAttributeError(`response`, "id"))
+	}
+	return
+}
+
+// TeamOpeningConfigMediaCollection is the media type for an array of TeamOpeningConfigMedia (default view)
+//
+// Identifier: application/nmgapi.teamopeningconfigentity; type=collection; view=default
+type TeamOpeningConfigMediaCollection []*TeamOpeningConfigMedia
+
+// Validate validates the TeamOpeningConfigMediaCollection media type instance.
+func (mt TeamOpeningConfigMediaCollection) Validate() (err error) {
+	for _, e := range mt {
+		if e != nil {
+			if err2 := e.Validate(); err2 != nil {
+				err = goa.MergeErrors(err, err2)
+			}
+		}
+	}
+	return
+}
+
+// TeamOpeningConfigMediaCollection is the media type for an array of TeamOpeningConfigMedia (tiny view)
+//
+// Identifier: application/nmgapi.teamopeningconfigentity; type=collection; view=tiny
+type TeamOpeningConfigMediaTinyCollection []*TeamOpeningConfigMediaTiny
+
+// Validate validates the TeamOpeningConfigMediaTinyCollection media type instance.
+func (mt TeamOpeningConfigMediaTinyCollection) Validate() (err error) {
+	for _, e := range mt {
+		if e != nil {
+			if err2 := e.Validate(); err2 != nil {
+				err = goa.MergeErrors(err, err2)
+			}
+		}
 	}
 	return
 }
