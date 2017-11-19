@@ -60,7 +60,7 @@ func CreateGameOK(t goatest.TInterface, ctx context.Context, service *goa.Servic
 	// Setup request context
 	rw := httptest.NewRecorder()
 	u := &url.URL{
-		Path: fmt.Sprintf("/nmg/game/"),
+		Path: fmt.Sprintf("/admin/game/"),
 	}
 	req, _err := http.NewRequest("POST", u.String(), nil)
 	if _err != nil {
@@ -140,7 +140,7 @@ func CreateGameOKTiny(t goatest.TInterface, ctx context.Context, service *goa.Se
 	// Setup request context
 	rw := httptest.NewRecorder()
 	u := &url.URL{
-		Path: fmt.Sprintf("/nmg/game/"),
+		Path: fmt.Sprintf("/admin/game/"),
 	}
 	req, _err := http.NewRequest("POST", u.String(), nil)
 	if _err != nil {
@@ -209,7 +209,7 @@ func DeleteGameNoContent(t goatest.TInterface, ctx context.Context, service *goa
 	// Setup request context
 	rw := httptest.NewRecorder()
 	u := &url.URL{
-		Path: fmt.Sprintf("/nmg/game/%v", id),
+		Path: fmt.Sprintf("/admin/game/%v", id),
 	}
 	req, err := http.NewRequest("DELETE", u.String(), nil)
 	if err != nil {
@@ -266,7 +266,7 @@ func DeleteGameOK(t goatest.TInterface, ctx context.Context, service *goa.Servic
 	// Setup request context
 	rw := httptest.NewRecorder()
 	u := &url.URL{
-		Path: fmt.Sprintf("/nmg/game/%v", id),
+		Path: fmt.Sprintf("/admin/game/%v", id),
 	}
 	req, err := http.NewRequest("DELETE", u.String(), nil)
 	if err != nil {
@@ -323,7 +323,7 @@ func ListGameOK(t goatest.TInterface, ctx context.Context, service *goa.Service,
 	// Setup request context
 	rw := httptest.NewRecorder()
 	u := &url.URL{
-		Path: fmt.Sprintf("/nmg/game/list"),
+		Path: fmt.Sprintf("/admin/game/list"),
 	}
 	req, err := http.NewRequest("GET", u.String(), nil)
 	if err != nil {
@@ -379,7 +379,7 @@ func ShowGameOK(t goatest.TInterface, ctx context.Context, service *goa.Service,
 	// Setup request context
 	rw := httptest.NewRecorder()
 	u := &url.URL{
-		Path: fmt.Sprintf("/nmg/game/%v", id),
+		Path: fmt.Sprintf("/admin/game/%v", id),
 	}
 	req, err := http.NewRequest("GET", u.String(), nil)
 	if err != nil {
@@ -448,7 +448,7 @@ func ShowGameOKTiny(t goatest.TInterface, ctx context.Context, service *goa.Serv
 	// Setup request context
 	rw := httptest.NewRecorder()
 	u := &url.URL{
-		Path: fmt.Sprintf("/nmg/game/%v", id),
+		Path: fmt.Sprintf("/admin/game/%v", id),
 	}
 	req, err := http.NewRequest("GET", u.String(), nil)
 	if err != nil {
@@ -528,7 +528,7 @@ func UpdateGameNoContent(t goatest.TInterface, ctx context.Context, service *goa
 	// Setup request context
 	rw := httptest.NewRecorder()
 	u := &url.URL{
-		Path: fmt.Sprintf("/nmg/game/%v", id),
+		Path: fmt.Sprintf("/admin/game/%v", id),
 	}
 	req, _err := http.NewRequest("PUT", u.String(), nil)
 	if _err != nil {
@@ -597,7 +597,7 @@ func UpdateGameOK(t goatest.TInterface, ctx context.Context, service *goa.Servic
 	// Setup request context
 	rw := httptest.NewRecorder()
 	u := &url.URL{
-		Path: fmt.Sprintf("/nmg/game/%v", id),
+		Path: fmt.Sprintf("/admin/game/%v", id),
 	}
 	req, _err := http.NewRequest("PUT", u.String(), nil)
 	if _err != nil {

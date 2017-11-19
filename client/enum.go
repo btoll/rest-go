@@ -20,7 +20,7 @@ import (
 // ListEnumPath computes a request path to the list action of Enum.
 func ListEnumPath() string {
 
-	return fmt.Sprintf("/nmg/enum/")
+	return fmt.Sprintf("/admin/enum/")
 }
 
 // Get a map of all enums

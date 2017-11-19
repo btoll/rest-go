@@ -65,6 +65,10 @@ var _ = Resource("Event", func() {
 var EventPayload = Type("EventPayload", func() {
 	Description("Event Description.")
 
+	Attribute("id", String, "ID", func() {
+		Metadata("struct:tag:datastore", "id,noindex")
+		Metadata("struct:tag:json", "id,omitempty")
+	})
 	Attribute("sportId", String, "Sport ID", func() {
 		Metadata("struct:tag:datastore", "sportId,noindex")
 		Metadata("struct:tag:json", "sportId,omitempty")
@@ -108,7 +112,7 @@ var EventMedia = MediaType("application/nmgapi.evententity", func() {
 	Reference(EventPayload)
 
 	Attributes(func() {
-		Attribute("id", String, "ID")
+		Attribute("id")
 		Attribute("sportId")
 		Attribute("eventId")
 		Attribute("name")

@@ -18,29 +18,29 @@ import (
 // EventHref returns the resource href.
 func EventHref(id interface{}) string {
 	paramid := strings.TrimLeftFunc(fmt.Sprintf("%v", id), func(r rune) bool { return r == '/' })
-	return fmt.Sprintf("/nmg/event/%v", paramid)
+	return fmt.Sprintf("/admin/event/%v", paramid)
 }
 
 // GameHref returns the resource href.
 func GameHref(id interface{}) string {
 	paramid := strings.TrimLeftFunc(fmt.Sprintf("%v", id), func(r rune) bool { return r == '/' })
-	return fmt.Sprintf("/nmg/game/%v", paramid)
+	return fmt.Sprintf("/admin/game/%v", paramid)
 }
 
 // SportHref returns the resource href.
 func SportHref(id interface{}) string {
 	paramid := strings.TrimLeftFunc(fmt.Sprintf("%v", id), func(r rune) bool { return r == '/' })
-	return fmt.Sprintf("/nmg/sport/%v", paramid)
+	return fmt.Sprintf("/admin/sport/%v", paramid)
 }
 
 // TeamHref returns the resource href.
 func TeamHref(id interface{}) string {
 	paramid := strings.TrimLeftFunc(fmt.Sprintf("%v", id), func(r rune) bool { return r == '/' })
-	return fmt.Sprintf("/nmg/team/%v", paramid)
+	return fmt.Sprintf("/admin/team/%v", paramid)
 }
 
 // TeamOpeningConfigHref returns the resource href.
 func TeamOpeningConfigHref(id interface{}) string {
 	paramid := strings.TrimLeftFunc(fmt.Sprintf("%v", id), func(r rune) bool { return r == '/' })
-	return fmt.Sprintf("/nmg/teamOpeningConfig/%v", paramid)
+	return fmt.Sprintf("/admin/teamOpeningConfig/%v", paramid)
 }

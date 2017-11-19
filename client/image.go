@@ -22,7 +22,7 @@ func UploadImagePath(entity string, id string) string {
 	param0 := entity
 	param1 := id
 
-	return fmt.Sprintf("/nmg/image/%s/%s", param0, param1)
+	return fmt.Sprintf("/admin/image/%s/%s", param0, param1)
 }
 
 // Upload multiple images in multipart request

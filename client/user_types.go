@@ -20,6 +20,8 @@ type eventPayload struct {
 	EndDtTm *time.Time `datastore:"endDtTm,noindex" json:"endDtTm,omitempty"`
 	// Not guaranteed to be unique
 	EventID *string `datastore:"eventId,noindex" json:"eventId,omitempty"`
+	// ID
+	ID *string `datastore:"id,noindex" json:"id,omitempty"`
 	// Location.defaultLoc.id
 	LocationID *string `datastore:"locationId,noindex" json:"locationId,omitempty"`
 	// e.g., March Madness
@@ -70,6 +72,9 @@ func (ut *eventPayload) Publicize() *EventPayload {
 	if ut.EventID != nil {
 		pub.EventID = *ut.EventID
 	}
+	if ut.ID != nil {
+		pub.ID = ut.ID
+	}
 	if ut.LocationID != nil {
 		pub.LocationID = *ut.LocationID
 	}
@@ -96,6 +101,8 @@ type EventPayload struct {
 	EndDtTm time.Time `datastore:"endDtTm,noindex" json:"endDtTm,omitempty"`
 	// Not guaranteed to be unique
 	EventID string `datastore:"eventId,noindex" json:"eventId,omitempty"`
+	// ID
+	ID *string `datastore:"id,noindex" json:"id,omitempty"`
 	// Location.defaultLoc.id
 	LocationID string `datastore:"locationId,noindex" json:"locationId,omitempty"`
 	// e.g., March Madness
@@ -136,71 +143,32 @@ func (ut *EventPayload) Validate() (err error) {
 type gamePayload struct {
 	// Event ID
 	EventID *string `datastore:"eventId,noindex" json:"eventId,omitempty"`
-	// Any public id for this game, not unique
-	ExternalID *string `datastore:"externalId,noindex" json:"externalId,omitempty"`
-	// Favorite team id
-	FavTeamID      *string    `datastore:"favTeamId,noindex" json:"favTeamId,omitempty"`
-	FinishedAtDtTm *time.Time `datastore:"finishedAtDtTm,noindex" json:"finishedAtDtTm,omitempty"`
-	// TeamGameStatus.preGame || tradeable || gameOn || ended
-	GameStatus *string `datastore:"gameStatus,noindex" json:"gameStatus,omitempty"`
-	// Name of location
-	Location *string `datastore:"location,noindex" json:"location,omitempty"`
-	// True GPS location
-	LocationID *string `datastore:"locationId,noindex" json:"locationId,omitempty"`
+	// TeamGamePlayStatus.preGame || tradeable || gameOn || ended
+	GamePlayStatus *string `datastore:"gamePlayStatus,noindex" json:"gamePlayStatus,omitempty"`
+	// ID
+	ID *string `datastore:"id,noindex" json:"id,omitempty"`
 	// TeamGameStatus.eliminated
-	LoserProgressStatus *string `datastore:"loserProgressStatus,noindex" json:"loserProgressStatus,omitempty"`
-	// 0
-	OddsForFav *float64   `datastore:"oddsForFav,noindex" json:"oddsForFav,omitempty"`
-	PlayDtTm   *time.Time `datastore:"playDtTm,noindex" json:"playDtTm,omitempty"`
+	LoserAdvanceState *string `datastore:"loserAdvanceState,noindex" json:"loserAdvanceState,omitempty"`
 	// Sport ID
 	SportID *string `datastore:"sportId,noindex" json:"sportId,omitempty"`
-	// Public free form name
-	Title       *string `datastore:"title,noindex" json:"title,omitempty"`
-	UnderTeamID *string `datastore:"underTeamId,noindex" json:"underTeamId,omitempty"`
-	// Empty until game completed
-	WinnerTeamID *string `datastore:"winnerTeamId,noindex" json:"winnerTeamId,omitempty"`
 }
 
 // Validate validates the gamePayload type instance.
 func (ut *gamePayload) Validate() (err error) {
-	if ut.FavTeamID == nil {
-		err = goa.MergeErrors(err, goa.MissingAttributeError(`request`, "favTeamId"))
-	}
-	if ut.UnderTeamID == nil {
-		err = goa.MergeErrors(err, goa.MissingAttributeError(`request`, "underTeamId"))
-	}
-	if ut.WinnerTeamID == nil {
-		err = goa.MergeErrors(err, goa.MissingAttributeError(`request`, "winnerTeamId"))
+	if ut.ID == nil {
+		err = goa.MergeErrors(err, goa.MissingAttributeError(`request`, "id"))
 	}
 	if ut.SportID == nil {
 		err = goa.MergeErrors(err, goa.MissingAttributeError(`request`, "sportId"))
 	}
-	if ut.PlayDtTm == nil {
-		err = goa.MergeErrors(err, goa.MissingAttributeError(`request`, "playDtTm"))
+	if ut.EventID == nil {
+		err = goa.MergeErrors(err, goa.MissingAttributeError(`request`, "eventId"))
 	}
-	if ut.ExternalID == nil {
-		err = goa.MergeErrors(err, goa.MissingAttributeError(`request`, "externalId"))
+	if ut.GamePlayStatus == nil {
+		err = goa.MergeErrors(err, goa.MissingAttributeError(`request`, "gamePlayStatus"))
 	}
-	if ut.Title == nil {
-		err = goa.MergeErrors(err, goa.MissingAttributeError(`request`, "title"))
-	}
-	if ut.LocationID == nil {
-		err = goa.MergeErrors(err, goa.MissingAttributeError(`request`, "locationId"))
-	}
-	if ut.Location == nil {
-		err = goa.MergeErrors(err, goa.MissingAttributeError(`request`, "location"))
-	}
-	if ut.OddsForFav == nil {
-		err = goa.MergeErrors(err, goa.MissingAttributeError(`request`, "oddsForFav"))
-	}
-	if ut.GameStatus == nil {
-		err = goa.MergeErrors(err, goa.MissingAttributeError(`request`, "gameStatus"))
-	}
-	if ut.FinishedAtDtTm == nil {
-		err = goa.MergeErrors(err, goa.MissingAttributeError(`request`, "finishedAtDtTm"))
-	}
-	if ut.LoserProgressStatus == nil {
-		err = goa.MergeErrors(err, goa.MissingAttributeError(`request`, "loserProgressStatus"))
+	if ut.LoserAdvanceState == nil {
+		err = goa.MergeErrors(err, goa.MissingAttributeError(`request`, "loserAdvanceState"))
 	}
 	return
 }
@@ -209,46 +177,19 @@ func (ut *gamePayload) Validate() (err error) {
 func (ut *gamePayload) Publicize() *GamePayload {
 	var pub GamePayload
 	if ut.EventID != nil {
-		pub.EventID = ut.EventID
+		pub.EventID = *ut.EventID
 	}
-	if ut.ExternalID != nil {
-		pub.ExternalID = *ut.ExternalID
+	if ut.GamePlayStatus != nil {
+		pub.GamePlayStatus = *ut.GamePlayStatus
 	}
-	if ut.FavTeamID != nil {
-		pub.FavTeamID = *ut.FavTeamID
+	if ut.ID != nil {
+		pub.ID = *ut.ID
 	}
-	if ut.FinishedAtDtTm != nil {
-		pub.FinishedAtDtTm = *ut.FinishedAtDtTm
-	}
-	if ut.GameStatus != nil {
-		pub.GameStatus = *ut.GameStatus
-	}
-	if ut.Location != nil {
-		pub.Location = *ut.Location
-	}
-	if ut.LocationID != nil {
-		pub.LocationID = *ut.LocationID
-	}
-	if ut.LoserProgressStatus != nil {
-		pub.LoserProgressStatus = *ut.LoserProgressStatus
-	}
-	if ut.OddsForFav != nil {
-		pub.OddsForFav = *ut.OddsForFav
-	}
-	if ut.PlayDtTm != nil {
-		pub.PlayDtTm = *ut.PlayDtTm
+	if ut.LoserAdvanceState != nil {
+		pub.LoserAdvanceState = *ut.LoserAdvanceState
 	}
 	if ut.SportID != nil {
 		pub.SportID = *ut.SportID
-	}
-	if ut.Title != nil {
-		pub.Title = *ut.Title
-	}
-	if ut.UnderTeamID != nil {
-		pub.UnderTeamID = *ut.UnderTeamID
-	}
-	if ut.WinnerTeamID != nil {
-		pub.WinnerTeamID = *ut.WinnerTeamID
 	}
 	return &pub
 }
@@ -256,66 +197,33 @@ func (ut *gamePayload) Publicize() *GamePayload {
 // Game Description.
 type GamePayload struct {
 	// Event ID
-	EventID *string `datastore:"eventId,noindex" json:"eventId,omitempty"`
-	// Any public id for this game, not unique
-	ExternalID string `datastore:"externalId,noindex" json:"externalId,omitempty"`
-	// Favorite team id
-	FavTeamID      string    `datastore:"favTeamId,noindex" json:"favTeamId,omitempty"`
-	FinishedAtDtTm time.Time `datastore:"finishedAtDtTm,noindex" json:"finishedAtDtTm,omitempty"`
-	// TeamGameStatus.preGame || tradeable || gameOn || ended
-	GameStatus string `datastore:"gameStatus,noindex" json:"gameStatus,omitempty"`
-	// Name of location
-	Location string `datastore:"location,noindex" json:"location,omitempty"`
-	// True GPS location
-	LocationID string `datastore:"locationId,noindex" json:"locationId,omitempty"`
+	EventID string `datastore:"eventId,noindex" json:"eventId,omitempty"`
+	// TeamGamePlayStatus.preGame || tradeable || gameOn || ended
+	GamePlayStatus string `datastore:"gamePlayStatus,noindex" json:"gamePlayStatus,omitempty"`
+	// ID
+	ID string `datastore:"id,noindex" json:"id,omitempty"`
 	// TeamGameStatus.eliminated
-	LoserProgressStatus string `datastore:"loserProgressStatus,noindex" json:"loserProgressStatus,omitempty"`
-	// 0
-	OddsForFav float64   `datastore:"oddsForFav,noindex" json:"oddsForFav,omitempty"`
-	PlayDtTm   time.Time `datastore:"playDtTm,noindex" json:"playDtTm,omitempty"`
+	LoserAdvanceState string `datastore:"loserAdvanceState,noindex" json:"loserAdvanceState,omitempty"`
 	// Sport ID
 	SportID string `datastore:"sportId,noindex" json:"sportId,omitempty"`
-	// Public free form name
-	Title       string `datastore:"title,noindex" json:"title,omitempty"`
-	UnderTeamID string `datastore:"underTeamId,noindex" json:"underTeamId,omitempty"`
-	// Empty until game completed
-	WinnerTeamID string `datastore:"winnerTeamId,noindex" json:"winnerTeamId,omitempty"`
 }
 
 // Validate validates the GamePayload type instance.
 func (ut *GamePayload) Validate() (err error) {
-	if ut.FavTeamID == "" {
-		err = goa.MergeErrors(err, goa.MissingAttributeError(`type`, "favTeamId"))
-	}
-	if ut.UnderTeamID == "" {
-		err = goa.MergeErrors(err, goa.MissingAttributeError(`type`, "underTeamId"))
-	}
-	if ut.WinnerTeamID == "" {
-		err = goa.MergeErrors(err, goa.MissingAttributeError(`type`, "winnerTeamId"))
+	if ut.ID == "" {
+		err = goa.MergeErrors(err, goa.MissingAttributeError(`type`, "id"))
 	}
 	if ut.SportID == "" {
 		err = goa.MergeErrors(err, goa.MissingAttributeError(`type`, "sportId"))
 	}
-
-	if ut.ExternalID == "" {
-		err = goa.MergeErrors(err, goa.MissingAttributeError(`type`, "externalId"))
+	if ut.EventID == "" {
+		err = goa.MergeErrors(err, goa.MissingAttributeError(`type`, "eventId"))
 	}
-	if ut.Title == "" {
-		err = goa.MergeErrors(err, goa.MissingAttributeError(`type`, "title"))
+	if ut.GamePlayStatus == "" {
+		err = goa.MergeErrors(err, goa.MissingAttributeError(`type`, "gamePlayStatus"))
 	}
-	if ut.LocationID == "" {
-		err = goa.MergeErrors(err, goa.MissingAttributeError(`type`, "locationId"))
-	}
-	if ut.Location == "" {
-		err = goa.MergeErrors(err, goa.MissingAttributeError(`type`, "location"))
-	}
-
-	if ut.GameStatus == "" {
-		err = goa.MergeErrors(err, goa.MissingAttributeError(`type`, "gameStatus"))
-	}
-
-	if ut.LoserProgressStatus == "" {
-		err = goa.MergeErrors(err, goa.MissingAttributeError(`type`, "loserProgressStatus"))
+	if ut.LoserAdvanceState == "" {
+		err = goa.MergeErrors(err, goa.MissingAttributeError(`type`, "loserAdvanceState"))
 	}
 	return
 }
@@ -324,14 +232,12 @@ func (ut *GamePayload) Validate() (err error) {
 type sportPayload struct {
 	// Is in season?
 	Active *bool `datastore:"active,noindex" json:"active,omitempty"`
-	// sport_icon
-	BackgroundImageName *string `datastore:"backgroundImageName,noindex" json:"backgroundImageName,omitempty"`
 	// Tournament
 	EventTerm *string `datastore:"eventTerm,noindex" json:"eventTerm,omitempty"`
 	// Game
 	GameTerm *string `datastore:"gameTerm,noindex" json:"gameTerm,omitempty"`
-	// sport_icon
-	IconName         *string  `datastore:"iconName,noindex" json:"iconName,omitempty"`
+	// ID
+	ID               *string  `datastore:"id,noindex" json:"id,omitempty"`
 	MaxPreSplitPrice *float64 `datastore:"maxPreSplitPrice,noindex" json:"maxPreSplitPrice,omitempty"`
 	// Sport name
 	Name *string `datastore:"name,noindex" json:"name,omitempty"`
@@ -339,6 +245,9 @@ type sportPayload struct {
 
 // Validate validates the sportPayload type instance.
 func (ut *sportPayload) Validate() (err error) {
+	if ut.ID == nil {
+		err = goa.MergeErrors(err, goa.MissingAttributeError(`request`, "id"))
+	}
 	if ut.Name == nil {
 		err = goa.MergeErrors(err, goa.MissingAttributeError(`request`, "name"))
 	}
@@ -354,12 +263,6 @@ func (ut *sportPayload) Validate() (err error) {
 	if ut.EventTerm == nil {
 		err = goa.MergeErrors(err, goa.MissingAttributeError(`request`, "eventTerm"))
 	}
-	if ut.IconName == nil {
-		err = goa.MergeErrors(err, goa.MissingAttributeError(`request`, "iconName"))
-	}
-	if ut.BackgroundImageName == nil {
-		err = goa.MergeErrors(err, goa.MissingAttributeError(`request`, "backgroundImageName"))
-	}
 	return
 }
 
@@ -369,17 +272,14 @@ func (ut *sportPayload) Publicize() *SportPayload {
 	if ut.Active != nil {
 		pub.Active = *ut.Active
 	}
-	if ut.BackgroundImageName != nil {
-		pub.BackgroundImageName = *ut.BackgroundImageName
-	}
 	if ut.EventTerm != nil {
 		pub.EventTerm = *ut.EventTerm
 	}
 	if ut.GameTerm != nil {
 		pub.GameTerm = *ut.GameTerm
 	}
-	if ut.IconName != nil {
-		pub.IconName = *ut.IconName
+	if ut.ID != nil {
+		pub.ID = *ut.ID
 	}
 	if ut.MaxPreSplitPrice != nil {
 		pub.MaxPreSplitPrice = *ut.MaxPreSplitPrice
@@ -394,14 +294,12 @@ func (ut *sportPayload) Publicize() *SportPayload {
 type SportPayload struct {
 	// Is in season?
 	Active bool `datastore:"active,noindex" json:"active,omitempty"`
-	// sport_icon
-	BackgroundImageName string `datastore:"backgroundImageName,noindex" json:"backgroundImageName,omitempty"`
 	// Tournament
 	EventTerm string `datastore:"eventTerm,noindex" json:"eventTerm,omitempty"`
 	// Game
 	GameTerm string `datastore:"gameTerm,noindex" json:"gameTerm,omitempty"`
-	// sport_icon
-	IconName         string  `datastore:"iconName,noindex" json:"iconName,omitempty"`
+	// ID
+	ID               string  `datastore:"id,noindex" json:"id,omitempty"`
 	MaxPreSplitPrice float64 `datastore:"maxPreSplitPrice,noindex" json:"maxPreSplitPrice,omitempty"`
 	// Sport name
 	Name string `datastore:"name,noindex" json:"name,omitempty"`
@@ -409,6 +307,9 @@ type SportPayload struct {
 
 // Validate validates the SportPayload type instance.
 func (ut *SportPayload) Validate() (err error) {
+	if ut.ID == "" {
+		err = goa.MergeErrors(err, goa.MissingAttributeError(`type`, "id"))
+	}
 	if ut.Name == "" {
 		err = goa.MergeErrors(err, goa.MissingAttributeError(`type`, "name"))
 	}
@@ -419,19 +320,15 @@ func (ut *SportPayload) Validate() (err error) {
 	if ut.EventTerm == "" {
 		err = goa.MergeErrors(err, goa.MissingAttributeError(`type`, "eventTerm"))
 	}
-	if ut.IconName == "" {
-		err = goa.MergeErrors(err, goa.MissingAttributeError(`type`, "iconName"))
-	}
-	if ut.BackgroundImageName == "" {
-		err = goa.MergeErrors(err, goa.MissingAttributeError(`type`, "backgroundImageName"))
-	}
 	return
 }
 
 // Team Description.
 type teamOpeningConfigPayload struct {
-	BuyIncrementPrice  *float64   `datastore:"buyIncrementPrice,noindex" json:"buyIncrementPrice,omitempty"`
-	BuyIncrementQuan   *int       `datastore:"buyIncrementQuan,noindex" json:"buyIncrementQuan,omitempty"`
+	BuyIncrementPrice *float64 `datastore:"buyIncrementPrice,noindex" json:"buyIncrementPrice,omitempty"`
+	BuyIncrementQuan  *int     `datastore:"buyIncrementQuan,noindex" json:"buyIncrementQuan,omitempty"`
+	// ID
+	ID                 *string    `datastore:"id,noindex" json:"id,omitempty"`
 	LiquidationFee     *float64   `datastore:"liquidationFee,noindex" json:"liquidationFee,omitempty"`
 	OpeningPrice       *float64   `datastore:"openingPrice,noindex" json:"openingPrice,omitempty"`
 	OpeningShares      *int       `datastore:"openingShares,noindex" json:"openingShares,omitempty"`
@@ -442,6 +339,9 @@ type teamOpeningConfigPayload struct {
 
 // Validate validates the teamOpeningConfigPayload type instance.
 func (ut *teamOpeningConfigPayload) Validate() (err error) {
+	if ut.ID == nil {
+		err = goa.MergeErrors(err, goa.MissingAttributeError(`request`, "id"))
+	}
 	if ut.OpeningPrice == nil {
 		err = goa.MergeErrors(err, goa.MissingAttributeError(`request`, "openingPrice"))
 	}
@@ -478,6 +378,9 @@ func (ut *teamOpeningConfigPayload) Publicize() *TeamOpeningConfigPayload {
 	if ut.BuyIncrementQuan != nil {
 		pub.BuyIncrementQuan = *ut.BuyIncrementQuan
 	}
+	if ut.ID != nil {
+		pub.ID = *ut.ID
+	}
 	if ut.LiquidationFee != nil {
 		pub.LiquidationFee = *ut.LiquidationFee
 	}
@@ -501,8 +404,10 @@ func (ut *teamOpeningConfigPayload) Publicize() *TeamOpeningConfigPayload {
 
 // Team Description.
 type TeamOpeningConfigPayload struct {
-	BuyIncrementPrice  float64   `datastore:"buyIncrementPrice,noindex" json:"buyIncrementPrice,omitempty"`
-	BuyIncrementQuan   int       `datastore:"buyIncrementQuan,noindex" json:"buyIncrementQuan,omitempty"`
+	BuyIncrementPrice float64 `datastore:"buyIncrementPrice,noindex" json:"buyIncrementPrice,omitempty"`
+	BuyIncrementQuan  int     `datastore:"buyIncrementQuan,noindex" json:"buyIncrementQuan,omitempty"`
+	// ID
+	ID                 string    `datastore:"id,noindex" json:"id,omitempty"`
 	LiquidationFee     float64   `datastore:"liquidationFee,noindex" json:"liquidationFee,omitempty"`
 	OpeningPrice       float64   `datastore:"openingPrice,noindex" json:"openingPrice,omitempty"`
 	OpeningShares      int       `datastore:"openingShares,noindex" json:"openingShares,omitempty"`
@@ -513,6 +418,9 @@ type TeamOpeningConfigPayload struct {
 
 // Validate validates the TeamOpeningConfigPayload type instance.
 func (ut *TeamOpeningConfigPayload) Validate() (err error) {
+	if ut.ID == "" {
+		err = goa.MergeErrors(err, goa.MissingAttributeError(`type`, "id"))
+	}
 
 	return
 }
@@ -521,6 +429,8 @@ func (ut *TeamOpeningConfigPayload) Validate() (err error) {
 type teamPayload struct {
 	// Sport HomeTown ID
 	HomeTownID *string `datastore:"homeTownId,noindex" json:"homeTownId,omitempty"`
+	// ID
+	ID *string `datastore:"id,noindex" json:"id,omitempty"`
 	// Team name
 	Name *string `datastore:"name,noindex" json:"name,omitempty"`
 	// Team Nickname
@@ -552,6 +462,9 @@ func (ut *teamPayload) Publicize() *TeamPayload {
 	if ut.HomeTownID != nil {
 		pub.HomeTownID = *ut.HomeTownID
 	}
+	if ut.ID != nil {
+		pub.ID = ut.ID
+	}
 	if ut.Name != nil {
 		pub.Name = *ut.Name
 	}
@@ -568,6 +481,8 @@ func (ut *teamPayload) Publicize() *TeamPayload {
 type TeamPayload struct {
 	// Sport HomeTown ID
 	HomeTownID string `datastore:"homeTownId,noindex" json:"homeTownId,omitempty"`
+	// ID
+	ID *string `datastore:"id,noindex" json:"id,omitempty"`
 	// Team name
 	Name string `datastore:"name,noindex" json:"name,omitempty"`
 	// Team Nickname

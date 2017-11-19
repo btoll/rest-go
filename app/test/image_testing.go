@@ -49,7 +49,7 @@ func UploadImageOK(t goatest.TInterface, ctx context.Context, service *goa.Servi
 	// Setup request context
 	rw := httptest.NewRecorder()
 	u := &url.URL{
-		Path: fmt.Sprintf("/nmg/image/%v/%v", entity, id),
+		Path: fmt.Sprintf("/admin/image/%v/%v", entity, id),
 	}
 	req, err := http.NewRequest("POST", u.String(), nil)
 	if err != nil {

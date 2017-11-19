@@ -21,7 +21,7 @@ import (
 // CreateSportPath computes a request path to the create action of Sport.
 func CreateSportPath() string {
 
-	return fmt.Sprintf("/nmg/sport/")
+	return fmt.Sprintf("/admin/sport/")
 }
 
 // Create a new sport.
@@ -65,7 +65,7 @@ func (c *Client) NewCreateSportRequest(ctx context.Context, path string, payload
 func DeleteSportPath(id string) string {
 	param0 := id
 
-	return fmt.Sprintf("/nmg/sport/%s", param0)
+	return fmt.Sprintf("/admin/sport/%s", param0)
 }
 
 // Delete a sport by id.
@@ -94,7 +94,7 @@ func (c *Client) NewDeleteSportRequest(ctx context.Context, path string) (*http.
 // ListSportPath computes a request path to the list action of Sport.
 func ListSportPath() string {
 
-	return fmt.Sprintf("/nmg/sport/list")
+	return fmt.Sprintf("/admin/sport/list")
 }
 
 // Get all sports
@@ -124,7 +124,7 @@ func (c *Client) NewListSportRequest(ctx context.Context, path string) (*http.Re
 func ShowSportPath(id string) string {
 	param0 := id
 
-	return fmt.Sprintf("/nmg/sport/%s", param0)
+	return fmt.Sprintf("/admin/sport/%s", param0)
 }
 
 // Get a sport by id.
@@ -154,7 +154,7 @@ func (c *Client) NewShowSportRequest(ctx context.Context, path string) (*http.Re
 func UpdateSportPath(id string) string {
 	param0 := id
 
-	return fmt.Sprintf("/nmg/sport/%s", param0)
+	return fmt.Sprintf("/admin/sport/%s", param0)
 }
 
 // Update a sport by id.

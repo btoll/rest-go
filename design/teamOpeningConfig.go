@@ -22,10 +22,8 @@ var _ = Resource("TeamOpeningConfig", func() {
 	})
 
 	Action("show", func() {
-		//		Routing(GET("/:teamGameEventKey"))
 		Routing(GET("/:id"))
 		Params(func() {
-			//			Param("teamGameEventKey", String, "Team Game Event Key")
 			Param("id", String, "Team Game Event Key")
 		})
 		Description("Get a sports team by event key.")
@@ -33,11 +31,9 @@ var _ = Resource("TeamOpeningConfig", func() {
 	})
 
 	Action("update", func() {
-		//		Routing(PUT("/:teamGameEventKey"))
 		Routing(PUT("/:id"))
 		Payload(TeamOpeningConfigPayload)
 		Params(func() {
-			//			Param("teamGameEventKey", String, "Team Game Event Key")
 			Param("id", String, "Team Game Event Key")
 		})
 		Description("Update a sports team by event key.")
@@ -48,10 +44,8 @@ var _ = Resource("TeamOpeningConfig", func() {
 	})
 
 	Action("delete", func() {
-		//		Routing(DELETE("/:teamGameEventKey"))
 		Routing(DELETE("/:id"))
 		Params(func() {
-			//			Param("teamGameEventKey", String, "Team Game Event Key")
 			Param("id", String, "Team Game Event Key")
 		})
 		Description("Delete a sports team by event key.")
@@ -71,17 +65,10 @@ var _ = Resource("TeamOpeningConfig", func() {
 var TeamOpeningConfigPayload = Type("TeamOpeningConfigPayload", func() {
 	Description("Team Description.")
 
-	/*
-		Attribute("teamGameEventKey", String, "", func() {
-			Metadata("struct:tag:datastore", "__key__")
-		})
-	*/
-	/*
-		Attribute("teamGameEventKey", String, "Reference ID for new team", func() {
-			Metadata("struct:tag:datastore", "teamGameEventKey")
-			Metadata("struct:tag:json", "teamGameEventKey")
-		})
-	*/
+	Attribute("id", String, "ID", func() {
+		Metadata("struct:tag:datastore", "id,noindex")
+		Metadata("struct:tag:json", "id,omitempty")
+	})
 	Attribute("openingPrice", Number, "", func() {
 		Metadata("struct:tag:datastore", "openingPrice,noindex")
 		Metadata("struct:tag:json", "openingPrice,omitempty")
@@ -115,8 +102,7 @@ var TeamOpeningConfigPayload = Type("TeamOpeningConfigPayload", func() {
 		Metadata("struct:tag:json", "startTradeDtTm,omitempty")
 	})
 
-	//	Required("teamGameEventKey", "openingPrice", "openingShares", "buyIncrementQuan", "buyIncrementPrice", "sellDecrementQuan", "sellDecrementPrice", "liquidationFee", "startTradeDtTm")
-	Required("openingPrice", "openingShares", "buyIncrementQuan", "buyIncrementPrice", "sellDecrementQuan", "sellDecrementPrice", "liquidationFee", "startTradeDtTm")
+	Required("id", "openingPrice", "openingShares", "buyIncrementQuan", "buyIncrementPrice", "sellDecrementQuan", "sellDecrementPrice", "liquidationFee", "startTradeDtTm")
 })
 
 var TeamOpeningConfigMedia = MediaType("application/nmgapi.teamopeningconfigentity", func() {
@@ -126,8 +112,7 @@ var TeamOpeningConfigMedia = MediaType("application/nmgapi.teamopeningconfigenti
 	Reference(TeamOpeningConfigPayload)
 
 	Attributes(func() {
-		//		Attribute("teamGameEventKey")
-		Attribute("id", String, "ID")
+		Attribute("id")
 		Attribute("openingPrice")
 		Attribute("openingShares")
 		Attribute("buyIncrementQuan")
@@ -137,12 +122,11 @@ var TeamOpeningConfigMedia = MediaType("application/nmgapi.teamopeningconfigenti
 		Attribute("liquidationFee")
 		Attribute("startTradeDtTm")
 
-		//		Required("teamGameEventKey", "openingPrice", "openingShares", "buyIncrementQuan", "buyIncrementPrice", "sellDecrementQuan", "sellDecrementPrice", "liquidationFee", "startTradeDtTm")
 		Required("id", "openingPrice", "openingShares", "buyIncrementQuan", "buyIncrementPrice", "sellDecrementQuan", "sellDecrementPrice", "liquidationFee", "startTradeDtTm")
 	})
 
 	View("default", func() {
-		//		Attribute("teamGameEventKey")
+		Attribute("id")
 		Attribute("openingPrice")
 		Attribute("openingShares")
 		Attribute("buyIncrementQuan")
@@ -155,7 +139,6 @@ var TeamOpeningConfigMedia = MediaType("application/nmgapi.teamopeningconfigenti
 
 	View("tiny", func() {
 		Description("`tiny` is the view used to create new teams.")
-		//		Attribute("teamGameEventKey")
 		Attribute("id")
 	})
 })

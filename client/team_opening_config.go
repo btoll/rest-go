@@ -21,7 +21,7 @@ import (
 // CreateTeamOpeningConfigPath computes a request path to the create action of TeamOpeningConfig.
 func CreateTeamOpeningConfigPath() string {
 
-	return fmt.Sprintf("/nmg/teamOpeningConfig/")
+	return fmt.Sprintf("/admin/teamOpeningConfig/")
 }
 
 // Create a new team opening config.
@@ -65,7 +65,7 @@ func (c *Client) NewCreateTeamOpeningConfigRequest(ctx context.Context, path str
 func DeleteTeamOpeningConfigPath(id string) string {
 	param0 := id
 
-	return fmt.Sprintf("/nmg/teamOpeningConfig/%s", param0)
+	return fmt.Sprintf("/admin/teamOpeningConfig/%s", param0)
 }
 
 // Delete a sports team by event key.
@@ -94,7 +94,7 @@ func (c *Client) NewDeleteTeamOpeningConfigRequest(ctx context.Context, path str
 // ListTeamOpeningConfigPath computes a request path to the list action of TeamOpeningConfig.
 func ListTeamOpeningConfigPath() string {
 
-	return fmt.Sprintf("/nmg/teamOpeningConfig/list")
+	return fmt.Sprintf("/admin/teamOpeningConfig/list")
 }
 
 // Get all teams openings
@@ -124,7 +124,7 @@ func (c *Client) NewListTeamOpeningConfigRequest(ctx context.Context, path strin
 func ShowTeamOpeningConfigPath(id string) string {
 	param0 := id
 
-	return fmt.Sprintf("/nmg/teamOpeningConfig/%s", param0)
+	return fmt.Sprintf("/admin/teamOpeningConfig/%s", param0)
 }
 
 // Get a sports team by event key.
@@ -154,7 +154,7 @@ func (c *Client) NewShowTeamOpeningConfigRequest(ctx context.Context, path strin
 func UpdateTeamOpeningConfigPath(id string) string {
 	param0 := id
 
-	return fmt.Sprintf("/nmg/teamOpeningConfig/%s", param0)
+	return fmt.Sprintf("/admin/teamOpeningConfig/%s", param0)
 }
 
 // Update a sports team by event key.

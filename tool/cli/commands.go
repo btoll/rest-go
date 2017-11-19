@@ -227,21 +227,22 @@ func RegisterCommands(app *cobra.Command, c *client.Client) {
 	}
 	tmp1 := new(CreateEventCommand)
 	sub = &cobra.Command{
-		Use:   `event ["/nmg/event/"]`,
+		Use:   `event ["/admin/event/"]`,
 		Short: `Describes a sport event.`,
 		Long: `Describes a sport event.
 
 Payload example:
 
 {
-   "endDtTm": "2001-01-15T17:07:05Z",
-   "eventId": "Voluptatem assumenda sed quibusdam velit occaecati excepturi.",
-   "locationId": "Debitis aut debitis.",
-   "name": "Qui velit.",
-   "sportId": "Suscipit laborum magni deleniti molestias.",
-   "startDtTm": "1992-01-18T19:06:24Z",
-   "subTitle": "Unde ad qui laborum aliquam.",
-   "teamAdvanceMethod": "Nobis maxime voluptatem."
+   "endDtTm": "1981-03-13T12:12:18Z",
+   "eventId": "Dolorum est dolor quis.",
+   "id": "Cum atque consequatur nostrum.",
+   "locationId": "Officiis esse.",
+   "name": "Ut dolor veritatis alias a.",
+   "sportId": "Sed id quidem atque saepe sed dolores.",
+   "startDtTm": "1993-09-28T09:56:25Z",
+   "subTitle": "Minus necessitatibus esse.",
+   "teamAdvanceMethod": "Laboriosam reprehenderit consequuntur reiciendis magnam."
 }`,
 		RunE: func(cmd *cobra.Command, args []string) error { return tmp1.Run(c, args) },
 	}
@@ -250,27 +251,18 @@ Payload example:
 	command.AddCommand(sub)
 	tmp2 := new(CreateGameCommand)
 	sub = &cobra.Command{
-		Use:   `game ["/nmg/game/"]`,
+		Use:   `game ["/admin/game/"]`,
 		Short: `Describes a game.`,
 		Long: `Describes a game.
 
 Payload example:
 
 {
-   "eventId": "Sit ut quis necessitatibus non.",
-   "externalId": "Est delectus.",
-   "favTeamId": "Quis aut ut labore perferendis natus quidem.",
-   "finishedAtDtTm": "2007-08-16T16:19:15Z",
-   "gameStatus": "Maiores voluptatem voluptatem ad earum.",
-   "location": "Porro vel quia quaerat.",
-   "locationId": "Dicta mollitia et nulla eos nobis id.",
-   "loserProgressStatus": "Quo iusto voluptatem eos est quo molestias.",
-   "oddsForFav": 0.3001600116806725,
-   "playDtTm": "1995-09-17T01:55:05Z",
-   "sportId": "Perferendis eos vel assumenda non.",
-   "title": "Minima officiis quas voluptatem.",
-   "underTeamId": "Quos quaerat atque et est deleniti maiores.",
-   "winnerTeamId": "Eum neque quibusdam."
+   "eventId": "Ut cum.",
+   "gamePlayStatus": "Laborum voluptatem.",
+   "id": "Sed quibusdam velit occaecati.",
+   "loserAdvanceState": "Omnis debitis aut.",
+   "sportId": "Dolores qui velit autem."
 }`,
 		RunE: func(cmd *cobra.Command, args []string) error { return tmp2.Run(c, args) },
 	}
@@ -279,20 +271,19 @@ Payload example:
 	command.AddCommand(sub)
 	tmp3 := new(CreateSportCommand)
 	sub = &cobra.Command{
-		Use:   `sport ["/nmg/sport/"]`,
+		Use:   `sport ["/admin/sport/"]`,
 		Short: `Describes a sport.`,
 		Long: `Describes a sport.
 
 Payload example:
 
 {
-   "active": true,
-   "backgroundImageName": "Pariatur explicabo ullam quam sed accusantium veritatis.",
-   "eventTerm": "Voluptas ut suscipit.",
-   "gameTerm": "Eos et.",
-   "iconName": "Aut est a tempora.",
-   "maxPreSplitPrice": 0.8080694818248108,
-   "name": "Id magni quidem ut ea."
+   "active": false,
+   "eventTerm": "Magni deleniti molestias numquam rerum unde ad.",
+   "gameTerm": "Laborum aliquam vel nobis maxime voluptatem dolores.",
+   "id": "Ut quis necessitatibus non et est.",
+   "maxPreSplitPrice": 0.08517383380911019,
+   "name": "Quis aut ut labore perferendis natus quidem."
 }`,
 		RunE: func(cmd *cobra.Command, args []string) error { return tmp3.Run(c, args) },
 	}
@@ -301,17 +292,18 @@ Payload example:
 	command.AddCommand(sub)
 	tmp4 := new(CreateTeamCommand)
 	sub = &cobra.Command{
-		Use:   `team ["/nmg/team/"]`,
+		Use:   `team ["/admin/team/"]`,
 		Short: `Describes a sport team.`,
 		Long: `Describes a sport team.
 
 Payload example:
 
 {
-   "homeTownId": "Excepturi minima voluptas.",
-   "name": "Ratione molestias aut.",
-   "shortName": "Vitae consequatur corrupti tempora.",
-   "sportId": "Est et veritatis non."
+   "homeTownId": "Sint maiores.",
+   "id": "Voluptatem ad earum quam porro vel quia.",
+   "name": "Maxime dicta mollitia et nulla eos.",
+   "shortName": "Id dignissimos quo iusto voluptatem eos est.",
+   "sportId": "Molestias nihil accusamus aut perferendis eos."
 }`,
 		RunE: func(cmd *cobra.Command, args []string) error { return tmp4.Run(c, args) },
 	}
@@ -320,21 +312,22 @@ Payload example:
 	command.AddCommand(sub)
 	tmp5 := new(CreateTeamOpeningConfigCommand)
 	sub = &cobra.Command{
-		Use:   `team-opening-config ["/nmg/teamOpeningConfig/"]`,
+		Use:   `team-opening-config ["/admin/teamOpeningConfig/"]`,
 		Short: `Describes a team opening config.`,
 		Long: `Describes a team opening config.
 
 Payload example:
 
 {
-   "buyIncrementPrice": 0.8504025706124875,
-   "buyIncrementQuan": 219196095,
-   "liquidationFee": 0.10611290445428535,
-   "openingPrice": 0.8886069530209401,
-   "openingShares": 16374965,
-   "sellDecrementPrice": 0.7558523118542931,
-   "sellDecrementQuan": 410329756,
-   "startTradeDtTm": "1981-09-01T12:08:40Z"
+   "buyIncrementPrice": 0.3772184950781132,
+   "buyIncrementQuan": 1421325152,
+   "id": "Dignissimos minima officiis quas.",
+   "liquidationFee": 0.8720427017677326,
+   "openingPrice": 0.9390082699262224,
+   "openingShares": 603108193,
+   "sellDecrementPrice": 0.2469010342940164,
+   "sellDecrementQuan": 1854125702,
+   "startTradeDtTm": "1998-06-18T13:11:36Z"
 }`,
 		RunE: func(cmd *cobra.Command, args []string) error { return tmp5.Run(c, args) },
 	}
@@ -348,7 +341,7 @@ Payload example:
 	}
 	tmp6 := new(DeleteEventCommand)
 	sub = &cobra.Command{
-		Use:   `event ["/nmg/event/ID"]`,
+		Use:   `event ["/admin/event/ID"]`,
 		Short: `Describes a sport event.`,
 		RunE:  func(cmd *cobra.Command, args []string) error { return tmp6.Run(c, args) },
 	}
@@ -357,7 +350,7 @@ Payload example:
 	command.AddCommand(sub)
 	tmp7 := new(DeleteGameCommand)
 	sub = &cobra.Command{
-		Use:   `game ["/nmg/game/ID"]`,
+		Use:   `game ["/admin/game/ID"]`,
 		Short: `Describes a game.`,
 		RunE:  func(cmd *cobra.Command, args []string) error { return tmp7.Run(c, args) },
 	}
@@ -366,7 +359,7 @@ Payload example:
 	command.AddCommand(sub)
 	tmp8 := new(DeleteSportCommand)
 	sub = &cobra.Command{
-		Use:   `sport ["/nmg/sport/ID"]`,
+		Use:   `sport ["/admin/sport/ID"]`,
 		Short: `Describes a sport.`,
 		RunE:  func(cmd *cobra.Command, args []string) error { return tmp8.Run(c, args) },
 	}
@@ -375,7 +368,7 @@ Payload example:
 	command.AddCommand(sub)
 	tmp9 := new(DeleteTeamCommand)
 	sub = &cobra.Command{
-		Use:   `team ["/nmg/team/ID"]`,
+		Use:   `team ["/admin/team/ID"]`,
 		Short: `Describes a sport team.`,
 		RunE:  func(cmd *cobra.Command, args []string) error { return tmp9.Run(c, args) },
 	}
@@ -384,7 +377,7 @@ Payload example:
 	command.AddCommand(sub)
 	tmp10 := new(DeleteTeamOpeningConfigCommand)
 	sub = &cobra.Command{
-		Use:   `team-opening-config ["/nmg/teamOpeningConfig/ID"]`,
+		Use:   `team-opening-config ["/admin/teamOpeningConfig/ID"]`,
 		Short: `Describes a team opening config.`,
 		RunE:  func(cmd *cobra.Command, args []string) error { return tmp10.Run(c, args) },
 	}
@@ -398,7 +391,7 @@ Payload example:
 	}
 	tmp11 := new(ListEnumCommand)
 	sub = &cobra.Command{
-		Use:   `enum ["/nmg/enum/"]`,
+		Use:   `enum ["/admin/enum/"]`,
 		Short: `Get a map of all enums`,
 		RunE:  func(cmd *cobra.Command, args []string) error { return tmp11.Run(c, args) },
 	}
@@ -407,7 +400,7 @@ Payload example:
 	command.AddCommand(sub)
 	tmp12 := new(ListEventCommand)
 	sub = &cobra.Command{
-		Use:   `event ["/nmg/event/list"]`,
+		Use:   `event ["/admin/event/list"]`,
 		Short: `Describes a sport event.`,
 		RunE:  func(cmd *cobra.Command, args []string) error { return tmp12.Run(c, args) },
 	}
@@ -416,7 +409,7 @@ Payload example:
 	command.AddCommand(sub)
 	tmp13 := new(ListGameCommand)
 	sub = &cobra.Command{
-		Use:   `game ["/nmg/game/list"]`,
+		Use:   `game ["/admin/game/list"]`,
 		Short: `Describes a game.`,
 		RunE:  func(cmd *cobra.Command, args []string) error { return tmp13.Run(c, args) },
 	}
@@ -425,7 +418,7 @@ Payload example:
 	command.AddCommand(sub)
 	tmp14 := new(ListSportCommand)
 	sub = &cobra.Command{
-		Use:   `sport ["/nmg/sport/list"]`,
+		Use:   `sport ["/admin/sport/list"]`,
 		Short: `Describes a sport.`,
 		RunE:  func(cmd *cobra.Command, args []string) error { return tmp14.Run(c, args) },
 	}
@@ -434,7 +427,7 @@ Payload example:
 	command.AddCommand(sub)
 	tmp15 := new(ListTeamCommand)
 	sub = &cobra.Command{
-		Use:   `team ["/nmg/team/list"]`,
+		Use:   `team ["/admin/team/list"]`,
 		Short: `Describes a sport team.`,
 		RunE:  func(cmd *cobra.Command, args []string) error { return tmp15.Run(c, args) },
 	}
@@ -443,7 +436,7 @@ Payload example:
 	command.AddCommand(sub)
 	tmp16 := new(ListTeamOpeningConfigCommand)
 	sub = &cobra.Command{
-		Use:   `team-opening-config ["/nmg/teamOpeningConfig/list"]`,
+		Use:   `team-opening-config ["/admin/teamOpeningConfig/list"]`,
 		Short: `Describes a team opening config.`,
 		RunE:  func(cmd *cobra.Command, args []string) error { return tmp16.Run(c, args) },
 	}
@@ -457,7 +450,7 @@ Payload example:
 	}
 	tmp17 := new(ShowEventCommand)
 	sub = &cobra.Command{
-		Use:   `event ["/nmg/event/ID"]`,
+		Use:   `event ["/admin/event/ID"]`,
 		Short: `Describes a sport event.`,
 		RunE:  func(cmd *cobra.Command, args []string) error { return tmp17.Run(c, args) },
 	}
@@ -466,7 +459,7 @@ Payload example:
 	command.AddCommand(sub)
 	tmp18 := new(ShowGameCommand)
 	sub = &cobra.Command{
-		Use:   `game ["/nmg/game/ID"]`,
+		Use:   `game ["/admin/game/ID"]`,
 		Short: `Describes a game.`,
 		RunE:  func(cmd *cobra.Command, args []string) error { return tmp18.Run(c, args) },
 	}
@@ -475,7 +468,7 @@ Payload example:
 	command.AddCommand(sub)
 	tmp19 := new(ShowSportCommand)
 	sub = &cobra.Command{
-		Use:   `sport ["/nmg/sport/ID"]`,
+		Use:   `sport ["/admin/sport/ID"]`,
 		Short: `Describes a sport.`,
 		RunE:  func(cmd *cobra.Command, args []string) error { return tmp19.Run(c, args) },
 	}
@@ -484,7 +477,7 @@ Payload example:
 	command.AddCommand(sub)
 	tmp20 := new(ShowTeamCommand)
 	sub = &cobra.Command{
-		Use:   `team ["/nmg/team/ID"]`,
+		Use:   `team ["/admin/team/ID"]`,
 		Short: `Describes a sport team.`,
 		RunE:  func(cmd *cobra.Command, args []string) error { return tmp20.Run(c, args) },
 	}
@@ -493,7 +486,7 @@ Payload example:
 	command.AddCommand(sub)
 	tmp21 := new(ShowTeamOpeningConfigCommand)
 	sub = &cobra.Command{
-		Use:   `team-opening-config ["/nmg/teamOpeningConfig/ID"]`,
+		Use:   `team-opening-config ["/admin/teamOpeningConfig/ID"]`,
 		Short: `Describes a team opening config.`,
 		RunE:  func(cmd *cobra.Command, args []string) error { return tmp21.Run(c, args) },
 	}
@@ -507,21 +500,22 @@ Payload example:
 	}
 	tmp22 := new(UpdateEventCommand)
 	sub = &cobra.Command{
-		Use:   `event ["/nmg/event/ID"]`,
+		Use:   `event ["/admin/event/ID"]`,
 		Short: `Describes a sport event.`,
 		Long: `Describes a sport event.
 
 Payload example:
 
 {
-   "endDtTm": "2001-01-15T17:07:05Z",
-   "eventId": "Voluptatem assumenda sed quibusdam velit occaecati excepturi.",
-   "locationId": "Debitis aut debitis.",
-   "name": "Qui velit.",
-   "sportId": "Suscipit laborum magni deleniti molestias.",
-   "startDtTm": "1992-01-18T19:06:24Z",
-   "subTitle": "Unde ad qui laborum aliquam.",
-   "teamAdvanceMethod": "Nobis maxime voluptatem."
+   "endDtTm": "1981-03-13T12:12:18Z",
+   "eventId": "Dolorum est dolor quis.",
+   "id": "Cum atque consequatur nostrum.",
+   "locationId": "Officiis esse.",
+   "name": "Ut dolor veritatis alias a.",
+   "sportId": "Sed id quidem atque saepe sed dolores.",
+   "startDtTm": "1993-09-28T09:56:25Z",
+   "subTitle": "Minus necessitatibus esse.",
+   "teamAdvanceMethod": "Laboriosam reprehenderit consequuntur reiciendis magnam."
 }`,
 		RunE: func(cmd *cobra.Command, args []string) error { return tmp22.Run(c, args) },
 	}
@@ -530,27 +524,18 @@ Payload example:
 	command.AddCommand(sub)
 	tmp23 := new(UpdateGameCommand)
 	sub = &cobra.Command{
-		Use:   `game ["/nmg/game/ID"]`,
+		Use:   `game ["/admin/game/ID"]`,
 		Short: `Describes a game.`,
 		Long: `Describes a game.
 
 Payload example:
 
 {
-   "eventId": "Sit ut quis necessitatibus non.",
-   "externalId": "Est delectus.",
-   "favTeamId": "Quis aut ut labore perferendis natus quidem.",
-   "finishedAtDtTm": "2007-08-16T16:19:15Z",
-   "gameStatus": "Maiores voluptatem voluptatem ad earum.",
-   "location": "Porro vel quia quaerat.",
-   "locationId": "Dicta mollitia et nulla eos nobis id.",
-   "loserProgressStatus": "Quo iusto voluptatem eos est quo molestias.",
-   "oddsForFav": 0.3001600116806725,
-   "playDtTm": "1995-09-17T01:55:05Z",
-   "sportId": "Perferendis eos vel assumenda non.",
-   "title": "Minima officiis quas voluptatem.",
-   "underTeamId": "Quos quaerat atque et est deleniti maiores.",
-   "winnerTeamId": "Eum neque quibusdam."
+   "eventId": "Ut cum.",
+   "gamePlayStatus": "Laborum voluptatem.",
+   "id": "Sed quibusdam velit occaecati.",
+   "loserAdvanceState": "Omnis debitis aut.",
+   "sportId": "Dolores qui velit autem."
 }`,
 		RunE: func(cmd *cobra.Command, args []string) error { return tmp23.Run(c, args) },
 	}
@@ -559,20 +544,19 @@ Payload example:
 	command.AddCommand(sub)
 	tmp24 := new(UpdateSportCommand)
 	sub = &cobra.Command{
-		Use:   `sport ["/nmg/sport/ID"]`,
+		Use:   `sport ["/admin/sport/ID"]`,
 		Short: `Describes a sport.`,
 		Long: `Describes a sport.
 
 Payload example:
 
 {
-   "active": true,
-   "backgroundImageName": "Pariatur explicabo ullam quam sed accusantium veritatis.",
-   "eventTerm": "Voluptas ut suscipit.",
-   "gameTerm": "Eos et.",
-   "iconName": "Aut est a tempora.",
-   "maxPreSplitPrice": 0.8080694818248108,
-   "name": "Id magni quidem ut ea."
+   "active": false,
+   "eventTerm": "Magni deleniti molestias numquam rerum unde ad.",
+   "gameTerm": "Laborum aliquam vel nobis maxime voluptatem dolores.",
+   "id": "Ut quis necessitatibus non et est.",
+   "maxPreSplitPrice": 0.08517383380911019,
+   "name": "Quis aut ut labore perferendis natus quidem."
 }`,
 		RunE: func(cmd *cobra.Command, args []string) error { return tmp24.Run(c, args) },
 	}
@@ -581,17 +565,18 @@ Payload example:
 	command.AddCommand(sub)
 	tmp25 := new(UpdateTeamCommand)
 	sub = &cobra.Command{
-		Use:   `team ["/nmg/team/ID"]`,
+		Use:   `team ["/admin/team/ID"]`,
 		Short: `Describes a sport team.`,
 		Long: `Describes a sport team.
 
 Payload example:
 
 {
-   "homeTownId": "Excepturi minima voluptas.",
-   "name": "Ratione molestias aut.",
-   "shortName": "Vitae consequatur corrupti tempora.",
-   "sportId": "Est et veritatis non."
+   "homeTownId": "Sint maiores.",
+   "id": "Voluptatem ad earum quam porro vel quia.",
+   "name": "Maxime dicta mollitia et nulla eos.",
+   "shortName": "Id dignissimos quo iusto voluptatem eos est.",
+   "sportId": "Molestias nihil accusamus aut perferendis eos."
 }`,
 		RunE: func(cmd *cobra.Command, args []string) error { return tmp25.Run(c, args) },
 	}
@@ -600,21 +585,22 @@ Payload example:
 	command.AddCommand(sub)
 	tmp26 := new(UpdateTeamOpeningConfigCommand)
 	sub = &cobra.Command{
-		Use:   `team-opening-config ["/nmg/teamOpeningConfig/ID"]`,
+		Use:   `team-opening-config ["/admin/teamOpeningConfig/ID"]`,
 		Short: `Describes a team opening config.`,
 		Long: `Describes a team opening config.
 
 Payload example:
 
 {
-   "buyIncrementPrice": 0.8504025706124875,
-   "buyIncrementQuan": 219196095,
-   "liquidationFee": 0.10611290445428535,
-   "openingPrice": 0.8886069530209401,
-   "openingShares": 16374965,
-   "sellDecrementPrice": 0.7558523118542931,
-   "sellDecrementQuan": 410329756,
-   "startTradeDtTm": "1981-09-01T12:08:40Z"
+   "buyIncrementPrice": 0.3772184950781132,
+   "buyIncrementQuan": 1421325152,
+   "id": "Dignissimos minima officiis quas.",
+   "liquidationFee": 0.8720427017677326,
+   "openingPrice": 0.9390082699262224,
+   "openingShares": 603108193,
+   "sellDecrementPrice": 0.2469010342940164,
+   "sellDecrementQuan": 1854125702,
+   "startTradeDtTm": "1998-06-18T13:11:36Z"
 }`,
 		RunE: func(cmd *cobra.Command, args []string) error { return tmp26.Run(c, args) },
 	}
@@ -628,7 +614,7 @@ Payload example:
 	}
 	tmp27 := new(UploadImageCommand)
 	sub = &cobra.Command{
-		Use:   `image ["/nmg/image/ENTITY/ID"]`,
+		Use:   `image ["/admin/image/ENTITY/ID"]`,
 		Short: ``,
 		RunE:  func(cmd *cobra.Command, args []string) error { return tmp27.Run(c, args) },
 	}
@@ -797,7 +783,7 @@ func (cmd *ListEnumCommand) Run(c *client.Client, args []string) error {
 	if len(args) > 0 {
 		path = args[0]
 	} else {
-		path = "/nmg/enum/"
+		path = "/admin/enum/"
 	}
 	logger := goa.NewLogger(log.New(os.Stderr, "", log.LstdFlags))
 	ctx := goa.WithLogger(context.Background(), logger)
@@ -821,7 +807,7 @@ func (cmd *CreateEventCommand) Run(c *client.Client, args []string) error {
 	if len(args) > 0 {
 		path = args[0]
 	} else {
-		path = "/nmg/event/"
+		path = "/admin/event/"
 	}
 	var payload client.EventPayload
 	if cmd.Payload != "" {
@@ -854,7 +840,7 @@ func (cmd *DeleteEventCommand) Run(c *client.Client, args []string) error {
 	if len(args) > 0 {
 		path = args[0]
 	} else {
-		path = fmt.Sprintf("/nmg/event/%v", url.QueryEscape(cmd.ID))
+		path = fmt.Sprintf("/admin/event/%v", url.QueryEscape(cmd.ID))
 	}
 	logger := goa.NewLogger(log.New(os.Stderr, "", log.LstdFlags))
 	ctx := goa.WithLogger(context.Background(), logger)
@@ -880,7 +866,7 @@ func (cmd *ListEventCommand) Run(c *client.Client, args []string) error {
 	if len(args) > 0 {
 		path = args[0]
 	} else {
-		path = "/nmg/event/list"
+		path = "/admin/event/list"
 	}
 	logger := goa.NewLogger(log.New(os.Stderr, "", log.LstdFlags))
 	ctx := goa.WithLogger(context.Background(), logger)
@@ -904,7 +890,7 @@ func (cmd *ShowEventCommand) Run(c *client.Client, args []string) error {
 	if len(args) > 0 {
 		path = args[0]
 	} else {
-		path = fmt.Sprintf("/nmg/event/%v", url.QueryEscape(cmd.ID))
+		path = fmt.Sprintf("/admin/event/%v", url.QueryEscape(cmd.ID))
 	}
 	logger := goa.NewLogger(log.New(os.Stderr, "", log.LstdFlags))
 	ctx := goa.WithLogger(context.Background(), logger)
@@ -930,7 +916,7 @@ func (cmd *UpdateEventCommand) Run(c *client.Client, args []string) error {
 	if len(args) > 0 {
 		path = args[0]
 	} else {
-		path = fmt.Sprintf("/nmg/event/%v", url.QueryEscape(cmd.ID))
+		path = fmt.Sprintf("/admin/event/%v", url.QueryEscape(cmd.ID))
 	}
 	var payload client.EventPayload
 	if cmd.Payload != "" {
@@ -965,7 +951,7 @@ func (cmd *CreateGameCommand) Run(c *client.Client, args []string) error {
 	if len(args) > 0 {
 		path = args[0]
 	} else {
-		path = "/nmg/game/"
+		path = "/admin/game/"
 	}
 	var payload client.GamePayload
 	if cmd.Payload != "" {
@@ -998,7 +984,7 @@ func (cmd *DeleteGameCommand) Run(c *client.Client, args []string) error {
 	if len(args) > 0 {
 		path = args[0]
 	} else {
-		path = fmt.Sprintf("/nmg/game/%v", url.QueryEscape(cmd.ID))
+		path = fmt.Sprintf("/admin/game/%v", url.QueryEscape(cmd.ID))
 	}
 	logger := goa.NewLogger(log.New(os.Stderr, "", log.LstdFlags))
 	ctx := goa.WithLogger(context.Background(), logger)
@@ -1024,7 +1010,7 @@ func (cmd *ListGameCommand) Run(c *client.Client, args []string) error {
 	if len(args) > 0 {
 		path = args[0]
 	} else {
-		path = "/nmg/game/list"
+		path = "/admin/game/list"
 	}
 	logger := goa.NewLogger(log.New(os.Stderr, "", log.LstdFlags))
 	ctx := goa.WithLogger(context.Background(), logger)
@@ -1048,7 +1034,7 @@ func (cmd *ShowGameCommand) Run(c *client.Client, args []string) error {
 	if len(args) > 0 {
 		path = args[0]
 	} else {
-		path = fmt.Sprintf("/nmg/game/%v", url.QueryEscape(cmd.ID))
+		path = fmt.Sprintf("/admin/game/%v", url.QueryEscape(cmd.ID))
 	}
 	logger := goa.NewLogger(log.New(os.Stderr, "", log.LstdFlags))
 	ctx := goa.WithLogger(context.Background(), logger)
@@ -1074,7 +1060,7 @@ func (cmd *UpdateGameCommand) Run(c *client.Client, args []string) error {
 	if len(args) > 0 {
 		path = args[0]
 	} else {
-		path = fmt.Sprintf("/nmg/game/%v", url.QueryEscape(cmd.ID))
+		path = fmt.Sprintf("/admin/game/%v", url.QueryEscape(cmd.ID))
 	}
 	var payload client.GamePayload
 	if cmd.Payload != "" {
@@ -1109,7 +1095,7 @@ func (cmd *UploadImageCommand) Run(c *client.Client, args []string) error {
 	if len(args) > 0 {
 		path = args[0]
 	} else {
-		path = fmt.Sprintf("/nmg/image/%v/%v", url.QueryEscape(cmd.Entity), url.QueryEscape(cmd.ID))
+		path = fmt.Sprintf("/admin/image/%v/%v", url.QueryEscape(cmd.Entity), url.QueryEscape(cmd.ID))
 	}
 	logger := goa.NewLogger(log.New(os.Stderr, "", log.LstdFlags))
 	ctx := goa.WithLogger(context.Background(), logger)
@@ -1137,7 +1123,7 @@ func (cmd *CreateSportCommand) Run(c *client.Client, args []string) error {
 	if len(args) > 0 {
 		path = args[0]
 	} else {
-		path = "/nmg/sport/"
+		path = "/admin/sport/"
 	}
 	var payload client.SportPayload
 	if cmd.Payload != "" {
@@ -1170,7 +1156,7 @@ func (cmd *DeleteSportCommand) Run(c *client.Client, args []string) error {
 	if len(args) > 0 {
 		path = args[0]
 	} else {
-		path = fmt.Sprintf("/nmg/sport/%v", url.QueryEscape(cmd.ID))
+		path = fmt.Sprintf("/admin/sport/%v", url.QueryEscape(cmd.ID))
 	}
 	logger := goa.NewLogger(log.New(os.Stderr, "", log.LstdFlags))
 	ctx := goa.WithLogger(context.Background(), logger)
@@ -1196,7 +1182,7 @@ func (cmd *ListSportCommand) Run(c *client.Client, args []string) error {
 	if len(args) > 0 {
 		path = args[0]
 	} else {
-		path = "/nmg/sport/list"
+		path = "/admin/sport/list"
 	}
 	logger := goa.NewLogger(log.New(os.Stderr, "", log.LstdFlags))
 	ctx := goa.WithLogger(context.Background(), logger)
@@ -1220,7 +1206,7 @@ func (cmd *ShowSportCommand) Run(c *client.Client, args []string) error {
 	if len(args) > 0 {
 		path = args[0]
 	} else {
-		path = fmt.Sprintf("/nmg/sport/%v", url.QueryEscape(cmd.ID))
+		path = fmt.Sprintf("/admin/sport/%v", url.QueryEscape(cmd.ID))
 	}
 	logger := goa.NewLogger(log.New(os.Stderr, "", log.LstdFlags))
 	ctx := goa.WithLogger(context.Background(), logger)
@@ -1246,7 +1232,7 @@ func (cmd *UpdateSportCommand) Run(c *client.Client, args []string) error {
 	if len(args) > 0 {
 		path = args[0]
 	} else {
-		path = fmt.Sprintf("/nmg/sport/%v", url.QueryEscape(cmd.ID))
+		path = fmt.Sprintf("/admin/sport/%v", url.QueryEscape(cmd.ID))
 	}
 	var payload client.SportPayload
 	if cmd.Payload != "" {
@@ -1281,7 +1267,7 @@ func (cmd *CreateTeamCommand) Run(c *client.Client, args []string) error {
 	if len(args) > 0 {
 		path = args[0]
 	} else {
-		path = "/nmg/team/"
+		path = "/admin/team/"
 	}
 	var payload client.TeamPayload
 	if cmd.Payload != "" {
@@ -1314,7 +1300,7 @@ func (cmd *DeleteTeamCommand) Run(c *client.Client, args []string) error {
 	if len(args) > 0 {
 		path = args[0]
 	} else {
-		path = fmt.Sprintf("/nmg/team/%v", url.QueryEscape(cmd.ID))
+		path = fmt.Sprintf("/admin/team/%v", url.QueryEscape(cmd.ID))
 	}
 	logger := goa.NewLogger(log.New(os.Stderr, "", log.LstdFlags))
 	ctx := goa.WithLogger(context.Background(), logger)
@@ -1340,7 +1326,7 @@ func (cmd *ListTeamCommand) Run(c *client.Client, args []string) error {
 	if len(args) > 0 {
 		path = args[0]
 	} else {
-		path = "/nmg/team/list"
+		path = "/admin/team/list"
 	}
 	logger := goa.NewLogger(log.New(os.Stderr, "", log.LstdFlags))
 	ctx := goa.WithLogger(context.Background(), logger)
@@ -1364,7 +1350,7 @@ func (cmd *ShowTeamCommand) Run(c *client.Client, args []string) error {
 	if len(args) > 0 {
 		path = args[0]
 	} else {
-		path = fmt.Sprintf("/nmg/team/%v", url.QueryEscape(cmd.ID))
+		path = fmt.Sprintf("/admin/team/%v", url.QueryEscape(cmd.ID))
 	}
 	logger := goa.NewLogger(log.New(os.Stderr, "", log.LstdFlags))
 	ctx := goa.WithLogger(context.Background(), logger)
@@ -1390,7 +1376,7 @@ func (cmd *UpdateTeamCommand) Run(c *client.Client, args []string) error {
 	if len(args) > 0 {
 		path = args[0]
 	} else {
-		path = fmt.Sprintf("/nmg/team/%v", url.QueryEscape(cmd.ID))
+		path = fmt.Sprintf("/admin/team/%v", url.QueryEscape(cmd.ID))
 	}
 	var payload client.TeamPayload
 	if cmd.Payload != "" {
@@ -1425,7 +1411,7 @@ func (cmd *CreateTeamOpeningConfigCommand) Run(c *client.Client, args []string) 
 	if len(args) > 0 {
 		path = args[0]
 	} else {
-		path = "/nmg/teamOpeningConfig/"
+		path = "/admin/teamOpeningConfig/"
 	}
 	var payload client.TeamOpeningConfigPayload
 	if cmd.Payload != "" {
@@ -1458,7 +1444,7 @@ func (cmd *DeleteTeamOpeningConfigCommand) Run(c *client.Client, args []string) 
 	if len(args) > 0 {
 		path = args[0]
 	} else {
-		path = fmt.Sprintf("/nmg/teamOpeningConfig/%v", url.QueryEscape(cmd.ID))
+		path = fmt.Sprintf("/admin/teamOpeningConfig/%v", url.QueryEscape(cmd.ID))
 	}
 	logger := goa.NewLogger(log.New(os.Stderr, "", log.LstdFlags))
 	ctx := goa.WithLogger(context.Background(), logger)
@@ -1484,7 +1470,7 @@ func (cmd *ListTeamOpeningConfigCommand) Run(c *client.Client, args []string) er
 	if len(args) > 0 {
 		path = args[0]
 	} else {
-		path = "/nmg/teamOpeningConfig/list"
+		path = "/admin/teamOpeningConfig/list"
 	}
 	logger := goa.NewLogger(log.New(os.Stderr, "", log.LstdFlags))
 	ctx := goa.WithLogger(context.Background(), logger)
@@ -1508,7 +1494,7 @@ func (cmd *ShowTeamOpeningConfigCommand) Run(c *client.Client, args []string) er
 	if len(args) > 0 {
 		path = args[0]
 	} else {
-		path = fmt.Sprintf("/nmg/teamOpeningConfig/%v", url.QueryEscape(cmd.ID))
+		path = fmt.Sprintf("/admin/teamOpeningConfig/%v", url.QueryEscape(cmd.ID))
 	}
 	logger := goa.NewLogger(log.New(os.Stderr, "", log.LstdFlags))
 	ctx := goa.WithLogger(context.Background(), logger)
@@ -1534,7 +1520,7 @@ func (cmd *UpdateTeamOpeningConfigCommand) Run(c *client.Client, args []string) 
 	if len(args) > 0 {
 		path = args[0]
 	} else {
-		path = fmt.Sprintf("/nmg/teamOpeningConfig/%v", url.QueryEscape(cmd.ID))
+		path = fmt.Sprintf("/admin/teamOpeningConfig/%v", url.QueryEscape(cmd.ID))
 	}
 	var payload client.TeamOpeningConfigPayload
 	if cmd.Payload != "" {

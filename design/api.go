@@ -10,7 +10,7 @@ var _ = API("nmgapi", func() {
 	Description("api for mobile & web clients")
 	Host("localhost:8080") // millenniumgames-fa7da.appspot.com
 	Scheme("http")
-	BasePath("/nmg")
+	BasePath("/admin")
 	TermsOfService("nmg tos")
 	License(func() { // API Licensing information
 		Name("Private (no license offered)")

@@ -10,13 +10,13 @@ import (
 	"google.golang.org/appengine/datastore"
 )
 
-type EventPersist struct{}
+type EventModel struct{}
 
-func (m *EventPersist) AllocateID(ctx *Context) error {
+func (m *EventModel) AllocateID(ctx *Context) error {
 	return AllocateSequentialID(ctx)
 }
 
-func (m *EventPersist) GetCtx(ctx context.Context) *Context {
+func (m *EventModel) GetCtx(ctx context.Context) *Context {
 	switch t := ctx.(type) {
 	case *app.CreateEventContext:
 		return &Context{
@@ -54,11 +54,11 @@ func (m *EventPersist) GetCtx(ctx context.Context) *Context {
 	}
 }
 
-func (m *EventPersist) GetModelInstance() interface{} {
+func (m *EventModel) GetModelInstance() interface{} {
 	return &app.EventMedia{}
 }
 
-func (m *EventPersist) GetModelCollection(ctx *Context) ([]*datastore.Key, interface{}, error) {
+func (m *EventModel) GetModelCollection(ctx *Context) ([]*datastore.Key, interface{}, error) {
 	c := []app.EventMedia{}
 	keys, err := datastore.NewQuery(ctx.Kind).GetAll(ctx.GaeCtx, &c)
 
@@ -69,7 +69,7 @@ func (m *EventPersist) GetModelCollection(ctx *Context) ([]*datastore.Key, inter
 	return keys, c, nil
 }
 
-func (m *EventPersist) SetModel(ctx *Context) error {
+func (m *EventModel) SetModel(ctx *Context) error {
 	rec := &app.EventMedia{}
 
 	copier.Copy(rec, ctx.Payload)

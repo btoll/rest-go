@@ -65,6 +65,10 @@ var _ = Resource("Team", func() {
 var TeamPayload = Type("TeamPayload", func() {
 	Description("Team Description.")
 
+	Attribute("id", String, "ID", func() {
+		Metadata("struct:tag:datastore", "id,noindex")
+		Metadata("struct:tag:json", "id,omitempty")
+	})
 	Attribute("name", String, "Team name", func() {
 		Metadata("struct:tag:datastore", "name,noindex")
 		Metadata("struct:tag:json", "name,omitempty")
@@ -92,20 +96,23 @@ var TeamMedia = MediaType("application/nmgapi.teamentity", func() {
 	Reference(TeamPayload)
 
 	Attributes(func() {
-		Attribute("id", String, "ID")
+		Attribute("id")
 		Attribute("name")
 		Attribute("sportId")
 		Attribute("homeTownId")
 		Attribute("shortName")
+		Attribute("currentWinRecord")
 
-		Required("id", "name", "sportId", "homeTownId", "shortName")
+		Required("id", "name", "sportId", "homeTownId", "shortName", "currentWinRecord")
 	})
 
 	View("default", func() {
+		Attribute("id")
 		Attribute("name")
 		Attribute("sportId")
 		Attribute("homeTownId")
 		Attribute("shortName")
+		Attribute("currentWinRecord")
 	})
 
 	View("tiny", func() {

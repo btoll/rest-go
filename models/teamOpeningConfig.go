@@ -10,13 +10,13 @@ import (
 	"google.golang.org/appengine/datastore"
 )
 
-type TeamOpeningConfigPersist struct{}
+type TeamOpeningConfigModel struct{}
 
-func (m *TeamOpeningConfigPersist) AllocateID(ctx *Context) error {
+func (m *TeamOpeningConfigModel) AllocateID(ctx *Context) error {
 	return AllocateSequentialID(ctx)
 }
 
-func (m *TeamOpeningConfigPersist) GetCtx(ctx context.Context) *Context {
+func (m *TeamOpeningConfigModel) GetCtx(ctx context.Context) *Context {
 	switch t := ctx.(type) {
 	case *app.CreateTeamOpeningConfigContext:
 		return &Context{
@@ -54,11 +54,11 @@ func (m *TeamOpeningConfigPersist) GetCtx(ctx context.Context) *Context {
 	}
 }
 
-func (m *TeamOpeningConfigPersist) GetModelInstance() interface{} {
+func (m *TeamOpeningConfigModel) GetModelInstance() interface{} {
 	return &app.TeamOpeningConfigMedia{}
 }
 
-func (m *TeamOpeningConfigPersist) GetModelCollection(ctx *Context) ([]*datastore.Key, interface{}, error) {
+func (m *TeamOpeningConfigModel) GetModelCollection(ctx *Context) ([]*datastore.Key, interface{}, error) {
 	c := []app.TeamOpeningConfigMedia{}
 	keys, err := datastore.NewQuery(ctx.Kind).GetAll(ctx.GaeCtx, &c)
 
@@ -69,7 +69,7 @@ func (m *TeamOpeningConfigPersist) GetModelCollection(ctx *Context) ([]*datastor
 	return keys, c, nil
 }
 
-func (m *TeamOpeningConfigPersist) SetModel(ctx *Context) error {
+func (m *TeamOpeningConfigModel) SetModel(ctx *Context) error {
 	rec := &app.TeamOpeningConfigMedia{}
 
 	copier.Copy(rec, ctx.Payload)

@@ -21,7 +21,7 @@ import (
 // CreateGamePath computes a request path to the create action of Game.
 func CreateGamePath() string {
 
-	return fmt.Sprintf("/nmg/game/")
+	return fmt.Sprintf("/admin/game/")
 }
 
 // Create a new game.
@@ -65,7 +65,7 @@ func (c *Client) NewCreateGameRequest(ctx context.Context, path string, payload 
 func DeleteGamePath(id string) string {
 	param0 := id
 
-	return fmt.Sprintf("/nmg/game/%s", param0)
+	return fmt.Sprintf("/admin/game/%s", param0)
 }
 
 // Delete a game by id.
@@ -94,7 +94,7 @@ func (c *Client) NewDeleteGameRequest(ctx context.Context, path string) (*http.R
 // ListGamePath computes a request path to the list action of Game.
 func ListGamePath() string {
 
-	return fmt.Sprintf("/nmg/game/list")
+	return fmt.Sprintf("/admin/game/list")
 }
 
 // Get all games
@@ -124,7 +124,7 @@ func (c *Client) NewListGameRequest(ctx context.Context, path string) (*http.Req
 func ShowGamePath(id string) string {
 	param0 := id
 
-	return fmt.Sprintf("/nmg/game/%s", param0)
+	return fmt.Sprintf("/admin/game/%s", param0)
 }
 
 // Get a game by id.
@@ -154,7 +154,7 @@ func (c *Client) NewShowGameRequest(ctx context.Context, path string) (*http.Req
 func UpdateGamePath(id string) string {
 	param0 := id
 
-	return fmt.Sprintf("/nmg/game/%s", param0)
+	return fmt.Sprintf("/admin/game/%s", param0)
 }
 
 // Update a game by id.

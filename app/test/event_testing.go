@@ -60,7 +60,7 @@ func CreateEventOK(t goatest.TInterface, ctx context.Context, service *goa.Servi
 	// Setup request context
 	rw := httptest.NewRecorder()
 	u := &url.URL{
-		Path: fmt.Sprintf("/nmg/event/"),
+		Path: fmt.Sprintf("/admin/event/"),
 	}
 	req, _err := http.NewRequest("POST", u.String(), nil)
 	if _err != nil {
@@ -140,7 +140,7 @@ func CreateEventOKTiny(t goatest.TInterface, ctx context.Context, service *goa.S
 	// Setup request context
 	rw := httptest.NewRecorder()
 	u := &url.URL{
-		Path: fmt.Sprintf("/nmg/event/"),
+		Path: fmt.Sprintf("/admin/event/"),
 	}
 	req, _err := http.NewRequest("POST", u.String(), nil)
 	if _err != nil {
@@ -209,7 +209,7 @@ func DeleteEventNoContent(t goatest.TInterface, ctx context.Context, service *go
 	// Setup request context
 	rw := httptest.NewRecorder()
 	u := &url.URL{
-		Path: fmt.Sprintf("/nmg/event/%v", id),
+		Path: fmt.Sprintf("/admin/event/%v", id),
 	}
 	req, err := http.NewRequest("DELETE", u.String(), nil)
 	if err != nil {
@@ -266,7 +266,7 @@ func DeleteEventOK(t goatest.TInterface, ctx context.Context, service *goa.Servi
 	// Setup request context
 	rw := httptest.NewRecorder()
 	u := &url.URL{
-		Path: fmt.Sprintf("/nmg/event/%v", id),
+		Path: fmt.Sprintf("/admin/event/%v", id),
 	}
 	req, err := http.NewRequest("DELETE", u.String(), nil)
 	if err != nil {
@@ -323,7 +323,7 @@ func ListEventOK(t goatest.TInterface, ctx context.Context, service *goa.Service
 	// Setup request context
 	rw := httptest.NewRecorder()
 	u := &url.URL{
-		Path: fmt.Sprintf("/nmg/event/list"),
+		Path: fmt.Sprintf("/admin/event/list"),
 	}
 	req, err := http.NewRequest("GET", u.String(), nil)
 	if err != nil {
@@ -379,7 +379,7 @@ func ShowEventOK(t goatest.TInterface, ctx context.Context, service *goa.Service
 	// Setup request context
 	rw := httptest.NewRecorder()
 	u := &url.URL{
-		Path: fmt.Sprintf("/nmg/event/%v", id),
+		Path: fmt.Sprintf("/admin/event/%v", id),
 	}
 	req, err := http.NewRequest("GET", u.String(), nil)
 	if err != nil {
@@ -448,7 +448,7 @@ func ShowEventOKTiny(t goatest.TInterface, ctx context.Context, service *goa.Ser
 	// Setup request context
 	rw := httptest.NewRecorder()
 	u := &url.URL{
-		Path: fmt.Sprintf("/nmg/event/%v", id),
+		Path: fmt.Sprintf("/admin/event/%v", id),
 	}
 	req, err := http.NewRequest("GET", u.String(), nil)
 	if err != nil {
@@ -528,7 +528,7 @@ func UpdateEventNoContent(t goatest.TInterface, ctx context.Context, service *go
 	// Setup request context
 	rw := httptest.NewRecorder()
 	u := &url.URL{
-		Path: fmt.Sprintf("/nmg/event/%v", id),
+		Path: fmt.Sprintf("/admin/event/%v", id),
 	}
 	req, _err := http.NewRequest("PUT", u.String(), nil)
 	if _err != nil {
@@ -597,7 +597,7 @@ func UpdateEventOK(t goatest.TInterface, ctx context.Context, service *goa.Servi
 	// Setup request context
 	rw := httptest.NewRecorder()
 	u := &url.URL{
-		Path: fmt.Sprintf("/nmg/event/%v", id),
+		Path: fmt.Sprintf("/admin/event/%v", id),
 	}
 	req, _err := http.NewRequest("PUT", u.String(), nil)
 	if _err != nil {

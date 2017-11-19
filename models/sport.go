@@ -10,14 +10,14 @@ import (
 	"google.golang.org/appengine/datastore"
 )
 
-type SportPersist struct{}
+type SportModel struct{}
 
-func (m *SportPersist) AllocateID(ctx *Context) error {
+func (m *SportModel) AllocateID(ctx *Context) error {
 	ctx.ID = ctx.Payload.(*app.SportPayload).Name
 	return nil
 }
 
-func (m *SportPersist) GetCtx(ctx context.Context) *Context {
+func (m *SportModel) GetCtx(ctx context.Context) *Context {
 	switch t := ctx.(type) {
 	case *app.CreateSportContext:
 		return &Context{
@@ -55,11 +55,11 @@ func (m *SportPersist) GetCtx(ctx context.Context) *Context {
 	}
 }
 
-func (m *SportPersist) GetModelInstance() interface{} {
+func (m *SportModel) GetModelInstance() interface{} {
 	return &app.SportMedia{}
 }
 
-func (m *SportPersist) GetModelCollection(ctx *Context) ([]*datastore.Key, interface{}, error) {
+func (m *SportModel) GetModelCollection(ctx *Context) ([]*datastore.Key, interface{}, error) {
 	c := []app.SportMedia{}
 	keys, err := datastore.NewQuery(ctx.Kind).GetAll(ctx.GaeCtx, &c)
 
@@ -70,7 +70,7 @@ func (m *SportPersist) GetModelCollection(ctx *Context) ([]*datastore.Key, inter
 	return keys, c, nil
 }
 
-func (m *SportPersist) SetModel(ctx *Context) error {
+func (m *SportModel) SetModel(ctx *Context) error {
 	rec := &app.SportMedia{}
 
 	copier.Copy(rec, ctx.Payload)

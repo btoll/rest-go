@@ -21,7 +21,7 @@ import (
 // CreateEventPath computes a request path to the create action of Event.
 func CreateEventPath() string {
 
-	return fmt.Sprintf("/nmg/event/")
+	return fmt.Sprintf("/admin/event/")
 }
 
 // Create a new sports event.
@@ -65,7 +65,7 @@ func (c *Client) NewCreateEventRequest(ctx context.Context, path string, payload
 func DeleteEventPath(id string) string {
 	param0 := id
 
-	return fmt.Sprintf("/nmg/event/%s", param0)
+	return fmt.Sprintf("/admin/event/%s", param0)
 }
 
 // Delete a sports event by id.
@@ -94,7 +94,7 @@ func (c *Client) NewDeleteEventRequest(ctx context.Context, path string) (*http.
 // ListEventPath computes a request path to the list action of Event.
 func ListEventPath() string {
 
-	return fmt.Sprintf("/nmg/event/list")
+	return fmt.Sprintf("/admin/event/list")
 }
 
 // Get all events
@@ -124,7 +124,7 @@ func (c *Client) NewListEventRequest(ctx context.Context, path string) (*http.Re
 func ShowEventPath(id string) string {
 	param0 := id
 
-	return fmt.Sprintf("/nmg/event/%s", param0)
+	return fmt.Sprintf("/admin/event/%s", param0)
 }
 
 // Get a sports event by id.
@@ -154,7 +154,7 @@ func (c *Client) NewShowEventRequest(ctx context.Context, path string) (*http.Re
 func UpdateEventPath(id string) string {
 	param0 := id
 
-	return fmt.Sprintf("/nmg/event/%s", param0)
+	return fmt.Sprintf("/admin/event/%s", param0)
 }
 
 // Update a sports event by id.

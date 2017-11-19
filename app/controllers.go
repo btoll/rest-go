@@ -42,7 +42,7 @@ type EnumController interface {
 func MountEnumController(service *goa.Service, ctrl EnumController) {
 	initService(service)
 	var h goa.Handler
-	service.Mux.Handle("OPTIONS", "/nmg/enum/", ctrl.MuxHandler("preflight", handleEnumOrigin(cors.HandlePreflight()), nil))
+	service.Mux.Handle("OPTIONS", "/admin/enum/", ctrl.MuxHandler("preflight", handleEnumOrigin(cors.HandlePreflight()), nil))
 
 	h = func(ctx context.Context, rw http.ResponseWriter, req *http.Request) error {
 		// Check if there was an error loading the request
@@ -57,8 +57,8 @@ func MountEnumController(service *goa.Service, ctrl EnumController) {
 		return ctrl.List(rctx)
 	}
 	h = handleEnumOrigin(h)
-	service.Mux.Handle("GET", "/nmg/enum/", ctrl.MuxHandler("list", h, nil))
-	service.LogInfo("mount", "ctrl", "Enum", "action", "List", "route", "GET /nmg/enum/")
+	service.Mux.Handle("GET", "/admin/enum/", ctrl.MuxHandler("list", h, nil))
+	service.LogInfo("mount", "ctrl", "Enum", "action", "List", "route", "GET /admin/enum/")
 }
 
 // handleEnumOrigin applies the CORS response headers corresponding to the origin.
@@ -101,9 +101,9 @@ type EventController interface {
 func MountEventController(service *goa.Service, ctrl EventController) {
 	initService(service)
 	var h goa.Handler
-	service.Mux.Handle("OPTIONS", "/nmg/event/", ctrl.MuxHandler("preflight", handleEventOrigin(cors.HandlePreflight()), nil))
-	service.Mux.Handle("OPTIONS", "/nmg/event/:id", ctrl.MuxHandler("preflight", handleEventOrigin(cors.HandlePreflight()), nil))
-	service.Mux.Handle("OPTIONS", "/nmg/event/list", ctrl.MuxHandler("preflight", handleEventOrigin(cors.HandlePreflight()), nil))
+	service.Mux.Handle("OPTIONS", "/admin/event/", ctrl.MuxHandler("preflight", handleEventOrigin(cors.HandlePreflight()), nil))
+	service.Mux.Handle("OPTIONS", "/admin/event/:id", ctrl.MuxHandler("preflight", handleEventOrigin(cors.HandlePreflight()), nil))
+	service.Mux.Handle("OPTIONS", "/admin/event/list", ctrl.MuxHandler("preflight", handleEventOrigin(cors.HandlePreflight()), nil))
 
 	h = func(ctx context.Context, rw http.ResponseWriter, req *http.Request) error {
 		// Check if there was an error loading the request
@@ -124,8 +124,8 @@ func MountEventController(service *goa.Service, ctrl EventController) {
 		return ctrl.Create(rctx)
 	}
 	h = handleEventOrigin(h)
-	service.Mux.Handle("POST", "/nmg/event/", ctrl.MuxHandler("create", h, unmarshalCreateEventPayload))
-	service.LogInfo("mount", "ctrl", "Event", "action", "Create", "route", "POST /nmg/event/")
+	service.Mux.Handle("POST", "/admin/event/", ctrl.MuxHandler("create", h, unmarshalCreateEventPayload))
+	service.LogInfo("mount", "ctrl", "Event", "action", "Create", "route", "POST /admin/event/")
 
 	h = func(ctx context.Context, rw http.ResponseWriter, req *http.Request) error {
 		// Check if there was an error loading the request
@@ -140,8 +140,8 @@ func MountEventController(service *goa.Service, ctrl EventController) {
 		return ctrl.Delete(rctx)
 	}
 	h = handleEventOrigin(h)
-	service.Mux.Handle("DELETE", "/nmg/event/:id", ctrl.MuxHandler("delete", h, nil))
-	service.LogInfo("mount", "ctrl", "Event", "action", "Delete", "route", "DELETE /nmg/event/:id")
+	service.Mux.Handle("DELETE", "/admin/event/:id", ctrl.MuxHandler("delete", h, nil))
+	service.LogInfo("mount", "ctrl", "Event", "action", "Delete", "route", "DELETE /admin/event/:id")
 
 	h = func(ctx context.Context, rw http.ResponseWriter, req *http.Request) error {
 		// Check if there was an error loading the request
@@ -156,8 +156,8 @@ func MountEventController(service *goa.Service, ctrl EventController) {
 		return ctrl.List(rctx)
 	}
 	h = handleEventOrigin(h)
-	service.Mux.Handle("GET", "/nmg/event/list", ctrl.MuxHandler("list", h, nil))
-	service.LogInfo("mount", "ctrl", "Event", "action", "List", "route", "GET /nmg/event/list")
+	service.Mux.Handle("GET", "/admin/event/list", ctrl.MuxHandler("list", h, nil))
+	service.LogInfo("mount", "ctrl", "Event", "action", "List", "route", "GET /admin/event/list")
 
 	h = func(ctx context.Context, rw http.ResponseWriter, req *http.Request) error {
 		// Check if there was an error loading the request
@@ -172,8 +172,8 @@ func MountEventController(service *goa.Service, ctrl EventController) {
 		return ctrl.Show(rctx)
 	}
 	h = handleEventOrigin(h)
-	service.Mux.Handle("GET", "/nmg/event/:id", ctrl.MuxHandler("show", h, nil))
-	service.LogInfo("mount", "ctrl", "Event", "action", "Show", "route", "GET /nmg/event/:id")
+	service.Mux.Handle("GET", "/admin/event/:id", ctrl.MuxHandler("show", h, nil))
+	service.LogInfo("mount", "ctrl", "Event", "action", "Show", "route", "GET /admin/event/:id")
 
 	h = func(ctx context.Context, rw http.ResponseWriter, req *http.Request) error {
 		// Check if there was an error loading the request
@@ -194,8 +194,8 @@ func MountEventController(service *goa.Service, ctrl EventController) {
 		return ctrl.Update(rctx)
 	}
 	h = handleEventOrigin(h)
-	service.Mux.Handle("PUT", "/nmg/event/:id", ctrl.MuxHandler("update", h, unmarshalUpdateEventPayload))
-	service.LogInfo("mount", "ctrl", "Event", "action", "Update", "route", "PUT /nmg/event/:id")
+	service.Mux.Handle("PUT", "/admin/event/:id", ctrl.MuxHandler("update", h, unmarshalUpdateEventPayload))
+	service.LogInfo("mount", "ctrl", "Event", "action", "Update", "route", "PUT /admin/event/:id")
 }
 
 // handleEventOrigin applies the CORS response headers corresponding to the origin.
@@ -268,9 +268,9 @@ type GameController interface {
 func MountGameController(service *goa.Service, ctrl GameController) {
 	initService(service)
 	var h goa.Handler
-	service.Mux.Handle("OPTIONS", "/nmg/game/", ctrl.MuxHandler("preflight", handleGameOrigin(cors.HandlePreflight()), nil))
-	service.Mux.Handle("OPTIONS", "/nmg/game/:id", ctrl.MuxHandler("preflight", handleGameOrigin(cors.HandlePreflight()), nil))
-	service.Mux.Handle("OPTIONS", "/nmg/game/list", ctrl.MuxHandler("preflight", handleGameOrigin(cors.HandlePreflight()), nil))
+	service.Mux.Handle("OPTIONS", "/admin/game/", ctrl.MuxHandler("preflight", handleGameOrigin(cors.HandlePreflight()), nil))
+	service.Mux.Handle("OPTIONS", "/admin/game/:id", ctrl.MuxHandler("preflight", handleGameOrigin(cors.HandlePreflight()), nil))
+	service.Mux.Handle("OPTIONS", "/admin/game/list", ctrl.MuxHandler("preflight", handleGameOrigin(cors.HandlePreflight()), nil))
 
 	h = func(ctx context.Context, rw http.ResponseWriter, req *http.Request) error {
 		// Check if there was an error loading the request
@@ -291,8 +291,8 @@ func MountGameController(service *goa.Service, ctrl GameController) {
 		return ctrl.Create(rctx)
 	}
 	h = handleGameOrigin(h)
-	service.Mux.Handle("POST", "/nmg/game/", ctrl.MuxHandler("create", h, unmarshalCreateGamePayload))
-	service.LogInfo("mount", "ctrl", "Game", "action", "Create", "route", "POST /nmg/game/")
+	service.Mux.Handle("POST", "/admin/game/", ctrl.MuxHandler("create", h, unmarshalCreateGamePayload))
+	service.LogInfo("mount", "ctrl", "Game", "action", "Create", "route", "POST /admin/game/")
 
 	h = func(ctx context.Context, rw http.ResponseWriter, req *http.Request) error {
 		// Check if there was an error loading the request
@@ -307,8 +307,8 @@ func MountGameController(service *goa.Service, ctrl GameController) {
 		return ctrl.Delete(rctx)
 	}
 	h = handleGameOrigin(h)
-	service.Mux.Handle("DELETE", "/nmg/game/:id", ctrl.MuxHandler("delete", h, nil))
-	service.LogInfo("mount", "ctrl", "Game", "action", "Delete", "route", "DELETE /nmg/game/:id")
+	service.Mux.Handle("DELETE", "/admin/game/:id", ctrl.MuxHandler("delete", h, nil))
+	service.LogInfo("mount", "ctrl", "Game", "action", "Delete", "route", "DELETE /admin/game/:id")
 
 	h = func(ctx context.Context, rw http.ResponseWriter, req *http.Request) error {
 		// Check if there was an error loading the request
@@ -323,8 +323,8 @@ func MountGameController(service *goa.Service, ctrl GameController) {
 		return ctrl.List(rctx)
 	}
 	h = handleGameOrigin(h)
-	service.Mux.Handle("GET", "/nmg/game/list", ctrl.MuxHandler("list", h, nil))
-	service.LogInfo("mount", "ctrl", "Game", "action", "List", "route", "GET /nmg/game/list")
+	service.Mux.Handle("GET", "/admin/game/list", ctrl.MuxHandler("list", h, nil))
+	service.LogInfo("mount", "ctrl", "Game", "action", "List", "route", "GET /admin/game/list")
 
 	h = func(ctx context.Context, rw http.ResponseWriter, req *http.Request) error {
 		// Check if there was an error loading the request
@@ -339,8 +339,8 @@ func MountGameController(service *goa.Service, ctrl GameController) {
 		return ctrl.Show(rctx)
 	}
 	h = handleGameOrigin(h)
-	service.Mux.Handle("GET", "/nmg/game/:id", ctrl.MuxHandler("show", h, nil))
-	service.LogInfo("mount", "ctrl", "Game", "action", "Show", "route", "GET /nmg/game/:id")
+	service.Mux.Handle("GET", "/admin/game/:id", ctrl.MuxHandler("show", h, nil))
+	service.LogInfo("mount", "ctrl", "Game", "action", "Show", "route", "GET /admin/game/:id")
 
 	h = func(ctx context.Context, rw http.ResponseWriter, req *http.Request) error {
 		// Check if there was an error loading the request
@@ -361,8 +361,8 @@ func MountGameController(service *goa.Service, ctrl GameController) {
 		return ctrl.Update(rctx)
 	}
 	h = handleGameOrigin(h)
-	service.Mux.Handle("PUT", "/nmg/game/:id", ctrl.MuxHandler("update", h, unmarshalUpdateGamePayload))
-	service.LogInfo("mount", "ctrl", "Game", "action", "Update", "route", "PUT /nmg/game/:id")
+	service.Mux.Handle("PUT", "/admin/game/:id", ctrl.MuxHandler("update", h, unmarshalUpdateGamePayload))
+	service.LogInfo("mount", "ctrl", "Game", "action", "Update", "route", "PUT /admin/game/:id")
 }
 
 // handleGameOrigin applies the CORS response headers corresponding to the origin.
@@ -431,7 +431,7 @@ type ImageController interface {
 func MountImageController(service *goa.Service, ctrl ImageController) {
 	initService(service)
 	var h goa.Handler
-	service.Mux.Handle("OPTIONS", "/nmg/image/:entity/:id", ctrl.MuxHandler("preflight", handleImageOrigin(cors.HandlePreflight()), nil))
+	service.Mux.Handle("OPTIONS", "/admin/image/:entity/:id", ctrl.MuxHandler("preflight", handleImageOrigin(cors.HandlePreflight()), nil))
 
 	h = func(ctx context.Context, rw http.ResponseWriter, req *http.Request) error {
 		// Check if there was an error loading the request
@@ -446,8 +446,8 @@ func MountImageController(service *goa.Service, ctrl ImageController) {
 		return ctrl.Upload(rctx)
 	}
 	h = handleImageOrigin(h)
-	service.Mux.Handle("POST", "/nmg/image/:entity/:id", ctrl.MuxHandler("upload", h, nil))
-	service.LogInfo("mount", "ctrl", "Image", "action", "Upload", "route", "POST /nmg/image/:entity/:id")
+	service.Mux.Handle("POST", "/admin/image/:entity/:id", ctrl.MuxHandler("upload", h, nil))
+	service.LogInfo("mount", "ctrl", "Image", "action", "Upload", "route", "POST /admin/image/:entity/:id")
 }
 
 // handleImageOrigin applies the CORS response headers corresponding to the origin.
@@ -490,9 +490,9 @@ type SportController interface {
 func MountSportController(service *goa.Service, ctrl SportController) {
 	initService(service)
 	var h goa.Handler
-	service.Mux.Handle("OPTIONS", "/nmg/sport/", ctrl.MuxHandler("preflight", handleSportOrigin(cors.HandlePreflight()), nil))
-	service.Mux.Handle("OPTIONS", "/nmg/sport/:id", ctrl.MuxHandler("preflight", handleSportOrigin(cors.HandlePreflight()), nil))
-	service.Mux.Handle("OPTIONS", "/nmg/sport/list", ctrl.MuxHandler("preflight", handleSportOrigin(cors.HandlePreflight()), nil))
+	service.Mux.Handle("OPTIONS", "/admin/sport/", ctrl.MuxHandler("preflight", handleSportOrigin(cors.HandlePreflight()), nil))
+	service.Mux.Handle("OPTIONS", "/admin/sport/:id", ctrl.MuxHandler("preflight", handleSportOrigin(cors.HandlePreflight()), nil))
+	service.Mux.Handle("OPTIONS", "/admin/sport/list", ctrl.MuxHandler("preflight", handleSportOrigin(cors.HandlePreflight()), nil))
 
 	h = func(ctx context.Context, rw http.ResponseWriter, req *http.Request) error {
 		// Check if there was an error loading the request
@@ -513,8 +513,8 @@ func MountSportController(service *goa.Service, ctrl SportController) {
 		return ctrl.Create(rctx)
 	}
 	h = handleSportOrigin(h)
-	service.Mux.Handle("POST", "/nmg/sport/", ctrl.MuxHandler("create", h, unmarshalCreateSportPayload))
-	service.LogInfo("mount", "ctrl", "Sport", "action", "Create", "route", "POST /nmg/sport/")
+	service.Mux.Handle("POST", "/admin/sport/", ctrl.MuxHandler("create", h, unmarshalCreateSportPayload))
+	service.LogInfo("mount", "ctrl", "Sport", "action", "Create", "route", "POST /admin/sport/")
 
 	h = func(ctx context.Context, rw http.ResponseWriter, req *http.Request) error {
 		// Check if there was an error loading the request
@@ -529,8 +529,8 @@ func MountSportController(service *goa.Service, ctrl SportController) {
 		return ctrl.Delete(rctx)
 	}
 	h = handleSportOrigin(h)
-	service.Mux.Handle("DELETE", "/nmg/sport/:id", ctrl.MuxHandler("delete", h, nil))
-	service.LogInfo("mount", "ctrl", "Sport", "action", "Delete", "route", "DELETE /nmg/sport/:id")
+	service.Mux.Handle("DELETE", "/admin/sport/:id", ctrl.MuxHandler("delete", h, nil))
+	service.LogInfo("mount", "ctrl", "Sport", "action", "Delete", "route", "DELETE /admin/sport/:id")
 
 	h = func(ctx context.Context, rw http.ResponseWriter, req *http.Request) error {
 		// Check if there was an error loading the request
@@ -545,8 +545,8 @@ func MountSportController(service *goa.Service, ctrl SportController) {
 		return ctrl.List(rctx)
 	}
 	h = handleSportOrigin(h)
-	service.Mux.Handle("GET", "/nmg/sport/list", ctrl.MuxHandler("list", h, nil))
-	service.LogInfo("mount", "ctrl", "Sport", "action", "List", "route", "GET /nmg/sport/list")
+	service.Mux.Handle("GET", "/admin/sport/list", ctrl.MuxHandler("list", h, nil))
+	service.LogInfo("mount", "ctrl", "Sport", "action", "List", "route", "GET /admin/sport/list")
 
 	h = func(ctx context.Context, rw http.ResponseWriter, req *http.Request) error {
 		// Check if there was an error loading the request
@@ -561,8 +561,8 @@ func MountSportController(service *goa.Service, ctrl SportController) {
 		return ctrl.Show(rctx)
 	}
 	h = handleSportOrigin(h)
-	service.Mux.Handle("GET", "/nmg/sport/:id", ctrl.MuxHandler("show", h, nil))
-	service.LogInfo("mount", "ctrl", "Sport", "action", "Show", "route", "GET /nmg/sport/:id")
+	service.Mux.Handle("GET", "/admin/sport/:id", ctrl.MuxHandler("show", h, nil))
+	service.LogInfo("mount", "ctrl", "Sport", "action", "Show", "route", "GET /admin/sport/:id")
 
 	h = func(ctx context.Context, rw http.ResponseWriter, req *http.Request) error {
 		// Check if there was an error loading the request
@@ -583,8 +583,8 @@ func MountSportController(service *goa.Service, ctrl SportController) {
 		return ctrl.Update(rctx)
 	}
 	h = handleSportOrigin(h)
-	service.Mux.Handle("PUT", "/nmg/sport/:id", ctrl.MuxHandler("update", h, unmarshalUpdateSportPayload))
-	service.LogInfo("mount", "ctrl", "Sport", "action", "Update", "route", "PUT /nmg/sport/:id")
+	service.Mux.Handle("PUT", "/admin/sport/:id", ctrl.MuxHandler("update", h, unmarshalUpdateSportPayload))
+	service.LogInfo("mount", "ctrl", "Sport", "action", "Update", "route", "PUT /admin/sport/:id")
 }
 
 // handleSportOrigin applies the CORS response headers corresponding to the origin.
@@ -657,9 +657,9 @@ type TeamController interface {
 func MountTeamController(service *goa.Service, ctrl TeamController) {
 	initService(service)
 	var h goa.Handler
-	service.Mux.Handle("OPTIONS", "/nmg/team/", ctrl.MuxHandler("preflight", handleTeamOrigin(cors.HandlePreflight()), nil))
-	service.Mux.Handle("OPTIONS", "/nmg/team/:id", ctrl.MuxHandler("preflight", handleTeamOrigin(cors.HandlePreflight()), nil))
-	service.Mux.Handle("OPTIONS", "/nmg/team/list", ctrl.MuxHandler("preflight", handleTeamOrigin(cors.HandlePreflight()), nil))
+	service.Mux.Handle("OPTIONS", "/admin/team/", ctrl.MuxHandler("preflight", handleTeamOrigin(cors.HandlePreflight()), nil))
+	service.Mux.Handle("OPTIONS", "/admin/team/:id", ctrl.MuxHandler("preflight", handleTeamOrigin(cors.HandlePreflight()), nil))
+	service.Mux.Handle("OPTIONS", "/admin/team/list", ctrl.MuxHandler("preflight", handleTeamOrigin(cors.HandlePreflight()), nil))
 
 	h = func(ctx context.Context, rw http.ResponseWriter, req *http.Request) error {
 		// Check if there was an error loading the request
@@ -680,8 +680,8 @@ func MountTeamController(service *goa.Service, ctrl TeamController) {
 		return ctrl.Create(rctx)
 	}
 	h = handleTeamOrigin(h)
-	service.Mux.Handle("POST", "/nmg/team/", ctrl.MuxHandler("create", h, unmarshalCreateTeamPayload))
-	service.LogInfo("mount", "ctrl", "Team", "action", "Create", "route", "POST /nmg/team/")
+	service.Mux.Handle("POST", "/admin/team/", ctrl.MuxHandler("create", h, unmarshalCreateTeamPayload))
+	service.LogInfo("mount", "ctrl", "Team", "action", "Create", "route", "POST /admin/team/")
 
 	h = func(ctx context.Context, rw http.ResponseWriter, req *http.Request) error {
 		// Check if there was an error loading the request
@@ -696,8 +696,8 @@ func MountTeamController(service *goa.Service, ctrl TeamController) {
 		return ctrl.Delete(rctx)
 	}
 	h = handleTeamOrigin(h)
-	service.Mux.Handle("DELETE", "/nmg/team/:id", ctrl.MuxHandler("delete", h, nil))
-	service.LogInfo("mount", "ctrl", "Team", "action", "Delete", "route", "DELETE /nmg/team/:id")
+	service.Mux.Handle("DELETE", "/admin/team/:id", ctrl.MuxHandler("delete", h, nil))
+	service.LogInfo("mount", "ctrl", "Team", "action", "Delete", "route", "DELETE /admin/team/:id")
 
 	h = func(ctx context.Context, rw http.ResponseWriter, req *http.Request) error {
 		// Check if there was an error loading the request
@@ -712,8 +712,8 @@ func MountTeamController(service *goa.Service, ctrl TeamController) {
 		return ctrl.List(rctx)
 	}
 	h = handleTeamOrigin(h)
-	service.Mux.Handle("GET", "/nmg/team/list", ctrl.MuxHandler("list", h, nil))
-	service.LogInfo("mount", "ctrl", "Team", "action", "List", "route", "GET /nmg/team/list")
+	service.Mux.Handle("GET", "/admin/team/list", ctrl.MuxHandler("list", h, nil))
+	service.LogInfo("mount", "ctrl", "Team", "action", "List", "route", "GET /admin/team/list")
 
 	h = func(ctx context.Context, rw http.ResponseWriter, req *http.Request) error {
 		// Check if there was an error loading the request
@@ -728,8 +728,8 @@ func MountTeamController(service *goa.Service, ctrl TeamController) {
 		return ctrl.Show(rctx)
 	}
 	h = handleTeamOrigin(h)
-	service.Mux.Handle("GET", "/nmg/team/:id", ctrl.MuxHandler("show", h, nil))
-	service.LogInfo("mount", "ctrl", "Team", "action", "Show", "route", "GET /nmg/team/:id")
+	service.Mux.Handle("GET", "/admin/team/:id", ctrl.MuxHandler("show", h, nil))
+	service.LogInfo("mount", "ctrl", "Team", "action", "Show", "route", "GET /admin/team/:id")
 
 	h = func(ctx context.Context, rw http.ResponseWriter, req *http.Request) error {
 		// Check if there was an error loading the request
@@ -750,8 +750,8 @@ func MountTeamController(service *goa.Service, ctrl TeamController) {
 		return ctrl.Update(rctx)
 	}
 	h = handleTeamOrigin(h)
-	service.Mux.Handle("PUT", "/nmg/team/:id", ctrl.MuxHandler("update", h, unmarshalUpdateTeamPayload))
-	service.LogInfo("mount", "ctrl", "Team", "action", "Update", "route", "PUT /nmg/team/:id")
+	service.Mux.Handle("PUT", "/admin/team/:id", ctrl.MuxHandler("update", h, unmarshalUpdateTeamPayload))
+	service.LogInfo("mount", "ctrl", "Team", "action", "Update", "route", "PUT /admin/team/:id")
 }
 
 // handleTeamOrigin applies the CORS response headers corresponding to the origin.
@@ -824,9 +824,9 @@ type TeamOpeningConfigController interface {
 func MountTeamOpeningConfigController(service *goa.Service, ctrl TeamOpeningConfigController) {
 	initService(service)
 	var h goa.Handler
-	service.Mux.Handle("OPTIONS", "/nmg/teamOpeningConfig/", ctrl.MuxHandler("preflight", handleTeamOpeningConfigOrigin(cors.HandlePreflight()), nil))
-	service.Mux.Handle("OPTIONS", "/nmg/teamOpeningConfig/:id", ctrl.MuxHandler("preflight", handleTeamOpeningConfigOrigin(cors.HandlePreflight()), nil))
-	service.Mux.Handle("OPTIONS", "/nmg/teamOpeningConfig/list", ctrl.MuxHandler("preflight", handleTeamOpeningConfigOrigin(cors.HandlePreflight()), nil))
+	service.Mux.Handle("OPTIONS", "/admin/teamOpeningConfig/", ctrl.MuxHandler("preflight", handleTeamOpeningConfigOrigin(cors.HandlePreflight()), nil))
+	service.Mux.Handle("OPTIONS", "/admin/teamOpeningConfig/:id", ctrl.MuxHandler("preflight", handleTeamOpeningConfigOrigin(cors.HandlePreflight()), nil))
+	service.Mux.Handle("OPTIONS", "/admin/teamOpeningConfig/list", ctrl.MuxHandler("preflight", handleTeamOpeningConfigOrigin(cors.HandlePreflight()), nil))
 
 	h = func(ctx context.Context, rw http.ResponseWriter, req *http.Request) error {
 		// Check if there was an error loading the request
@@ -847,8 +847,8 @@ func MountTeamOpeningConfigController(service *goa.Service, ctrl TeamOpeningConf
 		return ctrl.Create(rctx)
 	}
 	h = handleTeamOpeningConfigOrigin(h)
-	service.Mux.Handle("POST", "/nmg/teamOpeningConfig/", ctrl.MuxHandler("create", h, unmarshalCreateTeamOpeningConfigPayload))
-	service.LogInfo("mount", "ctrl", "TeamOpeningConfig", "action", "Create", "route", "POST /nmg/teamOpeningConfig/")
+	service.Mux.Handle("POST", "/admin/teamOpeningConfig/", ctrl.MuxHandler("create", h, unmarshalCreateTeamOpeningConfigPayload))
+	service.LogInfo("mount", "ctrl", "TeamOpeningConfig", "action", "Create", "route", "POST /admin/teamOpeningConfig/")
 
 	h = func(ctx context.Context, rw http.ResponseWriter, req *http.Request) error {
 		// Check if there was an error loading the request
@@ -863,8 +863,8 @@ func MountTeamOpeningConfigController(service *goa.Service, ctrl TeamOpeningConf
 		return ctrl.Delete(rctx)
 	}
 	h = handleTeamOpeningConfigOrigin(h)
-	service.Mux.Handle("DELETE", "/nmg/teamOpeningConfig/:id", ctrl.MuxHandler("delete", h, nil))
-	service.LogInfo("mount", "ctrl", "TeamOpeningConfig", "action", "Delete", "route", "DELETE /nmg/teamOpeningConfig/:id")
+	service.Mux.Handle("DELETE", "/admin/teamOpeningConfig/:id", ctrl.MuxHandler("delete", h, nil))
+	service.LogInfo("mount", "ctrl", "TeamOpeningConfig", "action", "Delete", "route", "DELETE /admin/teamOpeningConfig/:id")
 
 	h = func(ctx context.Context, rw http.ResponseWriter, req *http.Request) error {
 		// Check if there was an error loading the request
@@ -879,8 +879,8 @@ func MountTeamOpeningConfigController(service *goa.Service, ctrl TeamOpeningConf
 		return ctrl.List(rctx)
 	}
 	h = handleTeamOpeningConfigOrigin(h)
-	service.Mux.Handle("GET", "/nmg/teamOpeningConfig/list", ctrl.MuxHandler("list", h, nil))
-	service.LogInfo("mount", "ctrl", "TeamOpeningConfig", "action", "List", "route", "GET /nmg/teamOpeningConfig/list")
+	service.Mux.Handle("GET", "/admin/teamOpeningConfig/list", ctrl.MuxHandler("list", h, nil))
+	service.LogInfo("mount", "ctrl", "TeamOpeningConfig", "action", "List", "route", "GET /admin/teamOpeningConfig/list")
 
 	h = func(ctx context.Context, rw http.ResponseWriter, req *http.Request) error {
 		// Check if there was an error loading the request
@@ -895,8 +895,8 @@ func MountTeamOpeningConfigController(service *goa.Service, ctrl TeamOpeningConf
 		return ctrl.Show(rctx)
 	}
 	h = handleTeamOpeningConfigOrigin(h)
-	service.Mux.Handle("GET", "/nmg/teamOpeningConfig/:id", ctrl.MuxHandler("show", h, nil))
-	service.LogInfo("mount", "ctrl", "TeamOpeningConfig", "action", "Show", "route", "GET /nmg/teamOpeningConfig/:id")
+	service.Mux.Handle("GET", "/admin/teamOpeningConfig/:id", ctrl.MuxHandler("show", h, nil))
+	service.LogInfo("mount", "ctrl", "TeamOpeningConfig", "action", "Show", "route", "GET /admin/teamOpeningConfig/:id")
 
 	h = func(ctx context.Context, rw http.ResponseWriter, req *http.Request) error {
 		// Check if there was an error loading the request
@@ -917,8 +917,8 @@ func MountTeamOpeningConfigController(service *goa.Service, ctrl TeamOpeningConf
 		return ctrl.Update(rctx)
 	}
 	h = handleTeamOpeningConfigOrigin(h)
-	service.Mux.Handle("PUT", "/nmg/teamOpeningConfig/:id", ctrl.MuxHandler("update", h, unmarshalUpdateTeamOpeningConfigPayload))
-	service.LogInfo("mount", "ctrl", "TeamOpeningConfig", "action", "Update", "route", "PUT /nmg/teamOpeningConfig/:id")
+	service.Mux.Handle("PUT", "/admin/teamOpeningConfig/:id", ctrl.MuxHandler("update", h, unmarshalUpdateTeamOpeningConfigPayload))
+	service.LogInfo("mount", "ctrl", "TeamOpeningConfig", "action", "Update", "route", "PUT /admin/teamOpeningConfig/:id")
 }
 
 // handleTeamOpeningConfigOrigin applies the CORS response headers corresponding to the origin.

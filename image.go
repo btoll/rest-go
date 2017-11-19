@@ -78,8 +78,8 @@ func (c *ImageController) Upload(ctx *app.UploadImageContext) error {
 	}
 	/* ----------------------------------------------------------- */
 
-	// Requests can be sent from different sources. If sent from a browser, it will contain
-	// a Referer header, and we must convert the base64 encoded image to binary.
+	//	 Requests can be sent from different sources. If sent from a browser, it will contain
+	//	 a Referer header, and we must convert the base64 encoded image to binary.
 	if ctx.Referer() == "" {
 		reader, err := ctx.MultipartReader()
 		if err != nil {

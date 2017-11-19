@@ -60,7 +60,7 @@ func CreateTeamOpeningConfigOK(t goatest.TInterface, ctx context.Context, servic
 	// Setup request context
 	rw := httptest.NewRecorder()
 	u := &url.URL{
-		Path: fmt.Sprintf("/nmg/teamOpeningConfig/"),
+		Path: fmt.Sprintf("/admin/teamOpeningConfig/"),
 	}
 	req, _err := http.NewRequest("POST", u.String(), nil)
 	if _err != nil {
@@ -140,7 +140,7 @@ func CreateTeamOpeningConfigOKTiny(t goatest.TInterface, ctx context.Context, se
 	// Setup request context
 	rw := httptest.NewRecorder()
 	u := &url.URL{
-		Path: fmt.Sprintf("/nmg/teamOpeningConfig/"),
+		Path: fmt.Sprintf("/admin/teamOpeningConfig/"),
 	}
 	req, _err := http.NewRequest("POST", u.String(), nil)
 	if _err != nil {
@@ -209,7 +209,7 @@ func DeleteTeamOpeningConfigNoContent(t goatest.TInterface, ctx context.Context,
 	// Setup request context
 	rw := httptest.NewRecorder()
 	u := &url.URL{
-		Path: fmt.Sprintf("/nmg/teamOpeningConfig/%v", id),
+		Path: fmt.Sprintf("/admin/teamOpeningConfig/%v", id),
 	}
 	req, err := http.NewRequest("DELETE", u.String(), nil)
 	if err != nil {
@@ -266,7 +266,7 @@ func DeleteTeamOpeningConfigOK(t goatest.TInterface, ctx context.Context, servic
 	// Setup request context
 	rw := httptest.NewRecorder()
 	u := &url.URL{
-		Path: fmt.Sprintf("/nmg/teamOpeningConfig/%v", id),
+		Path: fmt.Sprintf("/admin/teamOpeningConfig/%v", id),
 	}
 	req, err := http.NewRequest("DELETE", u.String(), nil)
 	if err != nil {
@@ -323,7 +323,7 @@ func ListTeamOpeningConfigOK(t goatest.TInterface, ctx context.Context, service 
 	// Setup request context
 	rw := httptest.NewRecorder()
 	u := &url.URL{
-		Path: fmt.Sprintf("/nmg/teamOpeningConfig/list"),
+		Path: fmt.Sprintf("/admin/teamOpeningConfig/list"),
 	}
 	req, err := http.NewRequest("GET", u.String(), nil)
 	if err != nil {
@@ -379,7 +379,7 @@ func ShowTeamOpeningConfigOK(t goatest.TInterface, ctx context.Context, service 
 	// Setup request context
 	rw := httptest.NewRecorder()
 	u := &url.URL{
-		Path: fmt.Sprintf("/nmg/teamOpeningConfig/%v", id),
+		Path: fmt.Sprintf("/admin/teamOpeningConfig/%v", id),
 	}
 	req, err := http.NewRequest("GET", u.String(), nil)
 	if err != nil {
@@ -448,7 +448,7 @@ func ShowTeamOpeningConfigOKTiny(t goatest.TInterface, ctx context.Context, serv
 	// Setup request context
 	rw := httptest.NewRecorder()
 	u := &url.URL{
-		Path: fmt.Sprintf("/nmg/teamOpeningConfig/%v", id),
+		Path: fmt.Sprintf("/admin/teamOpeningConfig/%v", id),
 	}
 	req, err := http.NewRequest("GET", u.String(), nil)
 	if err != nil {
@@ -528,7 +528,7 @@ func UpdateTeamOpeningConfigNoContent(t goatest.TInterface, ctx context.Context,
 	// Setup request context
 	rw := httptest.NewRecorder()
 	u := &url.URL{
-		Path: fmt.Sprintf("/nmg/teamOpeningConfig/%v", id),
+		Path: fmt.Sprintf("/admin/teamOpeningConfig/%v", id),
 	}
 	req, _err := http.NewRequest("PUT", u.String(), nil)
 	if _err != nil {
@@ -597,7 +597,7 @@ func UpdateTeamOpeningConfigOK(t goatest.TInterface, ctx context.Context, servic
 	// Setup request context
 	rw := httptest.NewRecorder()
 	u := &url.URL{
-		Path: fmt.Sprintf("/nmg/teamOpeningConfig/%v", id),
+		Path: fmt.Sprintf("/admin/teamOpeningConfig/%v", id),
 	}
 	req, _err := http.NewRequest("PUT", u.String(), nil)
 	if _err != nil {

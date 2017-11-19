@@ -65,6 +65,10 @@ var _ = Resource("Sport", func() {
 var SportPayload = Type("SportPayload", func() {
 	Description("Sport Description.")
 
+	Attribute("id", String, "ID", func() {
+		Metadata("struct:tag:datastore", "id,noindex")
+		Metadata("struct:tag:json", "id,omitempty")
+	})
 	Attribute("name", String, "Sport name", func() {
 		Metadata("struct:tag:datastore", "name,noindex")
 		Metadata("struct:tag:json", "name,omitempty")
@@ -85,16 +89,8 @@ var SportPayload = Type("SportPayload", func() {
 		Metadata("struct:tag:datastore", "eventTerm,noindex")
 		Metadata("struct:tag:json", "eventTerm,omitempty")
 	})
-	Attribute("iconName", String, "sport_icon", func() {
-		Metadata("struct:tag:datastore", "iconName,noindex")
-		Metadata("struct:tag:json", "iconName,omitempty")
-	})
-	Attribute("backgroundImageName", String, "sport_icon", func() {
-		Metadata("struct:tag:datastore", "backgroundImageName,noindex")
-		Metadata("struct:tag:json", "backgroundImageName,omitempty")
-	})
 
-	Required("name", "active", "maxPreSplitPrice", "gameTerm", "eventTerm", "iconName", "backgroundImageName")
+	Required("id", "name", "active", "maxPreSplitPrice", "gameTerm", "eventTerm")
 })
 
 var SportMedia = MediaType("application/nmgapi.sportentity", func() {
@@ -104,16 +100,14 @@ var SportMedia = MediaType("application/nmgapi.sportentity", func() {
 	Reference(SportPayload)
 
 	Attributes(func() {
-		Attribute("id", String, "ID")
+		Attribute("id")
 		Attribute("name")
 		Attribute("active")
 		Attribute("maxPreSplitPrice")
 		Attribute("gameTerm")
 		Attribute("eventTerm")
-		Attribute("iconName")
-		Attribute("backgroundImageName")
 
-		Required("name", "active", "maxPreSplitPrice", "gameTerm", "eventTerm", "iconName", "backgroundImageName")
+		Required("id", "name", "active", "maxPreSplitPrice", "gameTerm", "eventTerm")
 	})
 
 	View("default", func() {
@@ -122,8 +116,6 @@ var SportMedia = MediaType("application/nmgapi.sportentity", func() {
 		Attribute("maxPreSplitPrice")
 		Attribute("gameTerm")
 		Attribute("eventTerm")
-		Attribute("iconName")
-		Attribute("backgroundImageName")
 	})
 
 	View("tiny", func() {

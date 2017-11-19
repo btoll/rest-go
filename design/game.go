@@ -65,17 +65,9 @@ var _ = Resource("Game", func() {
 var GamePayload = Type("GamePayload", func() {
 	Description("Game Description.")
 
-	Attribute("favTeamId", String, "Favorite team id", func() {
-		Metadata("struct:tag:datastore", "favTeamId,noindex")
-		Metadata("struct:tag:json", "favTeamId,omitempty")
-	})
-	Attribute("underTeamId", String, "", func() {
-		Metadata("struct:tag:datastore", "underTeamId,noindex")
-		Metadata("struct:tag:json", "underTeamId,omitempty")
-	})
-	Attribute("winnerTeamId", String, "Empty until game completed", func() {
-		Metadata("struct:tag:datastore", "winnerTeamId,noindex")
-		Metadata("struct:tag:json", "winnerTeamId,omitempty")
+	Attribute("id", String, "ID", func() {
+		Metadata("struct:tag:datastore", "id,noindex")
+		Metadata("struct:tag:json", "id,omitempty")
 	})
 	Attribute("sportId", String, "Sport ID", func() {
 		Metadata("struct:tag:datastore", "sportId,noindex")
@@ -85,44 +77,16 @@ var GamePayload = Type("GamePayload", func() {
 		Metadata("struct:tag:datastore", "eventId,noindex")
 		Metadata("struct:tag:json", "eventId,omitempty")
 	})
-	Attribute("playDtTm", DateTime, "", func() {
-		Metadata("struct:tag:datastore", "playDtTm,noindex")
-		Metadata("struct:tag:json", "playDtTm,omitempty")
+	Attribute("gamePlayStatus", String, "TeamGamePlayStatus.preGame || tradeable || gameOn || ended", func() {
+		Metadata("struct:tag:datastore", "gamePlayStatus,noindex")
+		Metadata("struct:tag:json", "gamePlayStatus,omitempty")
 	})
-	Attribute("externalId", String, "Any public id for this game, not unique", func() {
-		Metadata("struct:tag:datastore", "externalId,noindex")
-		Metadata("struct:tag:json", "externalId,omitempty")
-	})
-	Attribute("title", String, "Public free form name", func() {
-		Metadata("struct:tag:datastore", "title,noindex")
-		Metadata("struct:tag:json", "title,omitempty")
-	})
-	Attribute("locationId", String, "True GPS location", func() {
-		Metadata("struct:tag:datastore", "locationId,noindex")
-		Metadata("struct:tag:json", "locationId,omitempty")
-	})
-	Attribute("location", String, "Name of location", func() {
-		Metadata("struct:tag:datastore", "location,noindex")
-		Metadata("struct:tag:json", "location,omitempty")
-	})
-	Attribute("oddsForFav", Number, "0", func() {
-		Metadata("struct:tag:datastore", "oddsForFav,noindex")
-		Metadata("struct:tag:json", "oddsForFav,omitempty")
-	})
-	Attribute("gameStatus", String, "TeamGameStatus.preGame || tradeable || gameOn || ended", func() {
-		Metadata("struct:tag:datastore", "gameStatus,noindex")
-		Metadata("struct:tag:json", "gameStatus,omitempty")
-	})
-	Attribute("finishedAtDtTm", DateTime, "", func() {
-		Metadata("struct:tag:datastore", "finishedAtDtTm,noindex")
-		Metadata("struct:tag:json", "finishedAtDtTm,omitempty")
-	})
-	Attribute("loserProgressStatus", String, "TeamGameStatus.eliminated", func() {
-		Metadata("struct:tag:datastore", "loserProgressStatus,noindex")
-		Metadata("struct:tag:json", "loserProgressStatus,omitempty")
+	Attribute("loserAdvanceState", String, "TeamGameStatus.eliminated", func() {
+		Metadata("struct:tag:datastore", "loserAdvanceState,noindex")
+		Metadata("struct:tag:json", "loserAdvanceState,omitempty")
 	})
 
-	Required("favTeamId", "underTeamId", "winnerTeamId", "sportId", "playDtTm", "externalId", "title", "locationId", "location", "oddsForFav", "gameStatus", "finishedAtDtTm", "loserProgressStatus")
+	Required("id", "sportId", "eventId", "gamePlayStatus", "loserAdvanceState")
 })
 
 var GameMedia = MediaType("application/nmgapi.gameentity", func() {
@@ -132,38 +96,21 @@ var GameMedia = MediaType("application/nmgapi.gameentity", func() {
 	Reference(GamePayload)
 
 	Attributes(func() {
-		Attribute("id", String, "ID")
-		Attribute("favTeamId")
-		Attribute("underTeamId")
-		Attribute("winnerTeamId")
+		Attribute("id")
 		Attribute("sportId")
-		Attribute("playDtTm")
-		Attribute("externalId")
-		Attribute("title")
-		Attribute("locationId")
-		Attribute("location")
-		Attribute("oddsForFav")
-		Attribute("gameStatus")
-		Attribute("finishedAtDtTm")
-		Attribute("loserProgressStatus")
+		Attribute("eventId")
+		Attribute("gamePlayStatus")
+		Attribute("loserAdvanceState")
 
-		Required("id", "favTeamId", "underTeamId", "winnerTeamId", "sportId", "playDtTm", "externalId", "title", "locationId", "location", "oddsForFav", "gameStatus", "finishedAtDtTm", "loserProgressStatus")
+		Required("id", "sportId", "eventId", "gamePlayStatus", "loserAdvanceState")
 	})
 
 	View("default", func() {
-		Attribute("favTeamId")
-		Attribute("underTeamId")
-		Attribute("winnerTeamId")
+		Attribute("id")
 		Attribute("sportId")
-		Attribute("playDtTm")
-		Attribute("externalId")
-		Attribute("title")
-		Attribute("locationId")
-		Attribute("location")
-		Attribute("oddsForFav")
-		Attribute("gameStatus")
-		Attribute("finishedAtDtTm")
-		Attribute("loserProgressStatus")
+		Attribute("eventId")
+		Attribute("gamePlayStatus")
+		Attribute("loserAdvanceState")
 	})
 
 	View("tiny", func() {

@@ -3,6 +3,7 @@ package models
 import (
 	"context"
 	"encoding/json"
+	"fmt"
 	"strconv"
 
 	"github.com/dgaedcke/nmg_shared/constants"
@@ -45,15 +46,15 @@ func initModel(kind string, c context.Context) (Model, *Context) {
 func modelFactory(name string) Model {
 	switch name {
 	case GAME:
-		return new(GamePersist)
+		return new(GameModel)
 	case EVENT:
-		return new(EventPersist)
+		return new(EventModel)
 	case SPORT:
-		return new(SportPersist)
+		return new(SportModel)
 	case TEAM:
-		return new(TeamPersist)
+		return new(TeamModel)
 	case TEAM_OPENING_CONFIG:
-		return new(TeamOpeningConfigPersist)
+		return new(TeamOpeningConfigModel)
 	}
 
 	// TODO: Return error?
@@ -139,6 +140,10 @@ func List(kind string, c context.Context) ([]byte, error) {
 	if err != nil {
 		return nil, err
 	}
+
+	fmt.Println()
+	fmt.Println("coll", coll)
+	fmt.Println()
 
 	store := &ModelStore{
 		Keys:   make([]string, len(keys)),

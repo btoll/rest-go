@@ -10,13 +10,13 @@ import (
 	"google.golang.org/appengine/datastore"
 )
 
-type GamePersist struct{}
+type GameModel struct{}
 
-func (m *GamePersist) AllocateID(ctx *Context) error {
+func (m *GameModel) AllocateID(ctx *Context) error {
 	return AllocateSequentialID(ctx)
 }
 
-func (m *GamePersist) GetCtx(ctx context.Context) *Context {
+func (m *GameModel) GetCtx(ctx context.Context) *Context {
 	switch t := ctx.(type) {
 	case *app.CreateGameContext:
 		return &Context{
@@ -54,11 +54,11 @@ func (m *GamePersist) GetCtx(ctx context.Context) *Context {
 	}
 }
 
-func (m *GamePersist) GetModelInstance() interface{} {
+func (m *GameModel) GetModelInstance() interface{} {
 	return &app.GameMedia{}
 }
 
-func (m *GamePersist) GetModelCollection(ctx *Context) ([]*datastore.Key, interface{}, error) {
+func (m *GameModel) GetModelCollection(ctx *Context) ([]*datastore.Key, interface{}, error) {
 	c := []app.GameMedia{}
 	keys, err := datastore.NewQuery(ctx.Kind).GetAll(ctx.GaeCtx, &c)
 
@@ -69,7 +69,7 @@ func (m *GamePersist) GetModelCollection(ctx *Context) ([]*datastore.Key, interf
 	return keys, c, nil
 }
 
-func (m *GamePersist) SetModel(ctx *Context) error {
+func (m *GameModel) SetModel(ctx *Context) error {
 	rec := &app.GameMedia{}
 
 	copier.Copy(rec, ctx.Payload)

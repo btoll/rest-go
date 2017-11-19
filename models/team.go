@@ -10,13 +10,13 @@ import (
 	"google.golang.org/appengine/datastore"
 )
 
-type TeamPersist struct{}
+type TeamModel struct{}
 
-func (m *TeamPersist) AllocateID(ctx *Context) error {
+func (m *TeamModel) AllocateID(ctx *Context) error {
 	return AllocateSequentialID(ctx)
 }
 
-func (m *TeamPersist) GetCtx(ctx context.Context) *Context {
+func (m *TeamModel) GetCtx(ctx context.Context) *Context {
 
 	switch t := ctx.(type) {
 	case *app.CreateTeamContext:
@@ -55,11 +55,11 @@ func (m *TeamPersist) GetCtx(ctx context.Context) *Context {
 	}
 }
 
-func (m *TeamPersist) GetModelInstance() interface{} {
+func (m *TeamModel) GetModelInstance() interface{} {
 	return &app.TeamMedia{}
 }
 
-func (m *TeamPersist) GetModelCollection(ctx *Context) ([]*datastore.Key, interface{}, error) {
+func (m *TeamModel) GetModelCollection(ctx *Context) ([]*datastore.Key, interface{}, error) {
 	c := []app.TeamMedia{}
 	keys, err := datastore.NewQuery(ctx.Kind).GetAll(ctx.GaeCtx, &c)
 
@@ -70,10 +70,11 @@ func (m *TeamPersist) GetModelCollection(ctx *Context) ([]*datastore.Key, interf
 	return keys, c, nil
 }
 
-func (m *TeamPersist) SetModel(ctx *Context) error {
+func (m *TeamModel) SetModel(ctx *Context) error {
 	rec := &app.TeamMedia{}
 
 	copier.Copy(rec, ctx.Payload)
+	rec.ID = ctx.ID
 	_, err := datastore.Put(ctx.GaeCtx, GetKey(ctx), rec)
 
 	return err
