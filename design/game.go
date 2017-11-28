@@ -86,7 +86,7 @@ var GamePayload = Type("GamePayload", func() {
 		Metadata("struct:tag:json", "loserAdvanceState,omitempty")
 	})
 
-	Required("id", "sportId", "eventId", "gamePlayStatus", "loserAdvanceState")
+	Required("sportId", "eventId", "gamePlayStatus", "loserAdvanceState")
 })
 
 var GameMedia = MediaType("application/nmgapi.gameentity", func() {

@@ -75,11 +75,11 @@ var SportPayload = Type("SportPayload", func() {
 	})
 	Attribute("active", Boolean, "Is in season?", func() {
 		Metadata("struct:tag:datastore", "active,noindex")
-		Metadata("struct:tag:json", "active,omitempty")
+		Metadata("struct:tag:json", "active")
 	})
 	Attribute("maxPreSplitPrice", Number, "", func() {
 		Metadata("struct:tag:datastore", "maxPreSplitPrice,noindex")
-		Metadata("struct:tag:json", "maxPreSplitPrice,omitempty")
+		Metadata("struct:tag:json", "maxPreSplitPrice")
 	})
 	Attribute("gameTerm", String, "Game", func() {
 		Metadata("struct:tag:datastore", "gameTerm,noindex")
@@ -90,7 +90,7 @@ var SportPayload = Type("SportPayload", func() {
 		Metadata("struct:tag:json", "eventTerm,omitempty")
 	})
 
-	Required("id", "name", "active", "maxPreSplitPrice", "gameTerm", "eventTerm")
+	Required("name", "active", "maxPreSplitPrice", "gameTerm", "eventTerm")
 })
 
 var SportMedia = MediaType("application/nmgapi.sportentity", func() {
@@ -111,6 +111,7 @@ var SportMedia = MediaType("application/nmgapi.sportentity", func() {
 	})
 
 	View("default", func() {
+		Attribute("id")
 		Attribute("name")
 		Attribute("active")
 		Attribute("maxPreSplitPrice")

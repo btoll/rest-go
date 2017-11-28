@@ -12,12 +12,11 @@ package app
 
 import (
 	"github.com/goadesign/goa"
-	"time"
 )
 
 // Event Description.
 type eventPayload struct {
-	EndDtTm *time.Time `datastore:"endDtTm,noindex" json:"endDtTm,omitempty"`
+	EndDtTm *string `datastore:"endDtTm,noindex" json:"endDtTm,omitempty"`
 	// Not guaranteed to be unique
 	EventID *string `datastore:"eventId,noindex" json:"eventId,omitempty"`
 	// ID
@@ -27,9 +26,9 @@ type eventPayload struct {
 	// e.g., March Madness
 	Name *string `datastore:"name,noindex" json:"name,omitempty"`
 	// Sport ID
-	SportID   *string    `datastore:"sportId,noindex" json:"sportId,omitempty"`
-	StartDtTm *time.Time `datastore:"startDtTm,noindex" json:"startDtTm,omitempty"`
-	SubTitle  *string    `datastore:"subTitle,noindex" json:"subTitle,omitempty"`
+	SportID   *string `datastore:"sportId,noindex" json:"sportId,omitempty"`
+	StartDtTm *string `datastore:"startDtTm,noindex" json:"startDtTm,omitempty"`
+	SubTitle  *string `datastore:"subTitle,noindex" json:"subTitle,omitempty"`
 	// EventAdvanceMethod.singleElimination || doubleElim || bestOf
 	TeamAdvanceMethod *string `datastore:"teamAdvanceMethod,noindex" json:"teamAdvanceMethod,omitempty"`
 }
@@ -98,7 +97,7 @@ func (ut *eventPayload) Publicize() *EventPayload {
 
 // Event Description.
 type EventPayload struct {
-	EndDtTm time.Time `datastore:"endDtTm,noindex" json:"endDtTm,omitempty"`
+	EndDtTm string `datastore:"endDtTm,noindex" json:"endDtTm,omitempty"`
 	// Not guaranteed to be unique
 	EventID string `datastore:"eventId,noindex" json:"eventId,omitempty"`
 	// ID
@@ -108,9 +107,9 @@ type EventPayload struct {
 	// e.g., March Madness
 	Name string `datastore:"name,noindex" json:"name,omitempty"`
 	// Sport ID
-	SportID   string    `datastore:"sportId,noindex" json:"sportId,omitempty"`
-	StartDtTm time.Time `datastore:"startDtTm,noindex" json:"startDtTm,omitempty"`
-	SubTitle  string    `datastore:"subTitle,noindex" json:"subTitle,omitempty"`
+	SportID   string `datastore:"sportId,noindex" json:"sportId,omitempty"`
+	StartDtTm string `datastore:"startDtTm,noindex" json:"startDtTm,omitempty"`
+	SubTitle  string `datastore:"subTitle,noindex" json:"subTitle,omitempty"`
 	// EventAdvanceMethod.singleElimination || doubleElim || bestOf
 	TeamAdvanceMethod string `datastore:"teamAdvanceMethod,noindex" json:"teamAdvanceMethod,omitempty"`
 }
@@ -129,7 +128,12 @@ func (ut *EventPayload) Validate() (err error) {
 	if ut.SubTitle == "" {
 		err = goa.MergeErrors(err, goa.MissingAttributeError(`type`, "subTitle"))
 	}
-
+	if ut.StartDtTm == "" {
+		err = goa.MergeErrors(err, goa.MissingAttributeError(`type`, "startDtTm"))
+	}
+	if ut.EndDtTm == "" {
+		err = goa.MergeErrors(err, goa.MissingAttributeError(`type`, "endDtTm"))
+	}
 	if ut.LocationID == "" {
 		err = goa.MergeErrors(err, goa.MissingAttributeError(`type`, "locationId"))
 	}
@@ -155,9 +159,6 @@ type gamePayload struct {
 
 // Validate validates the gamePayload type instance.
 func (ut *gamePayload) Validate() (err error) {
-	if ut.ID == nil {
-		err = goa.MergeErrors(err, goa.MissingAttributeError(`request`, "id"))
-	}
 	if ut.SportID == nil {
 		err = goa.MergeErrors(err, goa.MissingAttributeError(`request`, "sportId"))
 	}
@@ -183,7 +184,7 @@ func (ut *gamePayload) Publicize() *GamePayload {
 		pub.GamePlayStatus = *ut.GamePlayStatus
 	}
 	if ut.ID != nil {
-		pub.ID = *ut.ID
+		pub.ID = ut.ID
 	}
 	if ut.LoserAdvanceState != nil {
 		pub.LoserAdvanceState = *ut.LoserAdvanceState
@@ -201,7 +202,7 @@ type GamePayload struct {
 	// TeamGamePlayStatus.preGame || tradeable || gameOn || ended
 	GamePlayStatus string `datastore:"gamePlayStatus,noindex" json:"gamePlayStatus,omitempty"`
 	// ID
-	ID string `datastore:"id,noindex" json:"id,omitempty"`
+	ID *string `datastore:"id,noindex" json:"id,omitempty"`
 	// TeamGameStatus.eliminated
 	LoserAdvanceState string `datastore:"loserAdvanceState,noindex" json:"loserAdvanceState,omitempty"`
 	// Sport ID
@@ -210,9 +211,6 @@ type GamePayload struct {
 
 // Validate validates the GamePayload type instance.
 func (ut *GamePayload) Validate() (err error) {
-	if ut.ID == "" {
-		err = goa.MergeErrors(err, goa.MissingAttributeError(`type`, "id"))
-	}
 	if ut.SportID == "" {
 		err = goa.MergeErrors(err, goa.MissingAttributeError(`type`, "sportId"))
 	}
@@ -231,23 +229,20 @@ func (ut *GamePayload) Validate() (err error) {
 // Sport Description.
 type sportPayload struct {
 	// Is in season?
-	Active *bool `datastore:"active,noindex" json:"active,omitempty"`
+	Active *bool `datastore:"active,noindex" json:"active"`
 	// Tournament
 	EventTerm *string `datastore:"eventTerm,noindex" json:"eventTerm,omitempty"`
 	// Game
 	GameTerm *string `datastore:"gameTerm,noindex" json:"gameTerm,omitempty"`
 	// ID
 	ID               *string  `datastore:"id,noindex" json:"id,omitempty"`
-	MaxPreSplitPrice *float64 `datastore:"maxPreSplitPrice,noindex" json:"maxPreSplitPrice,omitempty"`
+	MaxPreSplitPrice *float64 `datastore:"maxPreSplitPrice,noindex" json:"maxPreSplitPrice"`
 	// Sport name
 	Name *string `datastore:"name,noindex" json:"name,omitempty"`
 }
 
 // Validate validates the sportPayload type instance.
 func (ut *sportPayload) Validate() (err error) {
-	if ut.ID == nil {
-		err = goa.MergeErrors(err, goa.MissingAttributeError(`request`, "id"))
-	}
 	if ut.Name == nil {
 		err = goa.MergeErrors(err, goa.MissingAttributeError(`request`, "name"))
 	}
@@ -279,7 +274,7 @@ func (ut *sportPayload) Publicize() *SportPayload {
 		pub.GameTerm = *ut.GameTerm
 	}
 	if ut.ID != nil {
-		pub.ID = *ut.ID
+		pub.ID = ut.ID
 	}
 	if ut.MaxPreSplitPrice != nil {
 		pub.MaxPreSplitPrice = *ut.MaxPreSplitPrice
@@ -293,23 +288,20 @@ func (ut *sportPayload) Publicize() *SportPayload {
 // Sport Description.
 type SportPayload struct {
 	// Is in season?
-	Active bool `datastore:"active,noindex" json:"active,omitempty"`
+	Active bool `datastore:"active,noindex" json:"active"`
 	// Tournament
 	EventTerm string `datastore:"eventTerm,noindex" json:"eventTerm,omitempty"`
 	// Game
 	GameTerm string `datastore:"gameTerm,noindex" json:"gameTerm,omitempty"`
 	// ID
-	ID               string  `datastore:"id,noindex" json:"id,omitempty"`
-	MaxPreSplitPrice float64 `datastore:"maxPreSplitPrice,noindex" json:"maxPreSplitPrice,omitempty"`
+	ID               *string `datastore:"id,noindex" json:"id,omitempty"`
+	MaxPreSplitPrice float64 `datastore:"maxPreSplitPrice,noindex" json:"maxPreSplitPrice"`
 	// Sport name
 	Name string `datastore:"name,noindex" json:"name,omitempty"`
 }
 
 // Validate validates the SportPayload type instance.
 func (ut *SportPayload) Validate() (err error) {
-	if ut.ID == "" {
-		err = goa.MergeErrors(err, goa.MissingAttributeError(`type`, "id"))
-	}
 	if ut.Name == "" {
 		err = goa.MergeErrors(err, goa.MissingAttributeError(`type`, "name"))
 	}
@@ -325,23 +317,20 @@ func (ut *SportPayload) Validate() (err error) {
 
 // Team Description.
 type teamOpeningConfigPayload struct {
-	BuyIncrementPrice *float64 `datastore:"buyIncrementPrice,noindex" json:"buyIncrementPrice,omitempty"`
+	BuyIncrementPrice *float64 `datastore:"buyIncrementPrice,noindex" json:"buyIncrementPrice"`
 	BuyIncrementQuan  *int     `datastore:"buyIncrementQuan,noindex" json:"buyIncrementQuan,omitempty"`
 	// ID
-	ID                 *string    `datastore:"id,noindex" json:"id,omitempty"`
-	LiquidationFee     *float64   `datastore:"liquidationFee,noindex" json:"liquidationFee,omitempty"`
-	OpeningPrice       *float64   `datastore:"openingPrice,noindex" json:"openingPrice,omitempty"`
-	OpeningShares      *int       `datastore:"openingShares,noindex" json:"openingShares,omitempty"`
-	SellDecrementPrice *float64   `datastore:"sellDecrementPrice,noindex" json:"sellDecrementPrice,omitempty"`
-	SellDecrementQuan  *int       `datastore:"sellDecrementQuan,noindex" json:"sellDecrementQuan,omitempty"`
-	StartTradeDtTm     *time.Time `datastore:"startTradeDtTm,noindex" json:"startTradeDtTm,omitempty"`
+	ID                 *string  `datastore:"id,noindex" json:"id,omitempty"`
+	LiquidationFee     *float64 `datastore:"liquidationFee,noindex" json:"liquidationFee"`
+	OpeningPrice       *float64 `datastore:"openingPrice,noindex" json:"openingPrice"`
+	OpeningShares      *int     `datastore:"openingShares,noindex" json:"openingShares,omitempty"`
+	SellDecrementPrice *float64 `datastore:"sellDecrementPrice,noindex" json:"sellDecrementPrice"`
+	SellDecrementQuan  *int     `datastore:"sellDecrementQuan,noindex" json:"sellDecrementQuan,omitempty"`
+	StartTradeDtTm     *string  `datastore:"startTradeDtTm,noindex" json:"startTradeDtTm,omitempty"`
 }
 
 // Validate validates the teamOpeningConfigPayload type instance.
 func (ut *teamOpeningConfigPayload) Validate() (err error) {
-	if ut.ID == nil {
-		err = goa.MergeErrors(err, goa.MissingAttributeError(`request`, "id"))
-	}
 	if ut.OpeningPrice == nil {
 		err = goa.MergeErrors(err, goa.MissingAttributeError(`request`, "openingPrice"))
 	}
@@ -379,7 +368,7 @@ func (ut *teamOpeningConfigPayload) Publicize() *TeamOpeningConfigPayload {
 		pub.BuyIncrementQuan = *ut.BuyIncrementQuan
 	}
 	if ut.ID != nil {
-		pub.ID = *ut.ID
+		pub.ID = ut.ID
 	}
 	if ut.LiquidationFee != nil {
 		pub.LiquidationFee = *ut.LiquidationFee
@@ -404,24 +393,24 @@ func (ut *teamOpeningConfigPayload) Publicize() *TeamOpeningConfigPayload {
 
 // Team Description.
 type TeamOpeningConfigPayload struct {
-	BuyIncrementPrice float64 `datastore:"buyIncrementPrice,noindex" json:"buyIncrementPrice,omitempty"`
+	BuyIncrementPrice float64 `datastore:"buyIncrementPrice,noindex" json:"buyIncrementPrice"`
 	BuyIncrementQuan  int     `datastore:"buyIncrementQuan,noindex" json:"buyIncrementQuan,omitempty"`
 	// ID
-	ID                 string    `datastore:"id,noindex" json:"id,omitempty"`
-	LiquidationFee     float64   `datastore:"liquidationFee,noindex" json:"liquidationFee,omitempty"`
-	OpeningPrice       float64   `datastore:"openingPrice,noindex" json:"openingPrice,omitempty"`
-	OpeningShares      int       `datastore:"openingShares,noindex" json:"openingShares,omitempty"`
-	SellDecrementPrice float64   `datastore:"sellDecrementPrice,noindex" json:"sellDecrementPrice,omitempty"`
-	SellDecrementQuan  int       `datastore:"sellDecrementQuan,noindex" json:"sellDecrementQuan,omitempty"`
-	StartTradeDtTm     time.Time `datastore:"startTradeDtTm,noindex" json:"startTradeDtTm,omitempty"`
+	ID                 *string `datastore:"id,noindex" json:"id,omitempty"`
+	LiquidationFee     float64 `datastore:"liquidationFee,noindex" json:"liquidationFee"`
+	OpeningPrice       float64 `datastore:"openingPrice,noindex" json:"openingPrice"`
+	OpeningShares      int     `datastore:"openingShares,noindex" json:"openingShares,omitempty"`
+	SellDecrementPrice float64 `datastore:"sellDecrementPrice,noindex" json:"sellDecrementPrice"`
+	SellDecrementQuan  int     `datastore:"sellDecrementQuan,noindex" json:"sellDecrementQuan,omitempty"`
+	StartTradeDtTm     string  `datastore:"startTradeDtTm,noindex" json:"startTradeDtTm,omitempty"`
 }
 
 // Validate validates the TeamOpeningConfigPayload type instance.
 func (ut *TeamOpeningConfigPayload) Validate() (err error) {
-	if ut.ID == "" {
-		err = goa.MergeErrors(err, goa.MissingAttributeError(`type`, "id"))
-	}
 
+	if ut.StartTradeDtTm == "" {
+		err = goa.MergeErrors(err, goa.MissingAttributeError(`type`, "startTradeDtTm"))
+	}
 	return
 }
 

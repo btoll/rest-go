@@ -71,7 +71,7 @@ var TeamOpeningConfigPayload = Type("TeamOpeningConfigPayload", func() {
 	})
 	Attribute("openingPrice", Number, "", func() {
 		Metadata("struct:tag:datastore", "openingPrice,noindex")
-		Metadata("struct:tag:json", "openingPrice,omitempty")
+		Metadata("struct:tag:json", "openingPrice")
 	})
 	Attribute("openingShares", Integer, "", func() {
 		Metadata("struct:tag:datastore", "openingShares,noindex")
@@ -83,7 +83,7 @@ var TeamOpeningConfigPayload = Type("TeamOpeningConfigPayload", func() {
 	})
 	Attribute("buyIncrementPrice", Number, "", func() {
 		Metadata("struct:tag:datastore", "buyIncrementPrice,noindex")
-		Metadata("struct:tag:json", "buyIncrementPrice,omitempty")
+		Metadata("struct:tag:json", "buyIncrementPrice")
 	})
 	Attribute("sellDecrementQuan", Integer, "", func() {
 		Metadata("struct:tag:datastore", "sellDecrementQuan,noindex")
@@ -91,18 +91,19 @@ var TeamOpeningConfigPayload = Type("TeamOpeningConfigPayload", func() {
 	})
 	Attribute("sellDecrementPrice", Number, "", func() {
 		Metadata("struct:tag:datastore", "sellDecrementPrice,noindex")
-		Metadata("struct:tag:json", "sellDecrementPrice,omitempty")
+		Metadata("struct:tag:json", "sellDecrementPrice")
 	})
 	Attribute("liquidationFee", Number, "", func() {
 		Metadata("struct:tag:datastore", "liquidationFee,noindex")
-		Metadata("struct:tag:json", "liquidationFee,omitempty")
+		Metadata("struct:tag:json", "liquidationFee")
 	})
-	Attribute("startTradeDtTm", DateTime, "", func() {
+	//	Attribute("startTradeDtTm", DateTime, "", func() {
+	Attribute("startTradeDtTm", String, "", func() {
 		Metadata("struct:tag:datastore", "startTradeDtTm,noindex")
 		Metadata("struct:tag:json", "startTradeDtTm,omitempty")
 	})
 
-	Required("id", "openingPrice", "openingShares", "buyIncrementQuan", "buyIncrementPrice", "sellDecrementQuan", "sellDecrementPrice", "liquidationFee", "startTradeDtTm")
+	Required("openingPrice", "openingShares", "buyIncrementQuan", "buyIncrementPrice", "sellDecrementQuan", "sellDecrementPrice", "liquidationFee", "startTradeDtTm")
 })
 
 var TeamOpeningConfigMedia = MediaType("application/nmgapi.teamopeningconfigentity", func() {

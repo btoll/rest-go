@@ -73,6 +73,7 @@ func (m *GameModel) SetModel(ctx *Context) error {
 	rec := &app.GameMedia{}
 
 	copier.Copy(rec, ctx.Payload)
+	rec.ID = ctx.ID
 	_, err := datastore.Put(ctx.GaeCtx, GetKey(ctx), rec)
 
 	return err

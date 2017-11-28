@@ -12,30 +12,34 @@ package app
 
 import (
 	"github.com/goadesign/goa"
-	"time"
 )
 
 // Event sport response (default view)
 //
 // Identifier: application/nmgapi.evententity; view=default
 type EventMedia struct {
-	EndDtTm time.Time `datastore:"endDtTm,noindex" json:"endDtTm,omitempty"`
+	EndDtTm string `datastore:"endDtTm,noindex" json:"endDtTm,omitempty"`
 	// Not guaranteed to be unique
 	EventID string `datastore:"eventId,noindex" json:"eventId,omitempty"`
+	// ID
+	ID string `datastore:"id,noindex" json:"id,omitempty"`
 	// Location.defaultLoc.id
 	LocationID string `datastore:"locationId,noindex" json:"locationId,omitempty"`
 	// e.g., March Madness
 	Name string `datastore:"name,noindex" json:"name,omitempty"`
 	// Sport ID
-	SportID   string    `datastore:"sportId,noindex" json:"sportId,omitempty"`
-	StartDtTm time.Time `datastore:"startDtTm,noindex" json:"startDtTm,omitempty"`
-	SubTitle  string    `datastore:"subTitle,noindex" json:"subTitle,omitempty"`
+	SportID   string `datastore:"sportId,noindex" json:"sportId,omitempty"`
+	StartDtTm string `datastore:"startDtTm,noindex" json:"startDtTm,omitempty"`
+	SubTitle  string `datastore:"subTitle,noindex" json:"subTitle,omitempty"`
 	// EventAdvanceMethod.singleElimination || doubleElim || bestOf
 	TeamAdvanceMethod string `datastore:"teamAdvanceMethod,noindex" json:"teamAdvanceMethod,omitempty"`
 }
 
 // Validate validates the EventMedia media type instance.
 func (mt *EventMedia) Validate() (err error) {
+	if mt.ID == "" {
+		err = goa.MergeErrors(err, goa.MissingAttributeError(`response`, "id"))
+	}
 	if mt.SportID == "" {
 		err = goa.MergeErrors(err, goa.MissingAttributeError(`response`, "sportId"))
 	}
@@ -48,7 +52,12 @@ func (mt *EventMedia) Validate() (err error) {
 	if mt.SubTitle == "" {
 		err = goa.MergeErrors(err, goa.MissingAttributeError(`response`, "subTitle"))
 	}
-
+	if mt.StartDtTm == "" {
+		err = goa.MergeErrors(err, goa.MissingAttributeError(`response`, "startDtTm"))
+	}
+	if mt.EndDtTm == "" {
+		err = goa.MergeErrors(err, goa.MissingAttributeError(`response`, "endDtTm"))
+	}
 	if mt.LocationID == "" {
 		err = goa.MergeErrors(err, goa.MissingAttributeError(`response`, "locationId"))
 	}
@@ -199,18 +208,23 @@ func (mt GameMediaTinyCollection) Validate() (err error) {
 // Identifier: application/nmgapi.sportentity; view=default
 type SportMedia struct {
 	// Is in season?
-	Active bool `datastore:"active,noindex" json:"active,omitempty"`
+	Active bool `datastore:"active,noindex" json:"active"`
 	// Tournament
 	EventTerm string `datastore:"eventTerm,noindex" json:"eventTerm,omitempty"`
 	// Game
-	GameTerm         string  `datastore:"gameTerm,noindex" json:"gameTerm,omitempty"`
-	MaxPreSplitPrice float64 `datastore:"maxPreSplitPrice,noindex" json:"maxPreSplitPrice,omitempty"`
+	GameTerm string `datastore:"gameTerm,noindex" json:"gameTerm,omitempty"`
+	// ID
+	ID               string  `datastore:"id,noindex" json:"id,omitempty"`
+	MaxPreSplitPrice float64 `datastore:"maxPreSplitPrice,noindex" json:"maxPreSplitPrice"`
 	// Sport name
 	Name string `datastore:"name,noindex" json:"name,omitempty"`
 }
 
 // Validate validates the SportMedia media type instance.
 func (mt *SportMedia) Validate() (err error) {
+	if mt.ID == "" {
+		err = goa.MergeErrors(err, goa.MissingAttributeError(`response`, "id"))
+	}
 	if mt.Name == "" {
 		err = goa.MergeErrors(err, goa.MissingAttributeError(`response`, "name"))
 	}
@@ -368,16 +382,16 @@ func (mt TeamMediaTinyCollection) Validate() (err error) {
 //
 // Identifier: application/nmgapi.teamopeningconfigentity; view=default
 type TeamOpeningConfigMedia struct {
-	BuyIncrementPrice float64 `datastore:"buyIncrementPrice,noindex" json:"buyIncrementPrice,omitempty"`
+	BuyIncrementPrice float64 `datastore:"buyIncrementPrice,noindex" json:"buyIncrementPrice"`
 	BuyIncrementQuan  int     `datastore:"buyIncrementQuan,noindex" json:"buyIncrementQuan,omitempty"`
 	// ID
-	ID                 string    `datastore:"id,noindex" json:"id,omitempty"`
-	LiquidationFee     float64   `datastore:"liquidationFee,noindex" json:"liquidationFee,omitempty"`
-	OpeningPrice       float64   `datastore:"openingPrice,noindex" json:"openingPrice,omitempty"`
-	OpeningShares      int       `datastore:"openingShares,noindex" json:"openingShares,omitempty"`
-	SellDecrementPrice float64   `datastore:"sellDecrementPrice,noindex" json:"sellDecrementPrice,omitempty"`
-	SellDecrementQuan  int       `datastore:"sellDecrementQuan,noindex" json:"sellDecrementQuan,omitempty"`
-	StartTradeDtTm     time.Time `datastore:"startTradeDtTm,noindex" json:"startTradeDtTm,omitempty"`
+	ID                 string  `datastore:"id,noindex" json:"id,omitempty"`
+	LiquidationFee     float64 `datastore:"liquidationFee,noindex" json:"liquidationFee"`
+	OpeningPrice       float64 `datastore:"openingPrice,noindex" json:"openingPrice"`
+	OpeningShares      int     `datastore:"openingShares,noindex" json:"openingShares,omitempty"`
+	SellDecrementPrice float64 `datastore:"sellDecrementPrice,noindex" json:"sellDecrementPrice"`
+	SellDecrementQuan  int     `datastore:"sellDecrementQuan,noindex" json:"sellDecrementQuan,omitempty"`
+	StartTradeDtTm     string  `datastore:"startTradeDtTm,noindex" json:"startTradeDtTm,omitempty"`
 }
 
 // Validate validates the TeamOpeningConfigMedia media type instance.
@@ -386,6 +400,9 @@ func (mt *TeamOpeningConfigMedia) Validate() (err error) {
 		err = goa.MergeErrors(err, goa.MissingAttributeError(`response`, "id"))
 	}
 
+	if mt.StartTradeDtTm == "" {
+		err = goa.MergeErrors(err, goa.MissingAttributeError(`response`, "startTradeDtTm"))
+	}
 	return
 }
 

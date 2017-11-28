@@ -85,11 +85,13 @@ var EventPayload = Type("EventPayload", func() {
 		Metadata("struct:tag:datastore", "subTitle,noindex")
 		Metadata("struct:tag:json", "subTitle,omitempty")
 	})
-	Attribute("startDtTm", DateTime, "", func() {
+	//	Attribute("startDtTm", DateTime, "", func() {
+	Attribute("startDtTm", String, "", func() {
 		Metadata("struct:tag:datastore", "startDtTm,noindex")
 		Metadata("struct:tag:json", "startDtTm,omitempty")
 	})
-	Attribute("endDtTm", DateTime, "", func() {
+	//	Attribute("endDtTm", DateTime, "", func() {
+	Attribute("endDtTm", String, "", func() {
 		Metadata("struct:tag:datastore", "endDtTm,noindex")
 		Metadata("struct:tag:json", "endDtTm,omitempty")
 	})
@@ -126,6 +128,7 @@ var EventMedia = MediaType("application/nmgapi.evententity", func() {
 	})
 
 	View("default", func() {
+		Attribute("id")
 		Attribute("sportId")
 		Attribute("eventId")
 		Attribute("name")

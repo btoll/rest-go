@@ -73,6 +73,7 @@ func (m *TeamOpeningConfigModel) SetModel(ctx *Context) error {
 	rec := &app.TeamOpeningConfigMedia{}
 
 	copier.Copy(rec, ctx.Payload)
+	rec.ID = ctx.ID
 	_, err := datastore.Put(ctx.GaeCtx, GetKey(ctx), rec)
 
 	return err
