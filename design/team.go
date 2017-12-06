@@ -117,6 +117,6 @@ var TeamMedia = MediaType("application/nmgapi.teamentity", func() {
 
 	View("tiny", func() {
 		Description("`tiny` is the view used to create new teams.")
-		Attribute("id")
+		Attribute("name")
 	})
 })

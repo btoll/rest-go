@@ -141,6 +141,6 @@ var EventMedia = MediaType("application/nmgapi.evententity", func() {
 
 	View("tiny", func() {
 		Description("`tiny` is the view used to create new events.")
-		Attribute("id")
+		Attribute("name")
 	})
 })

@@ -102,14 +102,14 @@ definitions:
   EventMediaTiny:
     description: Event sport response (tiny view)
     example:
-      id: Soluta voluptas optio.
+      name: Consequatur minima qui dolor similique.
     properties:
-      id:
-        description: ID
-        example: Soluta voluptas optio.
+      name:
+        description: e.g., March Madness
+        example: Consequatur minima qui dolor similique.
         type: string
     required:
-    - id
+    - name
     title: 'Mediatype identifier: application/nmgapi.evententity; view=tiny'
     type: object
   EventPayload:
@@ -464,14 +464,14 @@ definitions:
   TeamMediaTiny:
     description: Team sport response (tiny view)
     example:
-      id: Qui aut non.
+      name: Sunt amet.
     properties:
-      id:
-        description: ID
-        example: Qui aut non.
+      name:
+        description: Team name
+        example: Sunt amet.
         type: string
     required:
-    - id
+    - name
     title: 'Mediatype identifier: application/nmgapi.teamentity; view=tiny'
     type: object
   TeamOpeningConfigMedia:

@@ -72,14 +72,14 @@ func (mt *EventMedia) Validate() (err error) {
 //
 // Identifier: application/nmgapi.evententity; view=tiny
 type EventMediaTiny struct {
-	// ID
-	ID string `datastore:"id,noindex" json:"id,omitempty"`
+	// e.g., March Madness
+	Name string `datastore:"name,noindex" json:"name,omitempty"`
 }
 
 // Validate validates the EventMediaTiny media type instance.
 func (mt *EventMediaTiny) Validate() (err error) {
-	if mt.ID == "" {
-		err = goa.MergeErrors(err, goa.MissingAttributeError(`response`, "id"))
+	if mt.Name == "" {
+		err = goa.MergeErrors(err, goa.MissingAttributeError(`response`, "name"))
 	}
 	return
 }
@@ -417,14 +417,14 @@ func (mt *TeamMedia) Validate() (err error) {
 //
 // Identifier: application/nmgapi.teamentity; view=tiny
 type TeamMediaTiny struct {
-	// ID
-	ID string `datastore:"id,noindex" json:"id,omitempty"`
+	// Team name
+	Name string `datastore:"name,noindex" json:"name,omitempty"`
 }
 
 // Validate validates the TeamMediaTiny media type instance.
 func (mt *TeamMediaTiny) Validate() (err error) {
-	if mt.ID == "" {
-		err = goa.MergeErrors(err, goa.MissingAttributeError(`response`, "id"))
+	if mt.Name == "" {
+		err = goa.MergeErrors(err, goa.MissingAttributeError(`response`, "name"))
 	}
 	return
 }
